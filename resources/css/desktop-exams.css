@@ -1,0 +1,157 @@
+
+@media (min-width:576px){
+   
+    #DesktopExamsHeader{
+        display:flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top:5%;
+        margin-right: 5%;
+    }
+    #DesktopExamsHeader img{
+        width: 100%;
+        max-width: 15%;
+    }
+    #DesktopExamsHeader span{
+        color: #fff;
+    }
+    #DesktopExamsBody{
+        max-width: 100%;
+        margin-left: 5%;
+        margin-right: 5%;
+        margin-top:5%;
+        height:70vh;
+       
+        /*overflow:hidden
+        overflow-y: scroll;*/
+    }
+    #DesktopExamsContainer{
+        background-color: #F9FAFC;
+        border-radius: 20px;
+        padding:3%;
+        direction:rtl;
+        margin-right: 5%;
+        margin-left: 5%;
+        margin-bottom: 10%;
+    }
+    #DesktopExamsExitButton{
+        display: flex;
+        direction:rtl;
+        justify-content:flex-end;/*flex-start;*/
+        color: #fff;
+        /* margin-top: 3%; */
+        margin-left: 5%; 
+        /* margin-right: 5%; */
+    }
+    #DesktopExamsExitButton img{
+        width:3%;
+    }
+    
+    #DesktopExamsExitButton a{
+        align-self: center;
+        text-decoration: none;
+        color: #fff;
+        font-size: 2vw;
+    }
+    #DesktopExamsContainerHeader{
+        text-align: center;
+    }
+    #DesktopExamsContainerHeader img{
+        width: 100%;
+        max-width: 10%;
+    }
+    #DesktopExamsContainerHeader span{
+        color: #707070;
+        font-size:2vw;
+        font-family: "PeydaMedium";
+    }
+    #DesktopExamsCardKhoshNazarAvatar{
+        width: 100%;
+        max-width: 12%;
+        margin-right: -10%;
+    }
+    .DesktopExamsContainerSeprator{
+        background-color: #b9b9b9;
+        margin-right: 5%;
+        margin-left: 5%;
+        width: 100%;
+        height: 1px;
+    }
+    #DesktopExamsContainerMiddle{
+        display: flex;
+        justify-content:center;
+        margin-top:-12%;
+        align-items:center;
+    }
+    #DesktopExamsContainerStars{
+        display: flex;
+        justify-content: center;
+        align-items:flex-start;
+    }
+    #DesktopExamsContainerStars img{
+        width: 100%;
+        max-width: 30%;
+    }
+    #DesktopExamsBottomArrow{
+        text-align: center;
+    }
+    #DesktopExamsBottomArrow img{
+        width: 100%;
+        max-width: 6%;
+    }
+    #DesktopExamsBodyContainer{
+        margin-top: 8%;
+        margin-bottom: 8%;
+        text-align: center;
+    }
+    #DesktopExamsBodyContainer span{
+        font-size:16px;
+        font-family: "PeydaRegular";
+        color: #707070;
+    }
+    #DesktopExamsFooterContainer{
+        display:flex;
+        justify-content: center;
+    }
+    #DesktopExamsFooterContainer a {
+        text-decoration: none;
+        color: #F9FAFC;
+        background-color: #01c98a;
+        border: 1px solid #F9FAFC;
+        font-size: 17pt;
+        padding-left: 2%;
+        padding-right: 2%;
+        padding-top: 2%;
+        padding-bottom: 1%;
+        font-family: "PeydaRegular";
+        border-radius: 20px;
+        margin-bottom: -5%;
+    }
+    #KhoshNazarText {
+        font-size: 2vw;
+        margin-top: 2%;
+        font-family: "PeydaRegular";
+        color: white;
+        text-align: center;
+    }
+    #MobileComponents
+    {
+        display: none;
+    }
+}
+@media screen and (max-width: 576px) {
+    #DesktopExamsHeader{
+        display: none;
+    }
+    #DesktopExamsBody{
+        display: none;
+    }
+    #DesktopExamsExitButton{
+        display: none;
+    }
+    #DesktopComponents
+    {
+        display: none;
+    }
+}

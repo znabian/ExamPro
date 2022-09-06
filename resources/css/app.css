@@ -1,0 +1,75 @@
+@import "login.css";
+@import "mobile-menu.css";
+@import "mobile-dashboard.css";
+@import "desktop-dashboard.css";
+@import "mobile-exams.css";
+@import "desktop-exams.css";
+@import "mobile-exam-description.css";
+@import "desktop-exam-description.css";
+@import "mobile-show-exam.css";
+@import "desktop-show-exam.css";
+@import "mobile-conclusion.css";
+@import "desktop-conclusion.css";
+@font-face {
+    font-family: "PeydaLight";
+    src: url("/../font/peyda-light.ttf");
+}
+@font-face {
+    font-family: "PeydaRegular";
+    src: url("/../font/Peyda-Regular.ttf");
+}
+@font-face {
+    font-family: "PeydaMedium";
+    src: url("/../font/Peyda-Medium.ttf");
+}
+@media screen and (max-width:576px){
+    
+    body{
+        background-image: url("/../images/loginMobileBackground.png");
+        background-size:cover;
+        background-repeat: no-repeat;
+        height:100vh;
+        overflow: hidden;
+        font-family:"PeydaLight";
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+    }
+    .DesktopComponents{
+        display: none;
+    }
+    #menuavatar
+    {
+            display: flex;
+            flex-direction: column;
+            font-size: 12pt;
+            align-items: center;
+    }
+    #menuavatar img
+    {
+        width: 34%;
+    }
+}
+@media screen and (min-width: 577px) {
+    .MobileComponents{
+       display: none;
+    }
+    body{
+        /*background-image: url("/../images/loginMobileBackground.png");*/
+        /* background: #F9FAFC!important; */
+        background-size:cover;
+        background-repeat: no-repeat;
+        height:100vh; 
+        overflow: hidden;
+        font-family:"Peyda"!important;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+    }
+    #DescktopMenue
+    {
+        background-color: #F64162;
+        box-shadow: 0 .5rem 1rem #F64162!important;
+        color: #F9FAFC;
+    }
+    .container
+    {
+        background: #F9FAFC;
+    }
+}

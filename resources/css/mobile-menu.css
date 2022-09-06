@@ -1,0 +1,66 @@
+#MobileMenuContainer{
+    margin:0;
+    padding:0;
+    overflow:hidden;
+    font-family: "PeydaLight","Peyda";
+    text-align: right;
+}
+#MobileMenuHeader{
+    display:flex;
+    justify-content:space-around;
+    flex-direction:row;
+    direction:rtl;
+    margin-top: 5%;
+    color: #fff;
+    align-self: flex-start;
+}
+#HamburgerIcon{
+    align-self: flex-end;
+}
+#HamburgerIcon img{
+    width: 45%;
+}
+#KhoshNazarText{
+    font-size:4vw;
+    margin-top:-2%;
+    font-family: "PeydaRegular";
+}
+#GoBack{
+    font-size:3vw;
+    font-family: "PeydaRegular";
+}
+.MobilSidebar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    border-bottom-left-radius: 12px;
+    border-top-left-radius: 12px;
+    color:#fff;
+    border-left: 1px solid #fff;
+    background-image: linear-gradient(180deg,  #F64162, #ff5865);
+    overflow-x: hidden;
+    transition: 0.5s;
+    }
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+#mobileSidebarHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content:space-around;
+    align-items: center;
+    direction:rtl;
+    margin-top:15%;
+}
+#SidebarKhoshNazarText{
+    font-size:4vw;
+    font-family: "PeydaRegular";
+}
+#SidbarGoBack{
+    font-size:4vw;
+    font-family: "PeydaRegular";
+}

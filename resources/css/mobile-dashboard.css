@@ -1,0 +1,205 @@
+@media screen and (min-width: 577px){
+    #MobileDashboardExamCategoryContainer{
+        display: none;
+    }
+    #MobileDashboardExamCategoryHeader{
+        display: none;
+    }
+    #MobileDashboardExamFooterButton{
+        display: none;
+    }
+    #MobileDashboardExamExitButton{
+        display: none;
+    }
+   
+}
+@media screen and (max-width:576px){
+   
+    #MobileDashboardExamCategoryHeader{
+        display:flex;
+        color:#fff;
+        direction:rtl;
+        margin-top:5%;
+        margin-right: 10%;
+        margin-bottom:5%;
+        justify-content:flex-start;
+    }
+    #MobileDashboardExamCategoryHeader img{
+        width:15%;
+    }
+    #MobileDashboardExamCategoryHeader span{
+        align-self: center;
+    }
+    #MobileDashboardExamCategoryContainer{
+        background-color:#F9FAFC;
+        height:auto;
+        border-radius:20px;
+        margin-left: 3%;
+        margin-right: 3%;
+        padding-bottom: 5%;
+    }
+    #MobileDashboardExamCategoryImage{
+        width:100%;
+        text-align: center;
+    }
+    #MobileDashboardExamCategoryImage img{
+        width:15%;
+        margin-top: -7%;
+    }
+    
+    #MobileDashboardExamFooterButton{
+        background-color: #c11445;
+        border-radius:20px;
+        margin-left: 3%;
+        margin-right: 3%;
+        margin-top: 3%;
+        height:10vh;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        color: #fff;
+        direction:rtl;
+    }
+    #MobileDashboardExamFooterButton img{
+        max-width:60%;
+        margin-top: 10%;
+    }
+    #MobileDashboardExamExitButton{
+        display: flex;
+        direction:rtl;
+        justify-content:flex-start;
+        color: #fff;
+        margin-top: 3%;
+        margin-right: 5%;
+    }
+    #MobileDashboardExamExitButton img{
+        width:8%;
+    }
+    
+    #MobileDashboardExamExitButton a{
+        align-self: center;
+        text-decoration: none;
+        color: #fff;
+        font-size: 3vw;
+    }
+    #MobileDashboardExamCategorySlider{
+        margin-top: -5%;
+    }
+    .MobileCategoryContainer{
+        background-color: #fff;
+        border-radius: 20px;
+        margin-top: 3%;
+        display: flex;
+        align-items: center;
+        justify-content:space-between;
+        direction:ltr;
+        margin-left: 3%;
+        margin-right: 3%;
+        padding:2%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .categoryData{
+        display: flex;
+        justify-content:flex-end;
+        align-items:center;
+        flex-direction: row;
+        direction:rtl;
+    }
+    .categoryData hr{
+        height: 6vh;
+    }
+    .categoryDataImages{
+        width: 100%;
+        max-width:20%;
+        margin-right: 8%;
+    }
+    .categoryDataExamTitle{
+        font-size:4vw;
+        font-family: "PeydaMedium";
+        color: #707070;
+    }
+    .categoryDataExamDescription{
+        font-size: 3vw;
+        font-family: "PeydaLight","Peyda";
+        color: #747A82;
+    }
+    .categoryDataText{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    /* slide show */
+    
+    .mySlides {display: none}
+    .mySlides img {vertical-align: middle;}
+    
+    /* Slideshow container */
+    .slideshow-container {
+      max-width: 100%;
+      position: relative;
+      margin: auto;
+    }
+    
+    /* Next & previous buttons */
+    .prev, .next {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      width: auto;
+      padding: 16px;
+      margin-top: -8%;
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      transition: 0.6s ease;
+      border-radius: 0 3px 3px 0;
+      user-select: none;
+    }
+    .prev{
+        margin-left: 5%;
+    }
+    .next{
+        margin-right: 5%;
+    }
+    /* Position the "next button" to the right */
+    .next {
+      right: 0;
+      border-radius: 3px 0 0 3px;
+    }
+    /* The dots/bullets/indicators */
+    .dot {
+      cursor: pointer;
+      height: 5px;
+      width: 5px;
+      margin: 0 2px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.6s ease;
+    }
+    
+    .active, .dot:hover {
+      background-color: #F64162;
+    }
+    
+    /* Fading animation */
+    .fade {
+      -webkit-animation-name: fade;
+      -webkit-animation-duration: 1.5s;
+      animation-name: fade;
+      animation-duration: 1.5s;
+    }
+    
+    @-webkit-keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+    
+    @keyframes fade {
+      from {opacity: .4} 
+      to {opacity: 1}
+    }
+    #mobileDotSlider{
+        margin-top:-10%;
+    }
+}

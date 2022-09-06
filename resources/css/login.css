@@ -1,0 +1,293 @@
+@media screen and (min-width: 577px){
+    #loginBody{
+        font-family:"Peyda";
+        /* background-color: #fff; */
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        height:100vh;
+        overflow: hidden;
+        margin:0;
+    }
+    #loginHeader{
+        display:none;
+    }
+    #loginContainer{
+        background-color: #F9FAFC;
+        width: 26%;
+        height:fit-content;/*35vh;*/
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        border-radius: 20px;
+        padding:1%;
+    }
+    #loginContainerHeaderFigureLogo{
+        display:none;
+    }
+    #loginContainerHeaderFigureLogoDesktop{
+        width:15%;
+    }
+    #loginContainerHeader{
+        text-align: center;
+    }
+    #loginContainerHeaderFigureCaption{
+        color: #F66162;
+        /* font-family:"PeydaLight"; */
+        font-weight: bold;
+    }
+    #loginContainerHeader hr{
+        border-top: 1px solid #747A82;
+        max-width: 100%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+    #loginContainerBody{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 5%;
+        margin-left: 10%;
+        margin-right: 10%;
+    }
+    #loginContainerBody label{
+        color: #707070;
+        font-size:16px;
+    }
+    #loginContainerBody input{
+        width:100%;
+        margin-top:2%;
+        border: 1px solid #747A82;
+        height:5vh;
+        text-align: center;
+        border-radius: 12px;
+         font-family: "PeydaLight","Peyda"; 
+    }
+    #loginContainerBody input:focus{
+        outline: none;
+    }
+    #sendConfirmCodeButton{
+        margin-top: 5%;
+        color: #F9FAFC;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        width: 100%;
+        border: none;
+        height:5vh;
+        font-size: 16px;
+        border-radius:12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        font-family: "PeydaLight","Peyda";
+    }
+    #loginButton{
+        margin-top: 5%;
+        color: #F9FAFC;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        width: 100%;
+        border: none;
+        height:5vh;
+        font-size: 16px;
+        border-radius:12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        font-family: "PeydaLight","Peyda";
+    }
+    #error{
+        color: #fff;
+        background-color: black;
+        text-align: center;
+        margin-top: 1%;
+        border-radius:12px;
+        padding:1%;
+        margin-left: 10%;
+        margin-right: 10%;
+        opacity: 0;
+    }
+    #loginContainerMobile{
+        display:none;
+    }
+    #loginDesktopContainer{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-top: -8%;
+    }
+    #loginDesktopHeader{
+        width: 100%;
+        text-align:right;
+    }
+    #loginDesktopHeader img{
+        max-width: 80%;
+    }
+    #boyIcon{
+        width:40vw;
+    }
+    #boyIcon img{
+        max-width: 100%;
+    }
+    #timer{
+        color: #707070;
+        margin-top:5%;
+    }
+    #timerLink{
+        color: #707070;
+        text-decoration: underline;
+        width:auto;
+        display:none;
+        margin-top:5%;
+    }
+    #timerLink:hover{
+        color: #F64162;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+@media screen and (max-width:576px) {
+   
+    #loginBody{
+       background-image: linear-gradient(to right,  #F64162, #ff5865);
+        background-size:cover;
+        background-repeat: no-repeat;
+        height:100vh;
+        overflow: hidden;
+        font-family:"Peyda";
+    }
+    #loginContainer{
+        background-color: #F9FAFC;
+        margin-left:5%;
+        margin-right:5%;
+        margin-top:10%;
+        padding-top:2%;
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-bottom: 10%;
+        border-radius: 20px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    #loginHeader{
+        text-align: center;
+        margin-top:20%;
+    }
+    #logoImage{
+        width:26%;
+    }
+    #logoCaption{
+        color: #fff;
+        text-align: center;
+    }
+    #loginContainerHeader{
+        text-align: center;
+    }
+    #loginContainerHeaderFigureLogo{
+        width:16%;
+    }
+    #loginContainerHeaderFigureCaption{
+        color: #747A82;
+    }
+    #loginContainerHeader hr{
+        border-top: 1px solid #747A82;
+        width: 100%;
+    }
+    #loginContainerBody{
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        margin-top: 5%;
+    }
+    #loginContainerBody label{
+        color: #707070;
+        font-size:16px;
+    }
+    #phoneNumberInputMobile{
+        width:100%;
+        margin-top:2%;
+        border: 1px solid #747A82;
+        height:5vh;
+        text-align: center;
+        border-radius: 2vw;
+        font-family: "PeydaLight","Peyda";
+    }
+    #phoneNumberInputMobile:focus{
+        outline: none;
+    }
+    #codeInputMobile:focus{
+        outline: none;
+    }
+    #codeInputMobile{
+        width:100%;
+        margin-top:2%;
+        border: 1px solid #747A82;
+        height:5vh;
+        text-align: center;
+        border-radius: 2vw;
+        font-family: "PeydaLight","Peyda";
+    }
+    #sendConfirmCodeButton{
+        margin-top: 5%;
+        color: #F9FAFC;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        width: 100%;
+        border: none;
+        height:5vh;
+        font-size: 16px;
+        border-radius:2vw;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        font-family: "PeydaLight","Peyda";
+    }
+    #sendConfirmCodeButtonMobile{
+        margin-top: 5%;
+        color: #F9FAFC;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        width: 100%;
+        border: none;
+        height:5vh;
+        font-size: 16px;
+        border-radius:2vw;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        font-family: "PeydaLight","Peyda";
+    }
+    #loginButtonMobile{
+        margin-top: 5%;
+        color: #F9FAFC;
+        background-image: linear-gradient(to right,  #F64162, #ff5865);
+        width: 100%;
+        border: none;
+        height:5vh;
+        font-size: 16px;
+        border-radius:2vw;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        font-family: "PeydaLight","Peyda";
+    }
+    #error{
+        color: #fff;
+        background-color: black;
+        text-align: center;
+        margin-top: 10%;
+        border-radius:12px;
+        padding:2%;
+        margin-left: 10%;
+        margin-right: 10%;
+        opacity: 0;
+    }
+    #loginContainerMobile{
+        display:block;
+    }
+    #loginDesktopContainer{
+        display: none;
+    }
+    #loginDesktopHeader{
+        display: none;
+    }
+    #timerMobile{
+        color: #707070;
+        margin-top:5%;
+    }
+    #timerMobileLink{
+        color: #707070;
+        text-decoration: underline;
+        width:auto;
+        display:none;
+        margin-top:5%;
+    }
+    #timerMobileLink:hover{
+        color: #F64162;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}

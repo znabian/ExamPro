@@ -1,0 +1,69 @@
+@media (max-width:576px) 
+{
+
+    #DesktopComponents
+        {
+            display: none;
+        }
+}
+@media (min-width:576px) 
+{  
+    #DesktopDiscriptionContainerHeader{
+        display:flex;
+        justify-content: center;
+        flex-direction: row;
+        margin-top:2%;
+    }
+    #DesktopDiscriptionContainerHeader img{
+        width:15%;
+    }
+    #DesktopDiscriptionContainerInformations{
+        text-align:right;
+        margin-right: 5%;
+    }
+    .DesktopDiscriptionContainerInformationsElements{
+        display:flex;
+        justify-content:flex-end;
+        align-items:center;
+        margin-bottom:2%;
+        gap:2%;
+    }
+    .DesktopDiscriptionContainerInformationsElements img{
+        width:100%;
+        max-width: 8%;
+    }
+    .DesktopDiscriptionContainerInformationsElements span{
+        font-size:2vw;
+        font-family: "PeydaMedium";
+        color:#707070;
+    }
+    #DesktopDiscriptionContainerDescriptions{
+        direction:rtl;
+        color: #707070;
+        font-family: "PeydaMedium";
+        margin-left: 2%;
+        font-size:2vw;
+    }
+    #DesktopDiscriptionContainerDescriptions li{
+        margin-bottom:1%;
+    }
+    #DesktopDescriptionStartExamButtonContainer{
+        text-align:center;
+    }
+    #DesktopDescriptionStartExamButtonContainer a{
+        color:#fff;
+        background-color:#01c98a;
+        text-decoration: none;
+        padding-left:5%;
+        padding-right:5%;
+        padding-top:1%;
+        padding-bottom:1%;
+        border-radius: 10px;
+    }
+  
+    #MobileExamDescriptionIcons img {
+        width: 55%!important;}
+ #MobileExamDescriptionIcons figcaption {
+        font-size: 2vw!important;
+ }
+}
