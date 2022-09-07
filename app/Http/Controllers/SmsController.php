@@ -18,14 +18,27 @@ class SmsController extends Controller
     public function send(Request $request)
     {
         $code = rand(1000,9999);
-        
-        if(Str::length($request->phone)<5 ||(
+        if(!is_null(session('chk')))
+       {
+          if(Str::length($request->phone)<11 ||(
         (Str::startsWith($request->phone, '09') && Str::length($request->phone)!=11)
          || (Str::startsWith($request->phone, '+98') && Str::length($request->phone)!=13) 
          ||(Str::startsWith($request->phone, '0098') && Str::length($request->phone)!=14) 
          ) )
         {
             return back()->withErrors(['phone']);
+        } 
+       }
+       else
+       {
+            if(Str::length($request->phone)<5 ||(
+            (Str::startsWith($request->phone, '09') && Str::length($request->phone)!=11)
+            || (Str::startsWith($request->phone, '+98') && Str::length($request->phone)!=13) 
+            ||(Str::startsWith($request->phone, '0098') && Str::length($request->phone)!=14) 
+            ) )
+            {
+                return back()->withErrors(['phone']);
+            }
         }
        
         /*$this->validate($request,[

@@ -56,7 +56,7 @@
                     <br>
                     <label for="">سن </label>
                     <br>
-                    <input type="number" max="99" min="5" minlength="1" maxlength="2" autocomplete="off"  name="age" placeholder="{{auth()->user()->age}}">
+                    <input type="number" max="99" min="5" minlength="1" maxlength="2" autocomplete="off" required  name="age" value="{{auth()->user()->age}}">
                     <br>
                     <button type="submit" id="sendConfirmCodeButton">شروع آزمون</button>
                 </form>
@@ -87,7 +87,7 @@
                     <br>
                     <label for="phoneNumberInputMobile">سن </label>
                     <br>
-                    <input type="number" max="99" min="5" minlength="1" maxlength="2" id="phoneNumberInputMobile" autocomplete="off"  name="age" placeholder="{{auth()->user()->age}}">
+                    <input type="number" max="99" min="5" minlength="1" maxlength="2" id="phoneNumberInputMobile" autocomplete="off" required name="age" value="{{auth()->user()->age}}">
                     <br>
                     <button type="submit" id="sendConfirmCodeButton">شروع آزمون</button>
                 </form>
