@@ -668,4 +668,11 @@ class ExamController extends Controller
         $examUser->id = $id;
         return Excel::download($examUser, 'users.xlsx');
     }
+    public function export_campaign($id,$campaign,$uid){
+        $examUser = new ExamUsers;
+       $examUser->id = $id;
+       $examUser->campaign = $campaign;
+       $examUser->uid=$uid;
+       return Excel::download($examUser, 'campaign-users.xlsx');
+   }
 }

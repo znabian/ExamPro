@@ -17,6 +17,7 @@ Route::get('/te',function(){
     session(['chk' => "te"]);
     return redirect(route('login'));
     });
+    Route::get('admin/exams-campaign/{id}/{campaign}/{uid}/export',[App\Http\Controllers\ExamController::class,"export_campaign"])->name('exams.campaign.export');
 Route::get('test',[App\Http\Controllers\Panel\PanelController::class,'correctDB'])->name("wel");
 Route::get('login',[App\Http\Controllers\Auth\LoginController::class,'index'])->name("login");
 Route::get('confirm',[App\Http\Controllers\Auth\LoginController::class,'confirm']);
