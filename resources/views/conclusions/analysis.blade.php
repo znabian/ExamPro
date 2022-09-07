@@ -184,7 +184,7 @@ button.swal-button:hover
 @endsection
 @section('mobileScript')
 <script>
-     function mygift()
+       function mygift()
     {
         @if($is6)
         swal("کدام هدیه را انتخاب می کنید؟", {
@@ -201,8 +201,34 @@ button.swal-button:hover
                         case "conf":
                         window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت مشاوره رایگان"})
                             .then(function (response) {
-                                swal('هدیه شما ثبت شد','برای ارسال هدیه با شما تماس گرفته خواهد شد','success')
-                                location.reload();
+                                swal({
+                                    title:'هدیه شما ثبت شد',
+                                    text:'برای ارسال هدیه با شما تماس گرفته خواهد شد',
+                                    icon: 'success',
+                                    showDenyButton: true,
+                                    buttons: {
+                                            
+                                            conf: "باشه",                  
+                                        },
+                                        })
+                                    .then((value) => {
+                                        if(value=='conf')
+                                        {
+                                            const collection = document.getElementsByClassName("giftbtn");
+                                            for (let i = 0; i < collection.length; i++) {
+                                            collection[i].style.visibility = "hidden";
+                                            }
+                                        }
+                                        
+                                        else
+                                        {
+                                            const collection = document.getElementsByClassName("giftbtn");
+                                            for (let i = 0; i < collection.length; i++) {
+                                            collection[i].style.visibility = "hidden";
+                                            }
+                                        }
+                                
+                                     })
                                 
                             })
                             .catch(function (error) {
@@ -213,8 +239,34 @@ button.swal-button:hover
                         case "defeat":
                         window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت رایگان فصل اول کاخ نوجوان"})
                             .then(function (response) {
-                                swal('هدیه شما ثبت شد','برای ارسال هدیه با شما تماس گرفته خواهد شد','success')
-                                location.reload();
+                                 swal({
+                                    title:'هدیه شما ثبت شد',
+                                    text:'برای ارسال هدیه با شما تماس گرفته خواهد شد',
+                                    icon: 'success',
+                                    showDenyButton: true,
+                                    buttons: {
+                                            
+                                            conf: "باشه",                  
+                                        },
+                                        })
+                                    .then((value) => {
+                                        if(value=='conf')
+                                        {
+                                            const collection = document.getElementsByClassName("giftbtn");
+                                            for (let i = 0; i < collection.length; i++) {
+                                            collection[i].style.visibility = "hidden";
+                                            }
+                                        }
+                                        
+                                        else
+                                        {
+                                            const collection = document.getElementsByClassName("giftbtn");
+                                            for (let i = 0; i < collection.length; i++) {
+                                            collection[i].style.visibility = "hidden";
+                                            }
+                                        }
+                                
+                                     })
                                 
                             })
                             .catch(function (error) {
