@@ -18,6 +18,9 @@ class SmsController extends Controller
     public function send(Request $request)
     {
         $code = rand(1000,9999);
+        $this->validate($request,[
+            "phone"=>['required','numeric']
+        ]);
         if(!is_null(session('chk')))
        {
           if(Str::length($request->phone)<11 ||(

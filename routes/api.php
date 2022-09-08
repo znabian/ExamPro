@@ -31,3 +31,4 @@ Route::post('/All',[ApiController::class,'getAllExamUserHistory_New']);
 Route::post('/setRead',[ApiController::class,'setExamRead']);
 Route::post('/ExamCount',[ApiController::class,'getCountExam']);
 Route::post('/ExamAnalyisis',[ApiController::class,'ExamAnalyisis']);
+Route::get('/UserPhoneCheck',[ApiController::class,'CheckNumber']);
