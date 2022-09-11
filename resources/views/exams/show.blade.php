@@ -134,13 +134,13 @@
             url: "{{route('save')}}",
             data: data,
             success: function(response){
-                if(response['status'] && response['num'] =={{$quizcount}}){
+                /*if(response['status'] && response['num'] =={{$quizcount}}){
                     if(confirm(' به تمامی سوالات پاسخ داده شد. آیا به آزمون پایان می دهید؟'))
                     {
                         endexam('{{route('showConclusion',$ExamUserid)}}');
                     }
                    
-                }
+                }*/
             },
             error:function(){
                 document.getElementById("Mb"+answerId+plat).checked=false;
@@ -155,7 +155,7 @@
             data: data,
              success: function(response){
                 if(response['status'] && response['num'] == {{$exam->questions()->count()}}){
-                    endexam('{{route('showConclusion',$ExamUserid)}}');
+                    //endexam('{{route('showConclusion',$ExamUserid)}}');
                 }
                 else
                 {

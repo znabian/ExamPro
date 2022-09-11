@@ -85,6 +85,7 @@ class PanelController extends Controller
         $exam_user_id=DB::table("exam_user")->insertGetId([
             "user_id"=>auth()->user()->id,
             "exam_id"=>$exam,
+            'age'=>$req->age??auth()->user()->age,
             'name'=> $req->name??(auth()->user()->firstName.' '.auth()->user()->lastName),
             "created_at"=>now(),
         ]);

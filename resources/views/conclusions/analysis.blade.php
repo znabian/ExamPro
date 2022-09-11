@@ -151,7 +151,7 @@ button.swal-button:hover
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
 </div>
-<div id="MobileConclusionShowDescription">
+<div id="MobileConclusionShowDescription" onscroll=" if(this.scrollTop > 50){mygift();}">
    
         {!!$output!!}
   
@@ -173,7 +173,7 @@ button.swal-button:hover
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
 </div>
-<div id="MobileConclusionShowDescription">
+<div id="MobileConclusionShowDescription" >
     
        {!!$output!!}
    
@@ -199,36 +199,13 @@ button.swal-button:hover
                .then((value) => {
                     switch (value) {                    
                         case "conf":
-                        window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت مشاوره رایگان"})
+                        window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت مشاوره رایگان"+'(link)'})
                             .then(function (response) {
-                                swal({
-                                    title:'هدیه شما ثبت شد',
-                                    text:'برای ارسال هدیه با شما تماس گرفته خواهد شد',
-                                    icon: 'success',
-                                    showDenyButton: true,
-                                    buttons: {
-                                            
-                                            conf: "باشه",                  
-                                        },
-                                        })
-                                    .then((value) => {
-                                        if(value=='conf')
-                                        {
-                                            const collection = document.getElementsByClassName("giftbtn");
-                                            for (let i = 0; i < collection.length; i++) {
-                                            collection[i].style.visibility = "hidden";
-                                            }
-                                        }
-                                        
-                                        else
-                                        {
-                                            const collection = document.getElementsByClassName("giftbtn");
-                                            for (let i = 0; i < collection.length; i++) {
-                                            collection[i].style.visibility = "hidden";
-                                            }
-                                        }
-                                
-                                     })
+                                const collection = document.getElementsByClassName("giftbtn");
+                                for (let i = 0; i < collection.length; i++) 
+                                collection[i].style.visibility = "hidden";
+                                window.open("https://gift.erfankhoshnazar.com/", '_blank').focus();       
+                                location.reload();
                                 
                             })
                             .catch(function (error) {
@@ -237,36 +214,13 @@ button.swal-button:hover
                         break;
 
                         case "defeat":
-                        window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت رایگان فصل اول کاخ نوجوان"})
+                        window.axios.post('{{route("exam.gift")}}', {euid:{{$exam_user_id}},gift:"دریافت رایگان فصل اول کاخ نوجوان"+'(link)'})
                             .then(function (response) {
-                                 swal({
-                                    title:'هدیه شما ثبت شد',
-                                    text:'برای ارسال هدیه با شما تماس گرفته خواهد شد',
-                                    icon: 'success',
-                                    showDenyButton: true,
-                                    buttons: {
-                                            
-                                            conf: "باشه",                  
-                                        },
-                                        })
-                                    .then((value) => {
-                                        if(value=='conf')
-                                        {
-                                            const collection = document.getElementsByClassName("giftbtn");
-                                            for (let i = 0; i < collection.length; i++) {
-                                            collection[i].style.visibility = "hidden";
-                                            }
-                                        }
-                                        
-                                        else
-                                        {
-                                            const collection = document.getElementsByClassName("giftbtn");
-                                            for (let i = 0; i < collection.length; i++) {
-                                            collection[i].style.visibility = "hidden";
-                                            }
-                                        }
-                                
-                                     })
+                                const collection = document.getElementsByClassName("giftbtn");
+                                for (let i = 0; i < collection.length; i++) 
+                                collection[i].style.visibility = "hidden";
+                                window.open("https://gift.erfankhoshnazar.com/", '_blank').focus();       
+                                location.reload();
                                 
                             })
                             .catch(function (error) {

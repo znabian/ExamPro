@@ -80,7 +80,7 @@
     }
     </style>
 </head>
-<body onload=" mygift();">
+<body>
     <div id="MobileComponents">
         <x-mobile-menu />
         <div id="MobileExamQuizeHeader">
@@ -89,7 +89,7 @@
                 <figcaption>{{auth()->user()->phone}}</figcaption>
             </figure>
         </div>
-        <div id="MobileExamQuizeQuestionsContainer">
+        <div id="MobileExamQuizeQuestionsContainer" onscroll=" if(this.offsetHeight + this.scrollTop >= this.scrollHeight){mygift();}">
             @yield('content')
         </div>
     </div>
@@ -100,7 +100,7 @@
                 <figcaption>{{auth()->user()->phone}}</figcaption>
             </figure>
         </div>
-        <div id="MobileExamQuizeQuestionsContainer">
+        <div id="MobileExamQuizeQuestionsContainer" onscroll=" if(this.offsetHeight + this.scrollTop >= this.scrollHeight){mygift();}">
             @yield('DesktopContent')
         </div>
     </div>
