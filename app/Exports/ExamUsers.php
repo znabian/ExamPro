@@ -5,8 +5,9 @@ namespace App\Exports;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Illuminate\Support\Facades\DB;
 use App\Models\Exam;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class ExamUsers implements FromCollection
+class ExamUsers implements FromCollection, WithHeadings
 {
     /**
     * @return \Illuminate\Support\Collection
@@ -24,5 +25,9 @@ class ExamUsers implements FromCollection
         $where[]=['users.id','>',$this->uid];
         return $exam->users()->where($where)->distinct()->get();
         
+    }
+    public function headings(): array
+    {
+        return DB::getSchemaBuilder()->getColumnListing('users');
     }
 }
