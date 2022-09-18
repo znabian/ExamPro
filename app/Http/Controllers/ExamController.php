@@ -153,8 +153,8 @@ class ExamController extends Controller
     }
     public function setexamgift(Request $req)
     {        
-        $EUtbl=DB::table("users")->where('id',auth()->user()->id)->update(['gift'=>$req->gift]);
-        
+        $EUtbl=DB::table("users")->where('id',auth()->user()->id)->update(['gift'=>$req->gift,'updated_at'=>now()]);
+        DB::table("exam_user")->where('id',$req->euid)->update(['gift'=>$req->gift,'updated_at'=>now()]);
         if($EUtbl)
         return true;
         return false;
@@ -167,7 +167,7 @@ class ExamController extends Controller
         $ecount=Question::where('exam_id',$EUtbl->exam_id)->count();
         if($count==$ecount)
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);*/
-        $is6=($EUtbl->exam_id==6 && is_null(auth()->user()->gift));
+        $is6=($EUtbl->exam_id==6 );//&& is_null(auth()->user()->gift)
         DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
         ->where('name',$EUtbl->name)
