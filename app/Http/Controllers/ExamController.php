@@ -512,13 +512,17 @@ class ExamController extends Controller
                 //$conditation=(Array)json_decode($formul->conditation);
                 $formul->default=strtr($formul->default,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label]);
                 
+                if($conditation->count())
+                    $out.='<br/><b class="collapsible">';
+                else
+                $out.='<br/><b class="none">';
                     if(!$formul->default)
                     {
-                        $out.='<br/><b>'.$formul->label.': '.$res.'</b><br/>';
+                        $out.=$formul->label.': '.$res.'</b>';
                     }
                     else
-                    $out.='<br/><b>'.$formul->default.'</b><br/>';
-
+                    $out.=$formul->default.'</b>';
+                
                  foreach($conditation as $con)
                     {
                         $conditation_if=strtr($con->conditation,['{:RESULT}'=>$res]);
@@ -528,7 +532,7 @@ class ExamController extends Controller
                             $res2=eval("return $conditation_if;");
                             if($res2)
                             {
-                                $out.=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']).'<br/>';
+                                $out.='<div class="content"><p>'.strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']).'</p></div>';
                             }
                         } 
                     }  
@@ -563,7 +567,7 @@ class ExamController extends Controller
             {
                      $defbody->body=strtr($defbody->body,$furmulids);
                     $defbody->body=strtr($defbody->body,$oprator); 
-                     $out=$defbody->body.'<p style="text-align: right;" dir="rtl">'.$out;               
+                     $out=$defbody->body.'<div style="text-align: right;" dir="rtl">'.$out;               
             }
             foreach( $examtbl->formuls()->where('type','2')->get() as $formul)
             {
@@ -587,13 +591,13 @@ class ExamController extends Controller
                         $res2=eval("return $conditation_if;");
                         if($res2)
                         {
-                            $out.=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']).'<br/>';
+                            $out.='<p>'.strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']).'</p>';
                         }
                     } 
                 }          
             }
 
-            $out.='</p>';
+            $out.='</div>';
             return ["out"=>$out];
         }
         else

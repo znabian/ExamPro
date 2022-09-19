@@ -70,7 +70,8 @@
         border-top-right-radius: 20px;
         position:fixed;
         bottom:0;
-        top:42vh;
+        /* top:42vh; */
+        top:265px;
         left:5%;
         right:5%;
         padding-top:2%;

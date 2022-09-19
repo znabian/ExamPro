@@ -81,6 +81,12 @@
     </style>
 </head>
 <body>
+    <div style="position: fixed;left: 4%;top: 17%;">
+        <button class="btn btn-success giftbtn" onclick="mygift()">
+            <i class="fa fa-gift"></i>
+            دریافت هدیه
+        </button>
+    </div>
     <div id="MobileComponents">
         <x-mobile-menu />
         <div id="MobileExamQuizeHeader">

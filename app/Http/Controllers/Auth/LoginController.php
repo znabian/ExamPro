@@ -41,7 +41,8 @@ class LoginController extends Controller
                 // $mySms->update([
                 //     "active"=>true
                 // ]);
-                
+                if(session('chk')=='te')
+                return redirect()->route('myinfo',6);
                 return redirect()->route('dashboard');
             }
             else{
@@ -61,6 +62,8 @@ class LoginController extends Controller
                     // $mySms->update([
                     //     "active"=>true
                     // ]);
+                    if(session('chk')=='te')
+                    return redirect()->route('myinfo',6);
                     
                     return redirect()->route('dashboard');
                 }

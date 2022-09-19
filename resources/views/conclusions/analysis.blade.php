@@ -2,6 +2,54 @@
 @section('title', 'نتیجه آزمون')
 @section('content')
 <style>
+   
+   .none{
+    font-size: 12pt;
+   }
+    .none::before {
+        font-weight: bold;
+        content: '\2022';/*025BE*/
+    }
+    /* .collapsible::before {
+        font-weight: bold;
+        content: '\025C2';
+    } */
+    .collapsible::after {
+    font-weight: 100;
+    content: " (مشاهده جزئیات) \025C2";
+    font-size: 12pt;
+    color: blue;
+} 
+.active::after {
+    content: " (بستن جزئیات) \025BE";
+    }
+    .active::before {
+       /* font-size: 15pt;color: #f6455d;*/
+  /* content: "\025BE"; */
+    }
+    .collapsible {      
+        color:#f6455d;
+      cursor: pointer;
+      /* padding: 18px; */
+      width: 100%;
+      border: none;
+      text-align: left;
+      outline: none;
+      /* font-size: 15px; */
+    }
+    
+    .active, .collapsible:hover {
+     background: transparent;
+    }
+    
+    .content {
+      padding: 0 18px;
+      display: none;
+      overflow: hidden;
+     
+    }
+    </style>
+<style>
     .img-thumbnail {
     padding: .25rem;
     background-color: #fff;
@@ -94,10 +142,10 @@ button.swal-button:hover
     border:2px solid #fe004b;
 }
 .btn-success {
-    color: #fff;
+    color: #fe004b;
     font-weight: bold;
-    background-color: #fe004b;
-    border-color: #fe004b;
+    background-color: #fff;
+    border-color: #fff;
 }
 .btn:active {
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -134,20 +182,27 @@ button.swal-button:hover
 /* The element to apply the animation to */
 .giftbtn {
     animation: wiggle 2s linear infinite;
+    display: grid;
+    font-size: 17pt;
+}
+.fa-gift
+{
+    font-size: 31pt;
+    
 }
 .giftbtn:hover {
     animation:none;
-    box-shadow:0px 0px 20px 10px #fe004b;
+    box-shadow:0px 0px 20px 10px #fff;
 }
 </style>
-@if($is6)
+{{-- @if($is6)
 <div style="position: fixed">
     <button class="btn btn-success giftbtn" onclick="mygift()">
         <i class="fa fa-gift"></i>
         دریافت هدیه
     </button>
 </div>
-@endif
+@endif --}}
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
 </div>
@@ -161,14 +216,14 @@ button.swal-button:hover
 </div>
 @endsection
 @section('DesktopContent')
-@if($is6)
+{{-- @if($is6)
 <div style="position: fixed">
     <button class="btn btn-success giftbtn" onclick="mygift()">
         <i class="fa fa-gift"></i>
         دریافت هدیه
     </button>
 </div>
-@endif
+@endif --}}
 
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
@@ -233,4 +288,20 @@ button.swal-button:hover
     }
    
 </script>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+    
+    for (i = 0; i < coll.length; i++) {
+      coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+          content.style.display = "none";
+        } else {
+          content.style.display = "block";
+        }
+      });
+    }
+    </script>
 @endsection
