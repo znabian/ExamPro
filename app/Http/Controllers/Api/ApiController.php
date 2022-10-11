@@ -567,4 +567,36 @@ class ApiController extends Controller
         }
         return response()->json(['status'=>false,'output'=>$out],500);
     }
+    public function getTalentExamUserHistory(Request $request){
+        $first_date = $request->first_date;
+        $last_date = $request->last_date;
+         $phones = $request->phones;
+        if($first_date==null && $last_date==null)
+        {
+            $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->whereIn('exam_id',[4,6])
+            //->where('active',1)
+           ->distinct()->pluck('user_id')->toArray();
+            
+        }
+        else
+        {
+            $first_date = Carbon::parse($request->first_date)
+                             ->toDateTimeString();
+           $last_date = Carbon::parse($request->last_date)->addDay()
+                              ->toDateTimeString();
+             $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->whereIn('exam_id',[4,6])
+            //->where('active',1)
+            ->whereBetween('created_at', [
+                $first_date, $last_date
+            ])->distinct()->pluck('user_id')->toArray();
+            
+        }
+        $users=DB::table('users')->whereIn('id',$exam_users)->distinct()->pluck('phone') ->toArray();
+        
+        return response()->json([count($exam_users),$users]);
+    }
 }
