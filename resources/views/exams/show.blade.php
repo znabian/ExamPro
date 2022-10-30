@@ -125,15 +125,12 @@
 @endsection
 @section('mobileScript')
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+{{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
 <script>
     function saveExamQuestionAnswerRecord(exam_user_id,questionId,answerId,userId){
-        var data = { "exam_user_id" : exam_user_id,"question_id":questionId,"answer_id":answerId };
-        $.ajax({
-            type: "POST",
-            url: "{{route('save')}}",
-            data: data,
-            success: function(response){
+        var data2 = { "exam_user_id" : exam_user_id,"question_id":questionId,"answer_id":answerId };
+        axios.post("{{route('save')}}",{data2})
+        .then(function ({data}) {
                 /*if(response['status'] && response['num'] =={{$quizcount}}){
                     if(confirm(' به تمامی سوالات پاسخ داده شد. آیا به آزمون پایان می دهید؟'))
                     {
@@ -141,20 +138,16 @@
                     }
                    
                 }*/
-            },
-            error:function(){
+            })
+            .catch(error => {
                 document.getElementById("Mb"+answerId+plat).checked=false;
-            }
-        })
+            });
     }
     function saveDExamQuestionAnswerRecord(exam_user_id,questionId,answerId,userId){
         var data = { "exam_user_id" : exam_user_id,"question_id":questionId,"answer_id":answerId };
-        $.ajax({
-            type: "POST",
-            url: "{{route('save')}}",
-            data: data,
-             success: function(response){
-                if(response['status'] && response['num'] == {{$exam->questions()->count()}}){
+        axios.post("{{route('save')}}",{data})
+        .then(function ({data}) {
+                if(data.status && data.num == {{$exam->questions()->count()}}){
                     //endexam('{{route('showConclusion',$ExamUserid)}}');
                 }
                 else
@@ -162,18 +155,15 @@
                    // document.getElementById("Mb"+answerId).checked=true;
                 }
                 
-            },
-            error:function(){
+            })
+            .catch(error => {
                 document.getElementById("Db"+answerId).checked=false;
-            }
-        })
+            });
     }
     function endexam(url){
-        $.ajax({
-            type: "get",
-            url: "{{route('countMyAnswer',$ExamUserid)}}",
-            success: function(response){
-                if(response =={{$quizcount}}){
+        axios.get("{{route('countMyAnswer',$ExamUserid)}}")
+        .then(function ({data}) {
+                if(data =={{$quizcount}}){
                     // document.getElementById("MobileShowExamQuizeEndButtonDisableA").style.display="none";
                     document.location.href=url;
                 }
@@ -184,9 +174,10 @@
                         document.location.href=url;
                     }
                 }
-            }
-           
-        });
+            })
+            .catch(error => {
+                console.log(error);
+            });
     }
     function disable(){
         alert('لطفا به تمامی سوالات پاسخ دهید')
