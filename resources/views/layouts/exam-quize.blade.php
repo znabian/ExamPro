@@ -77,6 +77,12 @@ if($exam->groups()->where('status',1)->count())
 $quizcount=DB::table('group_questions')->whereIn('group_id',$exam->groups()->where('status',1)->pluck('id'))->count();
 else
 $quizcount=$exam->questions()->where('status',1)->count();
+    
+    if(is_null(session('chk')) && $exam->id==6)
+    $exam->name="مرحله دوم آزمون ";
+ if(is_null(session('chk')) && $exam->id==4)
+    $exam->name="مرحله اول آزمون";
+
 @endphp
 
     <div id="MobileComponents">

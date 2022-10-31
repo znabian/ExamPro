@@ -36,6 +36,7 @@
                         </a>
                     </li>
                     @if(is_null(session('chk')))
+                    @if(auth()->user()->status>3) 
                     <li>
                         <a href="{{route('myinfo',4)}}" style="font-size: 10pt; ">
                             <i class="fa fa-diamond"></i>                        
@@ -50,6 +51,15 @@
                             
                         </a>
                     </li>
+                    @else
+                    <li>
+                        <a href="{{route('pish.video')}}" style="font-size: 10pt; ">
+                            <i class="fa fa-diamond"></i>                        
+                          <span style="padding-right: 2%"> پیش نیاز استعدادیابی</span>
+                            
+                        </a>
+                    </li>
+                    @endif
                     @else
                     @php
                         $ex=\App\Models\Exam::find(6);

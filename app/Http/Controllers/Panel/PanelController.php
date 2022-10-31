@@ -96,6 +96,8 @@ class PanelController extends Controller
             'name'=> $EUtbl->name,
             "created_at"=>now(),
         ]);
+        $b=new Request(['sts'=>2]);
+        $this->changeStatus($b);
         return redirect(route('showExamDescription',$exam_user_id));
     }
     public function CompleteInformation(request $req,$exam){
@@ -124,5 +126,77 @@ class PanelController extends Controller
         $tag = DB::table("tags")->where("name","LIKE","%پیشنهادی%")->get()->first();
         $exams = Tag::find($tag->id)->exams;
         return view('panel.exams',["exams"=>$exams]);
+    }
+    public function changeStatus(Request $req)
+    {
+        try 
+        {   
+            $status=(auth()->user()->status)?explode(',',auth()->user()->status):[];     
+            switch ($req->sts) {
+                case '1':
+                    if(!in_array(1,$status))
+                    {
+                        $status[]=1;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                case '2':                    
+                    if(!in_array(2,$status))
+                    {
+                        $status[]=2;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                case '3':                    
+                    if(!in_array(3,$status))
+                    {
+                        $status[]=3;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                case '4':
+                    if(!in_array(4,$status))
+                    {
+                        $status[]=4;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                case '5':
+                    if(!in_array(5,$status))
+                    {
+                        $status[]=5;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                case '6':
+                    if(!in_array(6,$status))
+                    {
+                        $status[]=6;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                    }
+                    else
+                    $res=1;
+                    break;
+                
+                default:
+                return 0;
+                    break;
+            }
+            if($res)
+            return response()->json(['status'=>1]);
+            return response()->json(['status'=>0]);
+        } catch (\Throwable $th) {
+            return response()->json(['status'=>0,'msg'=>$th]);
+        }
     }
 }

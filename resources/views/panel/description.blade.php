@@ -2,6 +2,7 @@
 @section('title', 'توضیحات آزمون')
 @section('content')
 @php
+
     if($exam->groups()->where('status',1)->count())
     $quizcount=DB::table('group_questions')->whereIn('group_id',$exam->groups()->where('status',1)->pluck('id'))->count();
     else
@@ -34,7 +35,9 @@
     </div>
     <div id="MobileDescriptionStartExamButtonContainer">
         <a href="{{route("exam.show",$ExamUserid)}}">شروع آزمون</a>
+        @if(!is_null(session('chk')))
         <a href="{{route("dashboard")}}">بازگشت</a>
+        @endif
     </div>
 @endsection
 @section('DesktopContent')
@@ -65,8 +68,9 @@
     </div>
     <div id="DesktopDescriptionStartExamButtonContainer">
         <a href="{{route("exam.show",$ExamUserid)}}">شروع آزمون</a>
-        
+        @if(!is_null(session('chk')) || $exam->id==4)
         <a href="{{route("exam.cancel",$ExamUserid)}}">بازگشت</a>
+        @endif
     </div>
 @endsection
 <style>
@@ -76,5 +80,6 @@
             {
                 display: none;
             }
+            
         }
 </style>

@@ -1,13 +1,13 @@
 @extends('layouts.exam-quize')
 @section('title', 'آزمون')
 @section('content')
-@foreach($exam->questions()->get() as $key=>$question)
+@foreach($exam->questions()->get() as $Qkey=>$question)
     <div class="MobileShowExamQuestionContainer">
         <span class="MobileQuestionTitle" style="text-align:right;">
             {!!$question->name!!}
         </span>
         <span class="MobileQuestionNumber">
-            {{$key+1}}
+            {{$Qkey+1}}
         </span>
     </div>
     <div class="MobileShowExamAnswer">
@@ -18,7 +18,7 @@
                     <span>{{$answer->name}}</span>
                 </div>
                 <div>
-                    <input type="radio" id='Mb{{$answer->id}}'  name="{{$answer->question_id}}" onclick="saveExamQuestionAnswerRecord({{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
+                    <input type="radio" id='Mb{{$answer->id}}'  name="{{$answer->question_id}}" onclick="saveExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
                 </div>
             </div>
         @endforeach
@@ -41,13 +41,13 @@
     </div>
 @endsection
 @section('DesktopContent')
-@foreach($exam->questions()->get() as $key=>$question)
+@foreach($exam->questions()->get() as $Qkey=>$question)
     <div class="MobileShowExamQuestionContainer">
         <span class="MobileQuestionTitle" style="text-align:right;">
             {!!$question->name!!}
         </span>
         <span class="MobileQuestionNumber">
-            {{$key+1}}
+            {{$Qkey+1}}
         </span>
     </div>
     <div class="MobileShowExamAnswer">
@@ -58,7 +58,7 @@
                     <span>{{$answer->name}}</span>
                 </div>
                 <div>
-                    <input type="radio" id='Db{{$answer->id}}' name="{{$answer->question_id}}" onclick="saveDExamQuestionAnswerRecord({{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
+                    <input type="radio" id='Db{{$answer->id}}' name="{{$answer->question_id}}" onclick="saveDExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
                 </div>
             </div>
         @endforeach
@@ -84,7 +84,7 @@
 
 
 <script>
-    function saveExamQuestionAnswerRecord(exam_user_id,questionId,answerId,userId){
+    function saveExamQuestionAnswerRecord(q,exam_user_id,questionId,answerId,userId){
         var data2 = { "exam_user_id" : exam_user_id,"question_id":questionId,"answer_id":answerId };
         axios.post("{{route('save')}}",data2)
         .then(function ({data}) {
@@ -98,9 +98,10 @@
             })
             .catch(error => {
                 document.getElementById("Mb"+answerId).checked=false;
+                swal("توجه",'در ذخیره پاسخ سوال '+q+' مشکلی پیش آمد',"error");
             });
     }
-    function saveDExamQuestionAnswerRecord(exam_user_id,questionId,answerId,userId){
+    function saveDExamQuestionAnswerRecord(q,exam_user_id,questionId,answerId,userId){
         var data2 = { "exam_user_id" : exam_user_id,"question_id":questionId,"answer_id":answerId };
         axios.post("{{route('save')}}",data2)
         .then(function ({data}) {
@@ -115,9 +116,11 @@
             })
             .catch(error => {
                 document.getElementById("Db"+answerId).checked=false;
+                swal("توجه",'در ذخیره پاسخ سوال '+q+' مشکلی پیش آمد',"error");
             });
     }
     function endexam(url){
+        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
         axios.get("{{route('countMyAnswer',$ExamUserid)}}")
         .then(function ({data}) {
                 if(data == {{$exam->questions()->count()}}){
@@ -126,23 +129,46 @@
                 }
                 else
                 {
-                    if(data >0)
+                    if(data.ans >0)
                     {
-                        if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                        quizz=(data.emt)?"\n"+"سوالات \n"+data.emt+"\n":'';
+                        swal("شما به "+data.ans+"سوال پاسخ داده اید","به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟ ", {
+                            icon: 'info',
+                            showDenyButton: true,
+                            buttons: {
+                                cancel: "خیر", 
+                                    defeat: "بله",  
+                                    conf: "سوالات بدون پاسخ",                  
+                                },
+                                })
+                            .then((value) => {
+                                    switch (value) {  
+
+                                        case "conf":
+                                        swal("توجه",quizz+' پاسخ داده نشده است',"info");
+                                            break;
+                                        case "defeat":
+                                            document.location.href=url;
+                                            break;
+                                        }
+                                    });
+
+                       /* if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
                         {
                             document.location.href=url;
-                        }
+                        }*/
                     }
                     else
-                    alert('به تمامی سوالات پاسخ داده نشده است');
+                    swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
                 }
             })
             .catch(error => {
+                swal("توجه",'مشکلی پیش آمده اتصال به اینترنت خود را بررسی نمایید',"error");
                 console.log(error);
             });
     }
     function disable(){
-        alert('لطفا به تمامی سوالات پاسخ دهید')
+        swal("توجه",'لطفا به تمامی سوالات پاسخ دهید',"error");
     }
 </script>
 @endsection
@@ -182,4 +208,39 @@
             cursor: pointer;
         }
     }
+</style>
+<style>
+    .swal-text {
+    text-align: right;
+    direction: rtl;
+}
+    button.swal-button {
+    color: #fff;
+    font-weight: bold;
+    background-color: #fe004b;
+    border-color: #fe004b;
+    font-family: 'Peyda';
+    box-shadow:none;
+    
+} 
+ button.swal-button--cancel {
+    
+    background-color: #7cd1f9;
+    border-color: #7cd1f9;
+    
+}
+button.swal-button:focus {
+    color: #fff;
+    font-weight: bold;
+    background-color: #fe004b;
+    border-color: #fe004b;
+    font-family: 'Peyda';
+    box-shadow:none;    
+}
+button.swal-button:hover
+{
+     background-color: #fff!important;
+      color: #fe004b;
+    border:2px solid #fe004b;
+}
 </style>

@@ -11,6 +11,7 @@ use App\Models\Conclusion;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Exports\ExamUsers;
+use App\Http\Controllers\Panel\PanelController;
 use App\Models\exam_formular;
 use App\Models\group;
 use App\Models\Question;
@@ -91,9 +92,21 @@ class ExamController extends Controller
     }
 
     public function countMyAnswer($euid)
-    {
+    {$keys=[];
         $exam = DB::table('histories')->where('exam_user_id',$euid)->count();
-        return $exam;
+        //return $exam;
+        if($exam>0)
+        {
+            $quiz=Exam::find(DB::table('exam_user')->find($euid)->exam_id)->questions()->pluck('id')->toArray();
+            $a=array_diff($quiz,DB::table('histories')->where('exam_user_id',$euid)->pluck('question_id')->toArray());
+            foreach($a as $index)
+            {
+            $key=array_search($index,$quiz);
+            if($key>=0)
+                $keys[]=$key+1;
+            }
+        }
+        return ['ans'=>$exam,'emt'=>implode(' و ',$keys)];
     }
     /**
      * Show the form for editing the specified resource.
@@ -168,6 +181,9 @@ class ExamController extends Controller
         ->where('name',$EUtbl->name)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
+        $a=new PanelController();
+        $b=new Request(['sts'=>3]);
+        $a->changeStatus($b);
         return redirect(route('dashboard'));
     }
     public function showConclusion($id){
@@ -728,7 +744,9 @@ class ExamController extends Controller
                 $data=$this->showConclusion_OLD($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
                $out=$data['out'];
-            
+               $a=new PanelController();
+               $b=new Request(['sts'=>4]);
+               $a->changeStatus($b);
         return view('conclusions.result',compact("score",'out'));
    }
 }

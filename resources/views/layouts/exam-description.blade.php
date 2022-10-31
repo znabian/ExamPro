@@ -83,10 +83,16 @@
         overflow-y: scroll;
     }
    
-}
+
     </style>
     <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
 </head>
+@php
+ if(is_null(session('chk')) && $exam->id==6)
+    $exam->name="مرحله دوم آزمون";
+ if(is_null(session('chk')) && $exam->id==4)
+    $exam->name="مرحله اول آزمون";
+@endphp
 <body style="height: auto;">
     <div id="MobileComponents">
         <x-mobile-menu />

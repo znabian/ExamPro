@@ -30,29 +30,63 @@
                 </div>
         </div>
         @if(is_null(session('chk')))
-        <div class="MobileCategoryContainer" onclick="openIdentityExamsPage()">
+        <div class="MobileCategoryContainer @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/childrenExam.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی کودک</span>
-                    <span class="categoryDataExamDescription">شش تا سیزده سال</span>
+                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
                 </div>
             </div>
         </div>
-        <div class="MobileCategoryContainer" onclick="openSuggestionExamsPage()">
+        <div class="MobileCategoryContainer @if(!in_array(1,explode(',',auth()->user()->status))) disabled @else"  onclick="location.href='{{route('myinfo',4)}}';@endif">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/discussExams.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/quiz.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون های پیشنهادی</span>
-                    <span class="categoryDataExamDescription">والدین</span>
+                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
+                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
                 </div>
             </div>
         </div>
-        @endif
+        <div class="MobileCategoryContainer @if(!in_array(3,explode(',',auth()->user()->status))) disabled @else" onclick="showResult()@endif">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/quiz.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="MobileCategoryContainer" onclick="showvideo(2)">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="MobileCategoryContainer" onclick="showvideo(3)">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        @else
         @php
             $ex=\App\Models\Exam::find(6);
         @endphp
@@ -70,19 +104,8 @@
             </div>
         </div>
         @endif
-        @if(is_null(session('chk')))
-        <div class="MobileCategoryContainer" style="border:1px solid #707070;">
-            <img src="{{asset('images/grayArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/allExamsBlack.png')}}" style="max-width:24%;">
-                <hr>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">تمامی آزمون ها</span>
-                    <span class="categoryDataExamDescription">والدین و کودکان</span>
-                </div>
-            </div>
-        </div>
         @endif
+        
     </div>
     <div id="MobileDashboardExamFooterButton">
         <div id="MobileDashboardExamFooterButtonText" style="font-size: 9pt;">
@@ -107,29 +130,64 @@
             <img src="{{asset('images/khoshNazar.png')}}" alt="id">
         </div>
         @if(is_null(session('chk')))
-        <div class="DesktopCategoryContainer" onclick="openIdentityExamsPage()">
+        <div class="DesktopCategoryContainer @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/childrenExam.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی کودک</span>
-                    <span class="categoryDataExamDescription">شش تا سیزده سال</span>
+                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
-        <div class="DesktopCategoryContainer" onclick="openSuggestionExamsPage()">
+        <div class="DesktopCategoryContainer @if(!in_array(1,explode(',',auth()->user()->status))) disabled @else "  onclick="location.href='{{route('myinfo',4)}}'; @endif">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/discussExams.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/quiz.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون های پیشنهادی</span>
-                    <span class="categoryDataExamDescription">والدین</span>
+                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
+                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
                 </div>
             </div>
         </div>
-        @endif
+        <div class="DesktopCategoryContainer @if(!in_array(3,explode(',',auth()->user()->status))) disabled @else" onclick="showResult()@endif">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" src="{{asset('images/quiz.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="DesktopCategoryContainer" onclick="showvideo(2)">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="DesktopCategoryContainer" onclick="showvideo(3)">
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        @else
         @php
             $ex=\App\Models\Exam::find(6);
         @endphp
@@ -147,18 +205,7 @@
             </div>
         </div>
         @endif
-        @if(is_null(session('chk')))
-        <div class="DesktopCategoryContainer disabled"  style="border:1px solid #707070;">
-            <img src="{{asset('images/grayArrow.png')}}" alt="red" style="max-width:3%;">
-            <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/allExamsBlack.png')}}" style="max-width:24%;">
-                <hr>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">تمامی آزمون ها</span>
-                    <span class="categoryDataExamDescription">والدین و کودکان</span>
-                </div>
-            </div>
-        </div>
+        
         @endif
     </div>
     <div id="DesktopDashboardExamFooterButton">
@@ -207,6 +254,40 @@
     function openSuggestionExamsPage(){
         window.location.href = "/suggest/exams";
     }
+    function showResult() {
+        window.location.href = "/Exams-Result/";
+    }
+    function showvideo(type) {
+        switch (type) {
+            case 1:
+                url='{{route("pish.video")}}';
+                st=1;
+                location.href=url;
+                break;
+            case 2:
+                url='https://b2n.ir/w15949';
+                st=5;
+                break;
+            case 3:
+                url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
+                st=6;
+                break;
+        }
+        axios.post("{{route('pish.ok')}}",{sts:st})
+        .then(function ({data}) {
+                if(data.status)
+                {
+                    window.open(url);window.focus();
+                }                
+                else
+                 swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+            })
+            .catch(error => {
+               
+                //location.reload();
+            });
+        
+    }
     </script>
 @endsection
 <style>
@@ -217,4 +298,16 @@
                 display: none;
             }
         }
+ @media (min-width: 576px)
+ {
+    .categoryDataImages {
+        width: 20%!important;
+        max-width: 13%!important;
+        margin-right: auto!important;
+    }
+ }
+ .disabled {
+    background: #18181812!important;
+    cursor: not-allowed!important;
+}
 </style>

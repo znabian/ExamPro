@@ -171,13 +171,30 @@
                 {
                     if(data >0)
                     {
-                        if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                        swal("به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟", {
+                            icon: 'info',
+                            showDenyButton: true,
+                            buttons: {
+                                    
+                                    cancel: "خیر", 
+                                    defeat: "بله",                   
+                                },
+                                })
+                            .then((value) => {
+                                    switch (value) {  
+
+                                        case "defeat":
+                                            document.location.href=url;
+                                            break;
+                                        }
+                                    });
+                        /*if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
                         {
                             document.location.href=url;
-                        }
+                        }*/
                     }
                     else
-                    alert('به تمامی سوالات پاسخ داده نشده است');
+                    swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
                 }
             })
             .catch(error => {
@@ -185,7 +202,7 @@
             });
     }
     function disable(){
-        alert('لطفا به تمامی سوالات پاسخ دهید')
+        swal("توجه",'لطفا به تمامی سوالات پاسخ دهید',"error");
     }
 </script>
 @endsection
