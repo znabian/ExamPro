@@ -27,8 +27,16 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
         {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+        @else
+        @if(!is_null(session('chk')))
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+        @else
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+        @endif
+        @endif
 
     </div>
 @endsection
@@ -58,8 +66,17 @@
 @endforeach
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+       
+        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+        @else
+        @if(!is_null(session('chk')))
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+        @else
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+        @endif
+        @endif
 
     </div>
 @endsection
@@ -109,10 +126,15 @@
                 }
                 else
                 {
-                    if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                    if(data >0)
                     {
-                        document.location.href=url;
+                        if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                        {
+                            document.location.href=url;
+                        }
                     }
+                    else
+                    alert('به تمامی سوالات پاسخ داده نشده است');
                 }
             })
             .catch(error => {

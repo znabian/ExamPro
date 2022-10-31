@@ -37,20 +37,20 @@
                     </li>
                     @if(is_null(session('chk')))
                     <li>
-                        <a href="/identify/exams" style="font-size: 10pt; ">
+                        <a href="{{route('myinfo',4)}}" style="font-size: 10pt; ">
                             <i class="fa fa-diamond"></i>                        
-                          <span style="padding-right: 2%"> استعدادیابی کودک</span>                        
+                          <span style="padding-right: 2%"> استعدادیابی دانش آموز</span>                        
                             
                         </a>
                     </li>
                     <li>
-                        <a href="/suggest/exams" style="font-size: 10pt; ">
+                        <a href="/Exams-Result" style="font-size: 10pt; ">
                             <i class="fa fa-diamond"></i>                        
-                          <span style="padding-right: 2%"> آزمون های پیشنهادی</span>
+                          <span style="padding-right: 2%"> مشاهده نتیجه</span>
                             
                         </a>
                     </li>
-                    @endif
+                    @else
                     @php
                         $ex=\App\Models\Exam::find(6);
                     @endphp
@@ -62,6 +62,7 @@
                             
                         </a>
                     </li>                    
+                    @endif                 
                     @endif
                     <li onclick="location.href='{{route('logout')}}';" style="border: 2px solid;border-radius: 5px; text-align: center; margin-top:55%;background: white;">
                         <a href="{{route('logout')}}" style="font-size: 13pt;color:#fb4d64 ">

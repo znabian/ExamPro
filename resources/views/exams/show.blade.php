@@ -59,7 +59,7 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
         {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >اتمام آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
 
     </div>
@@ -117,8 +117,8 @@
 @endforeach
 @endforeach
     <div id="MobileShowExamQuizeEndButton">
-        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable();endexam('{{route('showConclusion',$ExamUserid)}}')">اتمام آزمون</a> --}}
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >اتمام آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
 
     </div>
@@ -169,10 +169,15 @@
                 }
                 else
                 {
-                    if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                    if(data >0)
                     {
-                        document.location.href=url;
+                        if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                        {
+                            document.location.href=url;
+                        }
                     }
+                    else
+                    alert('به تمامی سوالات پاسخ داده نشده است');
                 }
             })
             .catch(error => {

@@ -81,6 +81,23 @@ class PanelController extends Controller
     public function showmyinfo($exam){
         return view('panel.info',["id"=>$exam]);
     }
+    public function continueExam($exam,$id){
+        $EUtbl=DB::table("exam_user")->find($id);
+        DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
+        ->where('user_id',$EUtbl->user_id)
+        ->where('name',$EUtbl->name)
+        ->update(['active'=>0]);
+        DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
+        
+        $exam_user_id=DB::table("exam_user")->insertGetId([
+            "user_id"=>auth()->user()->id,
+            "exam_id"=>$exam,
+            'age'=>auth()->user()->age,
+            'name'=> $EUtbl->name,
+            "created_at"=>now(),
+        ]);
+        return redirect(route('showExamDescription',$exam_user_id));
+    }
     public function CompleteInformation(request $req,$exam){
         $exam_user_id=DB::table("exam_user")->insertGetId([
             "user_id"=>auth()->user()->id,

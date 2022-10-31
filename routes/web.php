@@ -35,6 +35,7 @@ Route::group([
     Route::get('/logout',[App\Http\Controllers\Auth\LoginController::class,'logout'])->name("logout");
     Route::get('/identify/exams/',[App\Http\Controllers\Panel\PanelController::class,'identifyExams'])->name("identify.exams");
     
+    Route::get('/continue/{exam}/{id}',[App\Http\Controllers\Panel\PanelController::class,'continueExam'])->name("continue");
     Route::get('/CompleteInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'showmyinfo'])->name("myinfo");
     Route::post('/CompleteInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'CompleteInformation'])->name("CompleteInformation");
     Route::get('/answerCount/{exam}',[App\Http\Controllers\ExamController::class,"countMyAnswer"])->name("countMyAnswer");
@@ -43,10 +44,14 @@ Route::group([
    
     Route::get('/exam/{id}/description',[App\Http\Controllers\Panel\PanelController::class,'showDescription'])->name("showExamDescription");
     Route::get('/conclusion/{id}',[App\Http\Controllers\ExamController::class,"showConclusion"])->name("showConclusion");
+    Route::get('/conclusion-new/{id}',[App\Http\Controllers\ExamController::class,"showConclusion_New"])->name("showConclusion.new");
     Route::post('/exam-gift',[App\Http\Controllers\ExamController::class,"setexamgift"])->name("exam.gift");
 
     Route::get('admin/exam/{id}',[App\Http\Controllers\ExamController::class,"show"])->name('exam.show');
     Route::get('/suggest/exams',[App\Http\Controllers\Panel\PanelController::class,'suggestExams'])->name('suggest.exams');
+
+    Route::get('/Exams-Result',[App\Http\Controllers\ExamController::class,"GetExamResult"])->name('result.exams');
+
 });
 
 // admin routes

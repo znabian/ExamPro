@@ -160,6 +160,16 @@ class ExamController extends Controller
         return false;
 
     }
+    public function showConclusion_New($id){
+        $EUtbl=DB::table("exam_user")->find($id);
+      
+        DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
+        ->where('user_id',$EUtbl->user_id)
+        ->where('name',$EUtbl->name)
+        ->update(['active'=>0]);
+        DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
+        return redirect(route('dashboard'));
+    }
     public function showConclusion($id){
         $EUtbl=DB::table("exam_user")->find($id);
 
@@ -679,5 +689,46 @@ class ExamController extends Controller
        $examUser->uid=$uid;
         $filename='campaign-users-'.now().'.xlsx';
        return Excel::download($examUser, $filename);
+   }
+   public function GetExamResult()
+   {
+    $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->latest()->first();
+    $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->latest()->first();
+    
+        
+            $out='';$flag=false;$score=0;
+             
+             $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->get();
+             foreach($historyResult as $value){
+                 if(Answer::find($value->answer_id)->is_char){
+                     $flag=true;
+                 }
+                 break;
+             }
+             $disc=['D'=>0,'I'=>0,'S'=>0,'C'=>0];
+             if($flag){
+                 foreach($historyResult as $value){
+                     $char = Answer::find($value->answer_id)->char_value;
+                     $char_value = Answer::find($value->answer_id)->value;
+                     if($char=="I"){
+                        $disc['I'] += $char_value;
+                     }
+                     if($char=="C"){
+                        $disc['C']+=$char_value;
+                     }
+                     if($char=="S"){
+                        $disc['S']+=$char_value;
+                     }
+                     if($char=="D"){
+                        $disc['D']+=$char_value;
+                     }
+                 }
+                $score=DB::table('talent_history')->where($disc)->first()->personal_type??0;
+                }
+                $data=$this->showConclusion_OLD($exam->id);
+               // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
+               $out=$data['out'];
+            
+        return view('conclusions.result',compact("score",'out'));
    }
 }
