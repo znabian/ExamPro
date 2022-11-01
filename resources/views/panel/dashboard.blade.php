@@ -30,7 +30,8 @@
                 </div>
         </div>
         @if(is_null(session('chk')))
-        <div class="MobileCategoryContainer @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif">
+        <div class="MobileCategoryContainer" onclick="showvideo(1)">
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
@@ -130,7 +131,7 @@
             <img src="{{asset('images/khoshNazar.png')}}" alt="id">
         </div>
         @if(is_null(session('chk')))
-        <div class="DesktopCategoryContainer @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif">
+        <div class="DesktopCategoryContainer" onclick="showvideo(1)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/video.png')}}">
@@ -309,5 +310,8 @@
  .disabled {
     background: #18181812!important;
     cursor: not-allowed!important;
+}
+.categoryDataText{
+    margin:auto;
 }
 </style>

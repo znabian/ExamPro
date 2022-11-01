@@ -31,11 +31,12 @@
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
-        @if(!is_null(session('chk')))
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
-        @else
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
-        @endif
+            @if(!is_null(session('chk')))
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+            @else
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+            @endif
         @endif
 
     </div>
@@ -71,11 +72,12 @@
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
-        @if(!is_null(session('chk')))
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
-        @else
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
-        @endif
+            @if(!is_null(session('chk')))
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+            @else
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+            @endif
         @endif
 
     </div>
@@ -123,8 +125,13 @@
         swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
         axios.get("{{route('countMyAnswer',$ExamUserid)}}")
         .then(function ({data}) {
-                if(data == {{$exam->questions()->count()}}){
+                if(data.ans == {{$exam->questions()->count()}}){
                     // document.getElementById("MobileShowExamQuizeEndButtonDisableA").style.display="none";
+                   @if($exam->id==4)
+                    swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
+                   @elseif(is_null(session('chk')) && $exam->id==6)
+                    swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                    @endif
                     document.location.href=url;
                 }
                 else
@@ -227,6 +234,12 @@
     
     background-color: #7cd1f9;
     border-color: #7cd1f9;
+    
+}
+ button.swal-button--conf {
+    
+    background-color:#01c98a!important;
+    border-color: #01c98a;
     
 }
 button.swal-button:focus {

@@ -196,12 +196,12 @@ button.swal-button:hover
 }
 </style>
 
-<div id="MobileConclusionShow">
+{{-- <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
-</div>
+</div> --}}
 <div id="MobileConclusionShowDescription" onscroll=" if(this.scrollTop > 50){mygift();}">
    @if($score)
-   <div class='col-12 justify-content-center'>
+   <div class='col-12 justify-content-center' style="text-align: center;">
         <video  controls style='width:100%;height: 10rem;'>
             <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
         Your browser does not support the video player.</video>
@@ -220,13 +220,13 @@ button.swal-button:hover
 @section('DesktopContent')
 
 
-<div id="MobileConclusionShow">
+{{-- <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
-</div>
+</div> --}}
 <div id="MobileConclusionShowDescription" >
     @if($score)
-    <div class='col-12 justify-content-center'>
-         <video  controls style='width:100%;height: 10rem;'>
+    <div class='col-12 justify-content-center' style="text-align: center;">
+         <video  controls style='height: 10rem;'>
          <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
          Your browser does not support the video player.</video>
      </div>

@@ -739,7 +739,7 @@ class ExamController extends Controller
                         $disc['D']+=$char_value;
                      }
                  }
-                $score=DB::table('talent_history')->where($disc)->first()->personal_type??0;
+                $score=DB::table('talent_history')->where($disc)->whereRaw('LENGTH(personal_type)=2')->first()->personal_type??0;               
                 }
                 $data=$this->showConclusion_OLD($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
