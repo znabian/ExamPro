@@ -27,6 +27,7 @@
               <td>{{$exam->englishName}}</td>
               {{--<td>{{illuminate\Support\Str::words($exam->description,12)}}</td>--}}
               <td><a class="btn btn-info" href="{{route('exam.edit',$exam->id)}}">ویرایش</a></td>
+              <td><a class="btn btn-outline-warning" href="{{route('quiz.index',$exam->id)}}">لیست سوالات</a></td>
               <td><a class="btn btn-warning" href="{{route('question.create',$exam->id)}}">افزودن سوال</a></td>
               <td><a class="btn btn-outline-danger" href="{{route('formular.index',$exam->id)}}">لیست فرمول</a></td>
               <td><a class="btn btn-success" href="{{route('conclusion.create',$exam->id)}}">افزودن نتیجه</a></td>

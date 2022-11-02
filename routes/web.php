@@ -94,6 +94,7 @@ Route::group([
     Route::get('/admin/question/{id}/edit',[App\Http\Controllers\QuestionController::class,'edit'])->name("question.edit");
     Route::put('/admin/question/{id}',[App\Http\Controllers\QuestionController::class,'update'])->name("question.update");
     Route::get('/admin/AjaxGetQuiz',[App\Http\Controllers\QuestionController::class,'getExamsQuestions'])->name('quiz.get');
+    Route::get('/admin/{exam}/questions',[App\Http\Controllers\QuestionController::class,'ExamsQuestions'])->name('quiz.index');
    // answer routes
     Route::post('/admin/answer_update/{id}',[App\Http\Controllers\AnswerController::class,'updateAnswer'])->name('answer.update');
     Route::get('/admin/answer/{id}/edit',[App\Http\Controllers\AnswerController::class,'edit'])->name('answer.edit');

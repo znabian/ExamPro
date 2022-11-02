@@ -6,6 +6,7 @@ use App\Http\Requests\StoreQuestionRequest;
 use App\Http\Requests\UpdateQuestionRequest;
 use App\Models\Question;
 use App\Models\Answer;
+use App\Models\Exam;
 use App\Models\group;
 use App\Models\group_question;
 use Illuminate\Http\Request;
@@ -371,5 +372,10 @@ class QuestionController extends Controller
         }
         return ['ids'=>implode(',',$list),'data'=>$out];
         }
+    }
+    public function ExamsQuestions(Exam $exam)
+    {
+        $questions=$exam->questions()->paginate(10);
+        return view('questions.index',["questions"=>$questions]);
     }
 }
