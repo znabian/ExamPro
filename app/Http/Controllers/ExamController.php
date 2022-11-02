@@ -92,7 +92,7 @@ class ExamController extends Controller
     }
 
     public function countMyAnswer($euid)
-    {$keys=[];
+    {$keys=$a=[];
         $exam = DB::table('histories')->where('exam_user_id',$euid)->count();
         //return $exam;
         if($exam>0)
@@ -106,7 +106,7 @@ class ExamController extends Controller
                 $keys[]=$key+1;
             }
         }
-        return ['ans'=>$exam,'emt'=>implode(' و ',$keys)];
+        return ['ans'=>$exam,'emt'=>implode(' و ',$keys),'qid'=>$a,'aid'=>DB::table('histories')->where('exam_user_id',$euid)->pluck('answer_id')->toArray()];
     }
     /**
      * Show the form for editing the specified resource.
@@ -739,11 +739,17 @@ class ExamController extends Controller
                         $disc['D']+=$char_value;
                      }
                  }
-                $score=DB::table('talent_history')->where($disc)->whereRaw('LENGTH(personal_type)=2')->first()->personal_type??0;               
+                $score=DB::table('talent_history')->where($disc)->whereRaw('LENGTH(personal_type)<=2')->first()->personal_type??0;               
                 }
                 $data=$this->showConclusion_OLD($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
+               if($score)
                $out=$data['out'];
+               else
+               $out="<div id='MobileConclusionShow'>
+               <img src='".asset('images/result.png')."'>
+                </div><p style='text-align:center'>برای دریافت نتیجه تحلیل روی دکمه زیر کلیک کنید</p><p id='hand' style='text-align:center'>&#128071;&#127995;</p>";
+
                $a=new PanelController();
                $b=new Request(['sts'=>4]);
                $a->changeStatus($b);

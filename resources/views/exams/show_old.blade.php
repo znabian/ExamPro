@@ -18,7 +18,7 @@
                     <span>{{$answer->name}}</span>
                 </div>
                 <div>
-                    <input type="radio" id='Mb{{$answer->id}}'  name="{{$answer->question_id}}" onclick="saveExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
+                    <input type="radio" class='inputans' id='Mb{{$answer->id}}'  name="{{$answer->question_id}}" onclick="saveExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
                 </div>
             </div>
         @endforeach
@@ -28,14 +28,14 @@
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
         {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">اتمام آزمون</a> --}}
         @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Mb')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
             @if(!is_null(session('chk')))
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Mb')" >اتمام آزمون</a>
             <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
             @else
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >اتمام آزمون</a>
             @endif
         @endif
 
@@ -59,7 +59,7 @@
                     <span>{{$answer->name}}</span>
                 </div>
                 <div>
-                    <input type="radio" id='Db{{$answer->id}}' name="{{$answer->question_id}}" onclick="saveDExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
+                    <input type="radio" class='inputans' id='Db{{$answer->id}}' name="{{$answer->question_id}}" onclick="saveDExamQuestionAnswerRecord({{$Qkey+1}},{{$ExamUserid}},{{$answer->question_id}},{{$answer->id}},{{Auth::id()}})" />
                 </div>
             </div>
         @endforeach
@@ -69,14 +69,14 @@
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
        
         @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}')" >ادامه آزمون</a>
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Db')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
             @if(!is_null(session('chk')))
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Db')" >اتمام آزمون</a>
             <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
             @else
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}')" >اتمام آزمون</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >اتمام آزمون</a>
             @endif
         @endif
 
@@ -121,7 +121,7 @@
                 swal("توجه",'در ذخیره پاسخ سوال '+q+' مشکلی پیش آمد',"error");
             });
     }
-    function endexam(url){
+    function endexam(url,pl){
         swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
         axios.get("{{route('countMyAnswer',$ExamUserid)}}")
         .then(function ({data}) {
@@ -138,14 +138,21 @@
                 {
                     if(data.ans >0)
                     {
+                        @if($exam->id==6)
+                        yes='آزمون پایان یابد ';
+                        @elseif($exam->id==4)
+                        yes=' برو به مرحله دوم آزمون ';
+                        @endif
                         quizz=(data.emt)?"\n"+"سوالات \n"+data.emt+"\n":'';
+                        uncheckd(data.qid);
+                        checkd(data.aid,pl);
                         swal("شما به "+data.ans+"سوال پاسخ داده اید","به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟ ", {
                             icon: 'info',
                             showDenyButton: true,
                             buttons: {
-                                cancel: "خیر", 
-                                    defeat: "بله",  
-                                    conf: "سوالات بدون پاسخ",                  
+                                cancel: "خیر، به سوالات پاسخ می دهم", 
+                                    defeat: "بله، "+yes,  
+                                    conf: "مشاهده سوالات بدون پاسخ",                  
                                 },
                                 })
                             .then((value) => {
@@ -155,6 +162,11 @@
                                         swal("توجه",quizz+' پاسخ داده نشده است',"info");
                                             break;
                                         case "defeat":
+                                        @if($exam->id==4)
+                                            swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
+                                        @elseif(is_null(session('chk')) && $exam->id==6)
+                                            swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                                            @endif
                                             document.location.href=url;
                                             break;
                                         }
@@ -166,13 +178,32 @@
                         }*/
                     }
                     else
+                    {
+                        a=document.getElementsByClassName('inputans');
+                        for(var i = 0; i < a.length; i++)
+                            a[i].checked = false;
                     swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
+                    }
                 }
             })
             .catch(error => {
                 swal("توجه",'مشکلی پیش آمده اتصال به اینترنت خود را بررسی نمایید',"error");
                 console.log(error);
             });
+    }
+    function uncheckd(ids)
+    {
+        for (const [key, value] of Object.entries(ids)) {
+            document.getElementsByName(value).forEach(function(item){item.checked=false;});
+           // document.getElementById("Db"+value).checked=false;
+            }
+    }
+    function checkd(ids,pl)
+    {
+        for (const [key, value] of Object.entries(ids)) {
+           
+            document.getElementById(pl+value).checked=true;
+            }
     }
     function disable(){
         swal("توجه",'لطفا به تمامی سوالات پاسخ دهید',"error");

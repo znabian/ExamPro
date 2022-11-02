@@ -155,31 +155,20 @@ button.swal-button:hover
 
     /* The animation code */
     @keyframes wiggle {
-  0%, 7% {
-    transform: rotateZ(0);
-  }
-  15% {
-    transform: rotateZ(-15deg);
-  }
-  20% {
+  0% {
     transform: rotateZ(10deg);
   }
-  25% {
-    transform: rotateZ(-10deg);
+  50% {
+    transform: rotateZ(0deg);
+  } 100% {
+    transform: rotateZ(50deg);
   }
-  30% {
-    transform: rotateZ(6deg);
-  }
-  35% {
-    transform: rotateZ(-4deg);
-  }
-  40%, 100% {
-    transform: rotateZ(0);
-  }
+
 }
 
 
 /* The element to apply the animation to */
+
 .giftbtn {
     animation: wiggle 2s linear infinite;
     display: grid;
