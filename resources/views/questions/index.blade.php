@@ -9,6 +9,9 @@
           <thead class="thead-dark">
             <tr>
               <th scope="col">شناسه</th>
+              @if(!is_null(request('exam')))
+              <th scope="col">شماره سوال</th>
+              @endif
               <th scope="col">عنوان</th>
               <th scope="col">آزمون</th>
               <th scope="col">گروهبندی</th>
@@ -17,11 +20,21 @@
           </thead>
           <tbody>
             @foreach($questions as $question)
+            @php  
+            if(isset($index))
+              $index++;
+            else
+              $index=($questions->currentPage()*10)-9;              
+            @endphp
+            
             <tr>
               <th scope="row">{{$question->id}}</th>
+              @if(!is_null(request('exam')))
+              <th scope="row">{{$index}}</th>
+              @endif
             <td>{{($question->type=="video")?'فیلم':(($question->type=="image")?'تصویر':(($question->type=="audio")?'صوت':$question->name))}}</td>
 
-              <td>{{$question->exam->name}}</td>
+              <td>{{$question->exam->name??'-'}}</td>
               <td>
                 @if ($question->MyGroup()->count())
                 @foreach($question->MyGroup()->get() as $myGroup)
