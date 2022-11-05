@@ -70,6 +70,34 @@ class ApiController extends Controller
             return ["result"=>false];
        }
     }
+    public function getUserInfo(Request $request){
+        $flag=false;
+       $existingUser = DB::table("users")->where("phone","=",$request->Phone)->select('firstName','age','status')->get()->first();
+       if($existingUser)
+       $flag=true;
+        else
+        {
+            $existingUser = DB::table("users")->where("phone","=",'0'.$request->Phone)->select('firstName','age','status')->get()->first();
+            if($existingUser)
+            $flag=true;
+            else
+                return  response()->json(["result"=>false],500);
+        }
+        if($flag)
+        {
+           $st='';
+            $status=($existingUser->status)?explode(',',$existingUser->status):[];     
+            if(in_array(1,$status)) $st.='- مشاهده فیلم پیش نیاز استعدادیابی<br>';
+            if(in_array(2,$status) && in_array(3,$status))   $st.='- انجام آزمون استعدادیابی<br>';           
+             if(in_array(4,$status)) $st.='- مشاهده نتیجه استعدادیابی<br>';
+             if(in_array(5,$status)) $st.='- مشاهده فیلم آموزش افزایش اعتماد به نفس<br>';
+             if(in_array(6,$status)) $st.='- مشاهده فیلم آموزش علاقه مندی به یادگیری<br>';            
+        $existingUser->status=$st;
+        return response()->json(["result"=>$existingUser]); 
+        } 
+        return  response()->json(["result"=>false],500);
+
+    }
     public function userExams(Request $request){
         $user = DB::table('users')->where("phone","=",$request->phone)->get()->first();
         $userExams = DB::table('exam_user')->where([

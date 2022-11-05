@@ -16,6 +16,7 @@ use App\Models\exam_formular;
 use App\Models\group;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -188,7 +189,7 @@ class ExamController extends Controller
     }
     public function showConclusion($id){
         $EUtbl=DB::table("exam_user")->find($id);
-
+        $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
         /*$count=$this->countMyAnswer($id);
         $ecount=Question::where('exam_id',$EUtbl->exam_id)->count();
         if($count==$ecount)

@@ -251,7 +251,7 @@ button.swal-button:hover
                             })
                             .catch(function (error) {
                             console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجداا تلاش نمایید",'error');
+                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
                             }); 
     }
    

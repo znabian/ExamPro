@@ -62,7 +62,7 @@
                     @csrf
                     <label for="name">نام و نام خانوادگی </label>
                     <br>
-                    <input type="text" id="name" autocomplete="off"  name="name" placeholder="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
+                    <input type="text" id="name" autocomplete="off"  name="name" value="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
                     <br>
                     <label for="">سن </label>
                     <br>
@@ -108,7 +108,7 @@
                     @csrf
                     <label for="phoneNumberInputMobile">نام و نام خانوادگی </label>
                     <br>
-                    <input type="text" id="phoneNumberInputMobile" autocomplete="off"  name="name" placeholder="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
+                    <input type="text" id="phoneNumberInputMobile" autocomplete="off"  name="name" value="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
                     <br>
                     <label for="phoneNumberInputMobile">سن </label>
                     <br>

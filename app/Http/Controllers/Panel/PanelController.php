@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Exam;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Http;
 
 class PanelController extends Controller
 {
@@ -165,6 +166,7 @@ class PanelController extends Controller
                     {
                         $status[]=4;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
                     }
                     else
                     $res=1;
