@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\Artisan;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +13,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // normal users routes
+Route::get('/cache-clear', function () {
+    Artisan::call('cache:clear');
+    Artisan::call('config:clear');
+    dd('ok');
+});
 Route::get('/te',function(){
     session(['chk' => "te"]);
     return redirect(route('login'));

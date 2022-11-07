@@ -41,10 +41,10 @@
                 </div>
             </div>
         </div>
-        <div class="MobileCategoryContainer @if(!in_array(1,explode(',',auth()->user()->status))) disabled @else"  onclick="location.href='{{route('myinfo',4)}}';@endif">
+        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/quiz.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/icon1.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
@@ -52,10 +52,10 @@
                 </div>
             </div>
         </div>
-        <div class="MobileCategoryContainer @if(!in_array(3,explode(',',auth()->user()->status))) disabled @else" onclick="showResult()@endif">
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/quiz.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/icon2.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
@@ -142,10 +142,10 @@
                 </div>
             </div>
         </div>
-        <div class="DesktopCategoryContainer @if(!in_array(1,explode(',',auth()->user()->status))) disabled @else "  onclick="location.href='{{route('myinfo',4)}}'; @endif">
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/quiz.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/icon1.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
@@ -153,10 +153,10 @@
                 </div>
             </div>
         </div>
-        <div class="DesktopCategoryContainer @if(!in_array(3,explode(',',auth()->user()->status))) disabled @else" onclick="showResult()@endif">
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/quiz.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/icon2.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
@@ -278,7 +278,10 @@
         .then(function ({data}) {
                 if(data.status)
                 {
-                    window.open(url);window.focus();
+                    window.location.assign(url);
+                   
+                   // window.open(url);
+                    window.focus();
                 }                
                 else
                  swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
@@ -306,6 +309,11 @@
         max-width: 13%!important;
         margin-right: auto!important;
     }
+    .categoryData
+    {
+        width: 45%;
+    }
+    
  }
  .disabled {
     background: #18181812!important;

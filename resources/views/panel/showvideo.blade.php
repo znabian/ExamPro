@@ -23,7 +23,7 @@
             margin-top: -20%!important;
             }
         .videoplayer {
-            margin: 3% auto;
+            margin: 2% auto;
             width: 85%;
             /* background: #fff; */
             height: 71%;
@@ -78,7 +78,7 @@
         <div id="KhoshNazarText" style="color:white;text-align: center;">
             سامانه رشد خوش نظر
         </div>   
-    
+        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
         <div class="videoplayer">
         <h2 id="waitM" class="wait">شما در حال انتقال به صفحه اصلی هستید. لطفا کمی صبر کنید ...</h2>
             <video  controls controlsList="nodownload" oncontextmenu="return false;" id="plyM">
@@ -90,7 +90,7 @@
         <div id="KhoshNazarText">
             سامانه رشد خوش نظر
         </div>   
-    
+        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
         <div class="videoplayer">
                 <h2 id="waitD" class="wait">شما در حال انتقال به صفحه اصلی هستید. لطفا کمی صبر کنید ...</h2>
             <video  controls controlsList="nodownload" oncontextmenu="return false;" id="plyD">
