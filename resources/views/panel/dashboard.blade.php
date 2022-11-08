@@ -34,7 +34,7 @@
             {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
@@ -44,7 +44,7 @@
         <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/icon1.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
@@ -55,7 +55,7 @@
         <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/icon2.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
@@ -67,7 +67,7 @@
         <div class="MobileCategoryContainer" onclick="showvideo(2)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
@@ -79,7 +79,7 @@
         <div class="MobileCategoryContainer" onclick="showvideo(3)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
@@ -134,7 +134,7 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(1)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
@@ -145,7 +145,7 @@
         <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/icon1.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
@@ -156,7 +156,7 @@
         <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/icon2.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
@@ -168,7 +168,7 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(2)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
@@ -180,7 +180,7 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(3)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/video.png')}}">
+                <img class="categoryDataImages" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
@@ -307,7 +307,7 @@
     .categoryDataImages {
         width: 20%!important;
         max-width: 13%!important;
-        margin-right: auto!important;
+        /*margin-right: auto!important;*/
     }
     .categoryData
     {
@@ -321,5 +321,8 @@
 }
 .categoryDataText{
     margin:auto;
+}
+.categoryData>hr{
+    margin: 0px 7%;
 }
 </style>
