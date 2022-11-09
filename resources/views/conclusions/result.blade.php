@@ -215,7 +215,7 @@ button.swal-button:hover
 <div id="MobileConclusionShowDescription" >
     @if($score)
     <div class='col-12 justify-content-center' style="text-align: center;">
-         <video  controls style='height: 10rem;'>
+         <video  controls style='height: 100%;width:100%'>
          <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
          Your browser does not support the video player.</video>
      </div>
