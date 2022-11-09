@@ -450,7 +450,27 @@ class ApiController extends Controller
                     $D = $D + $char_value;
                 }
             }
-            $find = DB::table('talent_history')->where([
+            $disc=["D"=>$D,"I"=>$I,"S"=>$S,"C"=>$C];
+            foreach($disc as $index=>$item)
+                    {
+                        $num=DB::table('talents')->where('type',$index)->where('number',$item)->first()->index;
+                        if($num>=13 )
+                        {
+                        $scores[]=$num;  
+                        $indexs[]=$index;  
+                        }                     
+                    }                     
+                    $scores=array_unique($scores);
+                    asort($scores);
+                    $scores=array_reverse($scores,1);
+                    $score='';
+                    foreach($scores as $index=>$item)
+                    {    
+                        if(strlen($score)<2)                     
+                        $score.=$indexs[$index];
+                    } 
+                    $inputFlag=true;
+           /* $find = DB::table('talent_history')->where([
                 ["i","=",$I],
                 ["s","=",$S],
                 ["c","=",$C],
@@ -462,7 +482,7 @@ class ApiController extends Controller
             }
             else{
                 $score = "D=>(".$D."),I=>(".$I."),S=>(".$S."),C=>(".$C.")";
-            }
+            }*/
         }
         else{
             foreach($histories as $history){

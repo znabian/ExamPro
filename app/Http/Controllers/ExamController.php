@@ -713,7 +713,7 @@ class ExamController extends Controller
     $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->latest()->first();
     
         
-            $out='';$flag=false;$score=0;
+            $out='';$flag=false;$score='';
              
              $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->get();
              foreach($historyResult as $value){
@@ -740,8 +740,28 @@ class ExamController extends Controller
                         $disc['D']+=$char_value;
                      }
                  }
-                $score=DB::table('talent_history')->where($disc)->whereRaw('LENGTH(personal_type)<=2')->first()->personal_type??0;               
-                }
+                    foreach($disc as $index=>$item)
+                    {
+                        $num=DB::table('talents')->where('type',$index)->where('number',$item)->first()->index;
+                        if($num>=13 )
+                        {
+                        $scores[]=$num;  
+                        $indexs[]=$index;  
+                        }          
+                        $all[$index]=$num;            
+                    }
+                     
+                    $scores=array_unique($scores);
+                    $max=max($scores);
+                    asort($scores);
+
+                    $scores=array_reverse($scores,1);
+                    foreach($scores as $index=>$item)
+                    {    
+                        if(strlen($score)<2)                     
+                        $score.=$indexs[$index];
+                    }  
+            }
                 $data=$this->showConclusion_OLD($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
                if($score)
