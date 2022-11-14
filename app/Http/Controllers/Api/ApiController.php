@@ -88,7 +88,11 @@ class ApiController extends Controller
            $st='';
             $status=($existingUser->status)?explode(',',$existingUser->status):[];     
             if(in_array(1,$status)) $st.='- مشاهده فیلم پیش نیاز استعدادیابی<br>';
-            if(in_array(2,$status) && in_array(3,$status))   $st.='- انجام آزمون استعدادیابی<br>';           
+            
+            if(in_array(2,$status) && in_array(3,$status))   $st.='- انجام آزمون استعدادیابی<br>'; 
+            elseif(in_array(2,$status))   $st.='- انجام مرحله اول آزمون استعدادیابی<br>';   
+            elseif(in_array(3,$status))   $st.='- انجام مرحله دوم آزمون استعدادیابی<br>';   
+
              if(in_array(4,$status)) $st.='- مشاهده نتیجه استعدادیابی<br>';
              if(in_array(5,$status)) $st.='- مشاهده فیلم آموزش افزایش اعتماد به نفس<br>';
              if(in_array(6,$status)) $st.='- مشاهده فیلم آموزش علاقه مندی به یادگیری<br>';            

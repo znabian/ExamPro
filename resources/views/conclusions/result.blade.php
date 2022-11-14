@@ -238,7 +238,7 @@ button.swal-button:hover
     }
     function senRequest()
     {
-        window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:{{auth()->user()->phone}},Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
+        window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {
                                 if(response.data.status)                                
                                 swal('توجه','درخواست شما با موفقیت ثبت شد','success');

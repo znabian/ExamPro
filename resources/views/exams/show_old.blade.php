@@ -100,7 +100,7 @@
             })
             .catch(error => {
                 document.getElementById("Mb"+answerId).checked=false;
-                swal("توجه",'در ذخیره پاسخ سوال '+q+' مشکلی پیش آمد',"error");
+                swal("توجه",' پاسخ سوال '+q+' ثبت نشد دوباره به آن پاسخ دهید',"error");
             });
     }
     function saveDExamQuestionAnswerRecord(q,exam_user_id,questionId,answerId,userId){
@@ -118,7 +118,7 @@
             })
             .catch(error => {
                 document.getElementById("Db"+answerId).checked=false;
-                swal("توجه",'در ذخیره پاسخ سوال '+q+' مشکلی پیش آمد',"error");
+                swal("توجه",' پاسخ سوال '+q+' ثبت نشد دوباره به آن پاسخ دهید',"error");
             });
     }
     function endexam(url,pl){
