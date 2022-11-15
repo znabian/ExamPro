@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Panel;
 
 use App\Exports\ExamUsers;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Exam;
@@ -130,11 +131,12 @@ class PanelController extends Controller
     }
     public function changeStatus(Request $req)
     {
+        $sms=new SmsController();
         try 
         {   
             $status=(auth()->user()->status)?explode(',',auth()->user()->status):[];     
             switch ($req->sts) {
-                case '1':
+                case '1'://پیش نیاز
                     if(!in_array(1,$status))
                     {
                         $status[]=1;
@@ -143,7 +145,7 @@ class PanelController extends Controller
                     else
                     $res=1;
                     break;
-                case '2':                    
+                case '2'://ازمون اول                    
                     if(!in_array(2,$status))
                     {
                         $status[]=2;
@@ -152,39 +154,69 @@ class PanelController extends Controller
                     else
                     $res=1;
                     break;
-                case '3':                    
+                case '3': //ازمون دوم                   
                     if(!in_array(3,$status))
                     {
                         $status[]=3;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        if(DB::table('user_crons') ->where('phone',auth()->user()->phone)->exists())                        
+                        {
+                            DB::table('user_crons')
+                            ->where('phone',auth()->user()->phone)
+                            ->update(['cron'=>7,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                            $sms->cronsms(6,auth()->user()->phone);
+                        }
                     }
                     else
                     $res=1;
                     break;
-                case '4':
+                case '4'://نتیجه
                     if(!in_array(4,$status))
                     {
                         $status[]=4;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
                         $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
+                        
+                        if(!in_array(5,$status) && !in_array(6,$status))//فیلمی ندیده
+                        DB::table('user_crons')
+                        ->where('phone',auth()->user()->phone)
+                        ->update(['cron'=>10,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                       else if(!in_array(6,$status))//اعتماد رو دیده یادگیری رو ندیده
+                       DB::table('user_crons')
+                       ->where('phone',auth()->user()->phone)
+                       ->update(['cron'=>9,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                       else if(!in_array(5,$status))//یادگیری رو دیده اعتماد رو ندیده
+                       DB::table('user_crons')
+                       ->where('phone',auth()->user()->phone)
+                       ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
                     }
                     else
                     $res=1;
                     break;
-                case '5':
+                case '5'://اعتماد
                     if(!in_array(5,$status))
                     {
                         $status[]=5;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        if(!in_array(6,$status))
+                        DB::table('user_crons')
+                        ->where('phone',auth()->user()->phone)
+                        ->update(['cron'=>9,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                        
                     }
                     else
                     $res=1;
                     break;
-                case '6':
+                case '6'://یادگیری
                     if(!in_array(6,$status))
                     {
                         $status[]=6;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        if(!in_array(5,$status))
+                        DB::table('user_crons')
+                        ->where('phone',auth()->user()->phone)
+                        ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                        
                     }
                     else
                     $res=1;
@@ -194,6 +226,17 @@ class PanelController extends Controller
                 return 0;
                     break;
             }
+            if(in_array(5,$status) && in_array(6,$status))
+            {
+                if(DB::table('user_crons') ->where('phone',auth()->user()->phone)->exists())                        
+                {
+                    $sms->cronsms(11,auth()->user()->phone);
+                    DB::table('user_crons')
+                    ->where('phone',auth()->user()->phone)
+                    ->update(['cron'=>11,'done'=>1,'time'=>'','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                }
+            }
+
             if($res)
             return response()->json(['status'=>1]);
             return response()->json(['status'=>0]);

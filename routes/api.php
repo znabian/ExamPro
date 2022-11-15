@@ -34,3 +34,5 @@ Route::post('/ExamAnalyisis',[ApiController::class,'ExamAnalyisis']);
 Route::get('/UserPhoneCheck',[ApiController::class,'CheckNumber']);
 Route::post('/TalentExam',[ApiController::class,'getTalentExamUserHistory']);
 Route::post('/GetUser',[ApiController::class,'getUserInfo']);
+Route::post('/SetCron',[ApiController::class,'savecronjobs']);
+Route::get('/DeActiveUser',[ApiController::class,'runcronjob']);

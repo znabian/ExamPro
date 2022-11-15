@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SmsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
@@ -650,5 +651,58 @@ class ApiController extends Controller
         $users=DB::table('users')->whereIn('id',$exam_users)->distinct()->pluck('phone') ->toArray();
         
         return response()->json([count($exam_users),$users]);
+    }
+    public function savecronjobs(Request $req)//phone,time,done,cron,support
+    {
+        $uid=(User::where('phone',$req->phone)->exists())?User::where('phone',$req->phone)->first()->id:null;
+       DB::table('user_crons')->updateOrInsert(
+            ['phone'=>$req->phone],
+            ['done'=>$req->done,'user_id'=>$uid,'time'=>$req->time,
+            'cron'=>$req->cron,'support'=>$req->support,'date'=>date('Y-m-d H:i:s')]);
+            return true;
+    }
+    public function runcronjob()
+    {
+        
+       $crons = DB::table('user_crons')
+       ->where('done',0)->get();
+       if($crons->count())
+       {
+        $sms=new SmsController();
+            foreach ($crons as $cron)
+             {
+                switch ($cron->cron) {
+                    case '5':
+                        $flag=false;
+                       if($cron->user_id)
+                       {
+                            if(DB::table("exam_user")->where('user_id',$cron->user_id)->exists())
+                            DB::table("user_crons")->where('id',$cron->id)->update(['done'=>1]);
+                            else
+                            $flag=true;
+                        }
+                        else                        
+                        $flag=true;
+                        if($flag)
+                            if(now()>=date_create($cron->date)->modify($cron->time))
+                            {
+                                DB::table("user_crons")->where('id',$cron->id)->update(['done'=>1]);
+                                $sms->cronsms($cron->cron,$cron->phone);
+                            }                            
+                        break;
+                    
+                    default:
+                       
+                    if(now()>=date_create($cron->date)->modify($cron->time))
+                    {
+                        DB::table("user_crons")->where('id',$cron->id)->update(['done'=>1]);
+                       $sms->cronsms($cron->cron,$cron->phone);
+                    }  
+                        break;
+                }
+            }
+       }
+        return  true;
+
     }
 }

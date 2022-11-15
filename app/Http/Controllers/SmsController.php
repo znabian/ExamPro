@@ -116,4 +116,53 @@ class SmsController extends Controller
             }
         }
     }
+    public function cronsms($code,$Mobiles)
+    {
+        $support=DB::table('user_crons')->where('phone',$Mobiles)->first()->support??"خوشنظر";
+
+       switch ($code) {
+        case '3':
+            $SmsBody ="سلام عرض ادب جهت استعدادیابی و دریافت آموزشهای رایگان از لینک زیر استفاده کنید https://exam.erfankhoshnazar.com";
+            break;
+        case '5':
+            $SmsBody = "سلام عرض ادب ".$support." هستم با توجه به اینکه تاکنون اقدام به تکمیل تست استعدادیابی نکرده اید مهلت استفاده رایگان برای شما تا 24 ساعت آینده تمدید شد https://exam.erfankhoshnazar.com";
+            break;
+        case '6':
+            $SmsBody = "سلام عرض ادب ".$support." هستم نتیجه تست استعدادیابی شما آماده شد جهت مشاهده به قسمت نتیجه آزمون در لینک زیر مراجعه کنید https://exam.erfankhoshnazar.com";
+            break;
+        case '7':
+            $SmsBody = "سلام عرض ادب با توجه به اینکه تاکنون نتیجه استعدایابی را بصورت کامل مشاهده نکرده اید مهلت مشاهده رایگان تا 24 ساعت آینده تمدید شد https://exam.erfankhoshnazar.com";
+            break;
+        case '8':
+            $SmsBody = "سلام عرض ادب با توجه به اینکه تاکنون از هدیه رایگان فایل آموزشی افزایش اعتماد به نفس استفاده نکرده اید مهلت مشاهده رایگان تا 24 ساعت آینده تمدید شد https://exam.erfankhoshnazar.com";
+            break;
+        case '9':
+            $SmsBody = "سلام عرض ادب با توجه به اینکه تاکنون از هدیه رایگان فایل آموزشی علاقه مند به یادگیری استفاده نکرده اید مهلت مشاهده رایگان تا 24 ساعت آینده تمدید شد https://exam.erfankhoshnazar.com";
+            break;
+        case '10':
+            $SmsBody = "سلام عرض ادب با توجه به اینکه تاکنون از هدیه رایگان فایلهای آموزشی اعتماد به نفس و علاقه مند به یادگیری استفاده نکرده اید مهلت مشاهده رایگان تا 24 ساعت آینده تمدید شد https://exam.erfankhoshnazar.com";
+            break;
+        case '11':
+            $SmsBody = "سلام عرض ادب ".$support." هستم جهت دریافت مشاوره رایگان دوره آموزشی کاخ سرخ و کاخ نوجوان از لینک زیر استفاده کنید https://erfankhoshnazar.com/b";
+            break;
+       }
+        $this->apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendSms";
+        $ch = curl_init($this->apiMainurl);
+        $Mobiles = array($Mobiles);
+        $SmsNumber = null;
+        $myjson = ["SmsBody"=>$SmsBody, "Mobiles"=>$Mobiles,"SmsNumber"=>$SmsNumber];
+    
+       $jsonDataEncoded = json_encode($myjson);
+       curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+       curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+       curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+       curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+       curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+       $header =array('authorization: BASIC APIKEY:'. $this->apiKey,'Content-Type: application/json;charset=utf-8');
+       curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
+       $result = curl_exec($ch);
+       $res = json_decode($result);
+       curl_close($ch);
+        return true;
+    }
 }
