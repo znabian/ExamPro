@@ -170,13 +170,13 @@ class PanelController extends Controller
                     else
                     $res=1;
                     break;
-                case '4'://نتیجه
+                case '4'://نتیجه 
+                    $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
                     if(!in_array(4,$status))
                     {
                         $status[]=4;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
-                        $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
-                        
+                       
                         if(!in_array(5,$status) && !in_array(6,$status))//فیلمی ندیده
                         DB::table('user_crons')
                         ->where('phone',auth()->user()->phone)

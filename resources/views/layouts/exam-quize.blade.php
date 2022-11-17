@@ -79,7 +79,10 @@ else
 $quizcount=$exam->questions()->where('status',1)->count();
     
     if(is_null(session('chk')) && $exam->id==6)
-    $exam->name="مرحله دوم آزمون ";
+    {
+        $exam->name="مرحله دوم آزمون";
+        $exam->ageRange="خودشناسی";
+    }
  if(is_null(session('chk')) && $exam->id==4)
     $exam->name="مرحله اول آزمون";
 

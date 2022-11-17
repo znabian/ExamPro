@@ -20,10 +20,10 @@
             <span>تعداد سوالات :{{$quizcount}}</span>
             <img src="{{asset('images/questionsNumber.png')}}">
         </div>
-        <div id="MobileDiscriptionContainerInformationsThird" class="MobileDiscriptionContainerInformationsElements">
+        {{-- <div id="MobileDiscriptionContainerInformationsThird" class="MobileDiscriptionContainerInformationsElements">
             <span>بازه سنی : {{$exam->ageRange}}</span>
             <img src="{{asset('images/ageRange.png')}}">
-        </div>
+        </div> --}}
     </div>
     <hr style="margin-left: 5%;margin-right:5%;">
     <div id="MobileDiscriptionContainerDescriptions">
@@ -53,10 +53,10 @@
             <span>تعداد سوالات :{{$quizcount}}</span>
             <img src="{{asset('images/questionsNumber.png')}}">
         </div>
-        <div id="DesktopDiscriptionContainerInformationsThird" class="DesktopDiscriptionContainerInformationsElements">
+        {{-- <div id="DesktopDiscriptionContainerInformationsThird" class="DesktopDiscriptionContainerInformationsElements">
             <span>بازه سنی : {{$exam->ageRange}}</span>
             <img src="{{asset('images/ageRange.png')}}">
-        </div>
+        </div> --}}
     </div>
     <hr style="margin-left: 5%;margin-right:5%;">
     <div id="DesktopDiscriptionContainerDescriptions">

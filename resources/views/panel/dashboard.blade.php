@@ -259,22 +259,22 @@
         window.location.href = "/Exams-Result/";
     }
     function showvideo(type) {
+                url='{{route("pish.video")}}';
         switch (type) {
             case 1:
-                url='{{route("pish.video")}}';
                 st=1;
                 location.href=url;
                 break;
             case 2:
-                url='https://b2n.ir/w15949';
-                st=5;
+                //url='https://b2n.ir/w15949';
+                location.href=url+'?status=5';
                 break;
             case 3:
-                url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
-                st=6;
+                //url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
+                location.href=url+'?status=6';
                 break;
         }
-        axios.post("{{route('pish.ok')}}",{sts:st})
+        /*axios.post("{{route('pish.ok')}}",{sts:st})
         .then(function ({data}) {
                 if(data.status)
                 {
@@ -289,7 +289,7 @@
             .catch(error => {
                
                 //location.reload();
-            });
+            });*/
         
     }
     </script>

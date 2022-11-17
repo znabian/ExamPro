@@ -6,6 +6,10 @@
    .none{
     font-size: 12pt;
    }
+    .swal-text {
+    text-align: right;
+    direction: rtl;
+}
     .none::before {
         font-weight: bold;
         content: '\2022';/*025BE*/
@@ -191,6 +195,7 @@ button.swal-button:hover
 <div id="MobileConclusionShowDescription" onscroll=" if(this.scrollTop > 50){mygift();}">
    @if($score)
    <div class='col-12 justify-content-center' style="text-align: center;">
+    <p dir="rtl">نتیجه تحلیل آزمون شما: </p>
         <video  controls style='width:100%;height: 10rem;'>
             <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
         Your browser does not support the video player.</video>
@@ -199,8 +204,8 @@ button.swal-button:hover
         {!!$out!!}
   
 </div>
-<div id="MobileConclusionShowGoBackButton"  style="margin-bottom: 5%;">    
-    <a id="btnreqM" onclick="senRequest()" style="cursor: pointer;">درخواست مشاوره رایگان تلفنی</a>
+<div id="MobileConclusionShowGoBackButton"  style="margin-bottom: 5%;">        
+    <a id="btnreqM" onclick="senRequest()" style="cursor: pointer;"> دریافت مشاوره رایگان دوره آموزشی </a>
 </div>
 <div id="MobileConclusionShowGoBackButton">
     <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
@@ -215,6 +220,7 @@ button.swal-button:hover
 <div id="MobileConclusionShowDescription" >
     @if($score)
     <div class='col-12 justify-content-center' style="text-align: center;">
+        <p dir="rtl">نتیجه تحلیل آزمون شما: </p>
          <video  controls style='height: 100%;width:100%'>
          <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
          Your browser does not support the video player.</video>
@@ -224,7 +230,7 @@ button.swal-button:hover
    
 </div>
 <div id="MobileConclusionShowGoBackButton" style="margin-bottom: 5%;">   
-    <a id="btnreqD" onclick="senRequest()" style="cursor: pointer;">درخواست مشاوره رایگان تلفنی</a>
+    <a id="btnreqD" onclick="senRequest()" style="cursor: pointer;"> دریافت مشاوره رایگان دوره آموزشی </a>
 </div>
 <div id="MobileConclusionShowGoBackButton">
     <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
@@ -237,6 +243,53 @@ button.swal-button:hover
         
     }
     function senRequest()
+    {
+        @if(in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
+        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
+        window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
+                            .then(function (response) {                               
+                                location.href="https://erfankhoshnazar.com/b";                                
+
+                            })
+                            .catch(function (error) {
+                            console.log(error);
+                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                            });    
+
+        @else
+            @if(in_array(5,explode(',',auth()->user()->status)) && !in_array(6,explode(',',auth()->user()->status))) 
+            text="شما تاکنون از هدیه رایگان فایل آموزشی علاقه مندی به یادگیری استفاده نکرده اید ";
+            btn={ defeat: "فایل آموزشی علاقه مندی به یادگیری",   };
+            @elseif(!in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
+            text="شما تاکنون از هدیه رایگان فایل آموزشی اعتماد به نفس استفاده نکرده اید ";
+            btn={ conf: "فایل آموزشی اعتماد به نفس",  };
+            @else
+            text="شما تاکنون از هدیه رایگان فایلهای آموزشی اعتماد به نفس و علاقه مندی به یادگیری استفاده نکرده اید ";
+            btn={ conf: "فایل آموزشی اعتماد به نفس",defeat: "فایل آموزشی علاقه مندی به یادگیری",  };
+            @endif
+        swal( {
+            title:"توجه",
+            text:text+". جهت تکمیل فرایند، هدایای زیر رو مشاهده نمایید",
+            icon: 'info',
+            showDenyButton: true,
+            buttons: btn,
+                })
+               .then((value) => {
+                url='{{route("pish.video")}}';
+                    switch (value) {                    
+                        case "conf":
+                        location.href=url+'?status=5';
+                        break;
+
+                        case "defeat":
+                        location.href=url+'?status=6';
+                        break;
+                        }
+                    });
+        
+        @endif
+    }
+   /* function senRequest()
     {
         window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {
@@ -253,7 +306,7 @@ button.swal-button:hover
                             console.log(error);
                                 swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
                             }); 
-    }
+    }*/
    
 </script>
 <script>

@@ -56,9 +56,7 @@ Route::group([
     Route::get('/suggest/exams',[App\Http\Controllers\Panel\PanelController::class,'suggestExams'])->name('suggest.exams');
 
     Route::get('/Exams-Result',[App\Http\Controllers\ExamController::class,"GetExamResult"])->name('result.exams');
- Route::get('/Exams-PreRequisite',function(){
-    //if(!in_array(1,explode(',',auth()->user()->status)))return view("panel.showvideo"); else return redirect('/');
-    return view("panel.showvideo");})->name('pish.video');
+ Route::get('/Exams-PreRequisite',function(){$st=request('status')??1;return view("panel.showvideo",compact("st"));})->name('pish.video');
     Route::post('/Exams-PreRequisite-save',[App\Http\Controllers\Panel\PanelController::class,"changeStatus"])->name('pish.ok');
 
 });
