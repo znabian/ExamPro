@@ -464,16 +464,30 @@ class ApiController extends Controller
                         $scores[]=$num;  
                         $indexs[]=$index;  
                         }                     
-                    }                     
-                    $scores=array_unique($scores);
+                    }  
+                    $score=''; 
                     asort($scores);
                     $scores=array_reverse($scores,1);
-                    $score='';
+                    $max=max($scores);
+                    //$scores=array_unique($scores);
+
                     foreach($scores as $index=>$item)
-                    {    
-                        if(strlen($score)<2)                     
-                        $score.=$indexs[$index];
+                    {    if($max==$item)
+                        $maxs[]=$index;
                     } 
+                     asort($maxs);
+                    if(count($maxs)==1)
+                        foreach($scores as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$index];
+                        } 
+                    else
+                        foreach($maxs as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$item];
+                        } 
                     $inputFlag=true;
            /* $find = DB::table('talent_history')->where([
                 ["i","=",$I],

@@ -750,17 +750,28 @@ class ExamController extends Controller
                         }          
                         $all[$index]=$num;            
                     }
-                     
-                    $scores=array_unique($scores);
-                    $max=max($scores);
                     asort($scores);
-
                     $scores=array_reverse($scores,1);
+                    $max=max($scores);
+                    //$scores=array_unique($scores);
+
                     foreach($scores as $index=>$item)
-                    {    
-                        if(strlen($score)<2)                     
-                        $score.=$indexs[$index];
-                    }  
+                    {    if($max==$item)
+                        $maxs[]=$index;
+                    } 
+                     asort($maxs);
+                    if(count($maxs)==1)
+                        foreach($scores as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$index];
+                        } 
+                    else
+                        foreach($maxs as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$item];
+                        } 
             }
                 $data=$this->showConclusion_OLD($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
