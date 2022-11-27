@@ -719,4 +719,34 @@ class ApiController extends Controller
         return  true;
 
     }
+    public function UserStatus(Request $req)
+    {
+        $existingUser=DB::table('users')
+        ->whereDate('created_at','>=',$req->start)
+        ->whereDate('created_at','<=',$req->end)
+        ->where('active',1)
+        ->select('status')->get();  
+        
+        $data=[$existingUser->count(),0,0,0,0,0,0,0,0];
+        foreach ($existingUser as $index => $user) 
+        {
+            try {
+                if(in_array(1,explode(',',$user->status)))   $data[1]+=1;
+               // if(in_array(2,$status) && in_array(3,$status))   $data[2]+=1; 
+                if(in_array(2,explode(',',$user->status)))   $data[2]+=1; 
+                if(in_array(3,explode(',',$user->status)))   $data[3]+=1;     
+                if(in_array(4,explode(',',$user->status))) $data[4]+=1; 
+                if(in_array(5,explode(',',$user->status))) $data[5]+=1; 
+                if(in_array(6,explode(',',$user->status))) $data[6]+=1; 
+            } catch (\Throwable $th) {
+                
+                $data[0]+=1;
+            } 
+        }
+        $data['data']=$data;
+        $data['labels']=['ثبت نام','پیش نیاز استعدادیابی'
+            ,'مرحله اول آزمون ',' مرحله دوم آزمون',
+            'مشاهده نتیجه ','فیلم افزایش اعتماد به نفس','فیلم علاقه مندی به یادگیری'];     
+            return response()->json($data);
+    }
 }

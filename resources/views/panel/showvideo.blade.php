@@ -158,7 +158,7 @@
         timerM = window.setInterval(function() {
             totalTimeM =converttime(plyM.currentTime); 
         }, 10);
-        
+        @if(!in_array($st,explode(',',auth()->user()->status))) 
             timer = window.setInterval(function() {
             if(totalTimeD[0]== Duration[0] && parseInt(totalTimeD[1])>= parseInt(Duration[1])-3)
             {
@@ -176,6 +176,7 @@
             }            
            
         }, 10);
+        @endif
         }
 
         
