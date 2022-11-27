@@ -63,24 +63,31 @@ class SmsController extends Controller
         $myjson = ["SmsBody"=>$SmsBody, "Mobiles"=>$Mobiles,"SmsNumber"=>$SmsNumber];*/
 
         
-        // $apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendOtp";
-        // $ch = curl_init($apiMainurl);
-        // $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
-        // $Mobiles = $request->phone;
-        // $SmsNumber = null;
-        // $myjson = ["TemplateID"=>2, "Mobile"=>$Mobiles,"AddName"=>"True","SmsCode"=>$code];
+        $apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendOtp";
+        $ch = curl_init($apiMainurl);
+        $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
+        $Mobiles = $request->phone;
+        $SmsNumber = null;
+        $myjson = ["TemplateID"=>2, "Mobile"=>$Mobiles,"AddName"=>"True","SmsCode"=>$code];
       
-        // $jsonDataEncoded = json_encode($myjson);
-        // curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
-        // curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-        // curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        // $header =array('authorization: BASIC APIKEY:'. $this->apiKey,'Content-Type: application/json;charset=utf-8');
-        // curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
-        // $result = curl_exec($ch);
-        // $res = json_decode($result);
-        // curl_close($ch);
+        $jsonDataEncoded = json_encode($myjson);
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        $header =array('authorization: BASIC APIKEY:'. $this->apiKey,'Content-Type: application/json;charset=utf-8');
+        curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
+        //$result = curl_exec($ch);
+        //$res = json_decode($result);
+        curl_close($ch);
+        DB::table('logs')->insert([
+            "phone"=>$request->phone,
+            "body"=>$SmsBody,
+            'date'=>date('Y-m-d H:i:s'),
+            'user_id'=>(User::where('phone',$request->phone)->exists())?User::where('phone',$request->phone)->first()->id:null,
+            'status'=>0//$res->R_Success??
+        ]);
         return view('auth.confirm',["sms"=>$sms]);
         }
         else       
