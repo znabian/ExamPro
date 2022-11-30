@@ -249,6 +249,7 @@ class ApiController extends Controller
                     'name'=>$exam_user->name,
                     'exam_user_id'=>$exam_user->id,
                     'seen'=>$exam_user->seen,
+                    'count'=>[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()],
                 ]);
             }
         }
@@ -298,6 +299,7 @@ class ApiController extends Controller
                     'name'=>$exam_user->name,
                     'exam_user_id'=>$exam_user->id,
                     'seen'=>$exam_user->seen,
+                    'count'=>[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()],
                 ]);
             }
         }
