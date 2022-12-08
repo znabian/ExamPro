@@ -1,122 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>سامانه رشد عرفان خوش نظر</title>
-    <style>
-      .wait {
-    text-align: center;
-    direction: rtl;
-    margin: 8% 0;
-    background-color: white;
-    display: none;
-    padding: 3%;
-    border-radius: 10px;
+@extends('layouts.exam-Result')
+@section('style')
+<style>
+    @media (min-width: 768px) {
+    .cardd {
+    width: 15rem;
+    height: 6rem;
     }
-        @media screen and (min-width: 577px)
-        {
-            #loginDesktopContainer {
-            margin-top: -20%!important;
-            }
-        .videoplayer {
-            margin: 2% auto;
-            width: 85%;
-            /* background: #fff; */
-            height: 71%;
-            border-radius: 20px 20px 0 0;
-            padding: 3%;
-        }
-        video {
-            width: 70%;
-             height: 5%;
-            /* margin: 1% 20%; */
-            margin: 1% 13%;
-        }
-        }
-        @media screen and (max-width: 577px)
-        {
-        .videoplayer {
-            margin: 50% auto;
-            width: 85%;
-            /* background: #fff; */
-            height: 71%;
-            border-radius: 20px 20px 0 0;
-            /* padding: 38% 6%; */
-
-        }
-        video {
-            width: 100%;
-            height: 5%;
-            /* margin: 1% 10% */
-        }
-        } 
-        
-       /* @media screen and (max-width: 877px)
-        {
-        .videoplayer {
-            margin: 10% auto;
-            width: 85%;
-            background: #fff;
-            height: 71%;
-            border-radius: 20px 20px 0 0;
-
-        }
-        video {
-            height: 80%;
-            margin: 1% 9%;
-        }
-        }*/
-    </style>
-</head>
+    .img-sh {
+    top: -66px;
+    right: 23px;
+    width: 30%;
+    }
+}
+</style>
+@endsection
+@section('content')
 @php
    switch ($st) {
             case 1:
                $url="https://dl.erfankhoshnazar.com/disc/pish.mp4";
+               $txt="پیش نیاز استعدادیابی";
                 break;
             case 5:
                 $url='http://dl.erfankhoshnazar.com/etemad%20be%20nafs/Mvi%202648%201.mp4%20%DA%A9%D9%85%20%D8%AD%D8%AC%D9%85%20%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF%20%D8%A8%D9%87%20%D9%86%D9%81%D8%B3.mp4';
+               $txt="افزایش اعتماد به نفس";
                 break;
             case 6:
                 $url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
+               $txt="افزایش علاقه مندی به یادگیری";
                 break;
         }
 @endphp
-<body id="loginBody" oncontextmenu="return false;">
-    
-    <div id="MobileComponents">
-        <div id="KhoshNazarText" style="color:white;text-align: center;">
-            سامانه رشد خوش نظر
+<div class="row mt-6 mb-3 px-3">
+    <div class="col-12 w-100 h-100 px-0 position-relative">
+        <div class="check radius-12 bg-green-1 position-absolute">
+            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
+            <span class="text-white fw-bold">{{$txt}}</span>
         </div>
+        <div class="video position-relative radius-12">
+            <video id="videoRes" class="blurEffect w-100" width="100%" controls>
+                <source src="{{$url}}" type="video/mp4">
+                Your browser does not support HTML video.
+            </video>
+            <span class="icon-video"></span>
+        </div>
+    </div>
         @if($st==1)   
         <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
         @endif
-        <div class="videoplayer">
-        <h2 id="waitM" class="wait">شما در حال انتقال به صفحه قبلی هستید. لطفا کمی صبر کنید ...</h2>
-            <video  controls controlsList="nodownload" oncontextmenu="return false;" id="plyM">
-                <source src='{{$url}}'>
-                Your browser does not support the video player.</video>
-        </div>
-    </div>
-    <div id="DesktopComponents">
-        <div id="KhoshNazarText">
-            سامانه رشد خوش نظر
-        </div>   
-        @if($st==1)   
-        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
-        @endif
-        <div class="videoplayer">
-                <h2 id="waitD" class="wait">شما در حال انتقال به صفحه قبلی هستید. لطفا کمی صبر کنید ...</h2>
-            <video  controls controlsList="nodownload" oncontextmenu="return false;" id="plyD">
-                <source src='{{$url}}'>
-                Your browser does not support the video player.</video>
-        </div>
-        
-    </div>
-    <script src="{{asset('js/app.js')}}"></script>
+</div>
+@endsection
+@section('mobileScript')
     <script>
         function openNav() {
             document.getElementById("mySidebar").style.width = "70%";
@@ -127,15 +61,13 @@
             document.getElementById("main").style.marginLeft = "0";
         }  
 
-        let timerD = timerM=null;
-        var totalTimeD = totalTimeM =0;
+        let timerD = timer2=null;
+        var totalTimeD = $ctmer =0;
          
          var flag=false;
 
-        plyD.addEventListener("play", startPlaying);
-        plyD.addEventListener("pause", pausePlaying);
-        plyM.addEventListener("play", startPlaying);
-        plyM.addEventListener("pause", pausePlaying);
+        videoRes.addEventListener("play", startPlaying);
+        videoRes.addEventListener("pause", pausePlaying);
 
          function converttime(secend)
          {
@@ -151,28 +83,31 @@
          }
 
         function startPlaying() {
-            Duration=converttime(plyM.duration);
+            Duration=converttime(videoRes.duration);
         timerD = window.setInterval(function() {
-            totalTimeD =converttime(plyD.currentTime);
+            totalTimeD =converttime(videoRes.currentTime);
         }, 10);
-        timerM = window.setInterval(function() {
-            totalTimeM =converttime(plyM.currentTime); 
-        }, 10);
+        
         @if(!in_array($st,explode(',',auth()->user()->status))) 
-            timer = window.setInterval(function() {
+            timer2 = window.setInterval(function() {
             if(totalTimeD[0]== Duration[0] && parseInt(totalTimeD[1])>= parseInt(Duration[1])-3)
             {
-                            clearInterval(timer);
-                axios.post("{{route('pish.ok')}}",{sts:{{$st}}})
-                .then(function ({data}) {
-                        if(data.status)
-                        {
-                            flag=true;
-                        }
-                        
-                    })
-                    .catch(error => {
-                    });
+                 clearInterval(timer2);
+                 if($ctmer==0)
+                 {
+                    $ctmer=1
+                    axios.post("{{route('pish.ok')}}",{sts:{{$st}}})
+                    .then(function ({data}) {
+                            if(data.status)
+                            {
+                                flag=true;
+                            }
+                            
+                        })
+                        .catch(error => {
+                            $ctmer=0;
+                        });
+                }
             }            
            
         }, 10);
@@ -184,19 +119,16 @@
 
         function pausePlaying() {
         if (timerD) clearInterval(timerD);
-        if (timerD) clearInterval(timerD);
         //if (timer) clearInterval(timer);
         }
 
-        document.getElementById('plyD').addEventListener('ended',myPlayer,false);
-        document.getElementById('plyM').addEventListener('ended',myPlayer,false);
+        document.getElementById('videoRes').addEventListener('ended',myPlayer,false);
 
         function myPlayer(e) {
             if(!e) { e = window.event; }
-            document.getElementById('plyD').style.visibility="hidden";
-            document.getElementById('plyM').style.visibility="hidden";
-            document.getElementById('waitD').style.display="block";
-            document.getElementById('waitM').style.display="block";
+            /*document.getElementById('videoRes').style.visibility="hidden";
+            document.getElementById('waitD').style.display="block";*/
+            swal('لطفا صبر کنید',"شما در حال انتقال به صفحه قبلی هستید...",'warning');
             @if(!in_array($st,explode(',',auth()->user()->status)))  
             if(!flag)
                 axios.post("{{route('pish.ok')}}",{sts:"{{$st}}"})
@@ -232,5 +164,4 @@
             @endif
         }
     </script>
-</body>
-</html>
+@endsection

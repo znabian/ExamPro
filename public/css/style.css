@@ -1,0 +1,317 @@
+@font-face {
+  font-family: "Peyda";
+  src: url("/../font/peyda-light.ttf");
+}
+@font-face {
+  font-family: "Vazir";
+  src: url("/../font/Vazir-Bold-FD-WOL.ttf");
+}
+
+:root,
+html,
+body,
+* {
+  font-family:"Peyda";
+  font-weight: bold;
+  font-size: 13pt;
+}
+html,
+body {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  /* color: #fff !important; */
+  direction: rtl;
+  overflow-x: hidden;
+  text-align: right;
+}
+body {
+  background: radial-gradient(#fe5d6d, #dc3c4e) no-repeat;
+  min-height: 100vh;
+}
+a {
+  display: inline-block;
+  text-decoration: none !important;
+  color: inherit !important;
+}
+.app {
+  /* background-image: url(../images/Mask.png); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: inherit;
+  padding: 10px;
+}
+.bg-red-1 {
+  background-color: #df394b;
+}
+.shadow-red-1 {
+  box-shadow: 0px 2px 4px #b10013;
+}
+.prevbtn {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.radius-12 {
+  border-radius: 12px;
+}
+.shadow-dark-1 {
+  box-shadow: inset 0px 3px 6px #00000036;
+}
+.video video {
+  border-radius: inherit;
+}
+.video {
+  position: relative;
+  transition: all 0.3s ease !important;
+  border-radius: 25px;
+}
+/* .video::after {
+  content: "";
+  position: absolute;
+  background-color: #d85f6696;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  padding: 0px;
+  border-radius: inherit;
+  z-index: 90;
+  transition: all 0.3s ease !important;
+} */
+.icon-video {
+  cursor: pointer;
+  position: absolute;
+  background-image: url(../images/play.png);
+  background-repeat: no-repeat;
+  background-size: 60%;
+  background-position: center center;
+  width: 60px;
+  height: 60px;
+  z-index: 100;
+  display: block;
+  margin: auto;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #df394b;
+  border-radius: 50%;
+  transition: all 0.3s ease !important;
+  box-shadow: 0px 2px 4px #b10013;
+}
+/*.video:hover::after,
+.video:hover .icon-video {
+  opacity: 0;display: none;
+  transition: all 0.3s ease !important;
+}*/
+.blurEffect{
+  filter: opacity(0.5);
+    background-color: #d85f6696;
+}
+.bg-green-1 {
+  background-color: #3aa21f;
+}
+.radius-8 {
+  border-radius: 8px;
+}
+.shadow-dark-2 {
+  box-shadow: 0px 3px 6px #00000036;
+}
+.check {
+  z-index: 100;
+  padding: 10px;
+  top: -41px;/*-30*/
+  right: 0px;
+  left: 0px;
+  margin: auto;
+  width: fit-content;
+}
+.bg-red-2 {
+  background: #fd5364;
+}
+.shadow-red-2 {
+  box-shadow: 1px 1px 2px #fd5364;
+}
+.w-content {
+  display: block;
+  width: fit-content;
+}
+/* .img-sh {
+  top: -40px;
+  right: 20px;
+} */
+.img-sh {
+  top: -44px;
+  right: 13px;
+}
+.cardd .img-fluid
+{
+  width: 35%;
+}
+.card2{width: 50%;}
+.card2 img
+{
+    width: 20%;
+    right: 38%;
+    top: -21%;
+}
+.ltr
+{
+  direction: ltr;
+}
+.color-red-1 {
+  color: #df394b !important;
+}
+.cardd {
+  width: 150px;
+}
+.bg-white {
+ opacity: 0.75!important;
+}
+.mt-6 {
+  margin-top: 4rem !important;
+}
+.fs-9pt {
+  font-size: 9pt !important;
+}
+.acc-me {
+  max-height: 220px !important;
+  overflow: hidden;
+  border-radius: 23px !important;
+}
+.asas {
+  height: 170px;
+  overflow-y: scroll;
+}
+.radius-23 {
+  border-radius: 23px !important;
+}
+.accordion-button:not(.collapsed) {
+  color: white !important;
+  border: none !important;
+  background-color:#d72f42 !important;
+  box-shadow: 0px 0px 11px 0px #b10012a4 !important;
+  outline: none !important;
+}
+.accordion-item {
+  color: var(--bs-accordion-color);
+  background-color: #df394b !important;
+  border: none !important;
+}
+.accordion-button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--bs-accordion-btn-padding-y) var(--bs-accordion-btn-padding-x);
+  font-size: 1rem;
+  color: white !important;
+  text-align: left;
+  border: 0;
+  border-radius: 0;
+  overflow-anchor: none;
+  transition: var(--bs-accordion-transition);
+  outline: none !important;
+  border: none !important;
+  background-color: rgb(223, 57, 76) !important;
+  box-shadow: 0px 0px 11px 0px #b10012a4 !important;
+  outline: none !important;
+}
+
+.accordion-button::after {
+  flex-shrink: 0;
+  width: 22px !important;
+  height: 22px !important;
+  margin-left: 0px !important;
+  margin-right: auto;
+  content: "";
+  background-image: url(../images/angle.png) !important;
+  background-repeat: no-repeat;
+  background-size: cover !important;
+  transition: var(--bs-accordion-btn-icon-transition);
+  transform: rotate(90deg);
+}
+.accordion-button:not(.collapsed)::after {
+  background-image: url(../images/angle.png) !important;
+  transform: none !important;
+}
+.acc-me ::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #DC3D4F;
+}
+
+.acc-me ::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #DC3D4F;
+}
+
+.acc-me ::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #C7B7B9;
+}
+
+button.swal-button {
+  color: #fff;
+  font-weight: bold;
+  background-color: #fe004b;
+  border-color: #fe004b;
+  font-family: 'Peyda';
+  box-shadow:none;
+  
+}
+button.swal-button:focus {
+  color: #fff;
+  font-weight: bold;
+  background-color: #fe004b;
+  border-color: #fe004b;
+  font-family: 'Peyda';
+  box-shadow:none;    
+}
+button.swal-button:hover
+{
+   background-color: #fff!important;
+    color: #fe004b;
+  border:2px solid #fe004b;
+}
+.btn-success {
+  color: #fe004b;
+  font-weight: bold;
+  background-color: #fff;
+  border-color: #fff;
+}
+.btn:active {
+  -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  -moz-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+  box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+}
+/* .swal-icon
+{
+  border-color: #fe004b;
+}
+.swal-icon.swal-icon::before,.swal-icon.swal-icon::after
+{
+  border-color: #fe004b;
+  background: #fe004b;
+} */
+.swal-text
+{
+  direction: rtl;
+    text-align: right;
+    font-weight: 500;
+    line-height: 1.5rem;
+}
+
+.numbers
+{  
+  font-family:"Vazir"!important;
+}

@@ -241,16 +241,20 @@ class ApiController extends Controller
                 ->where('seen',$seen)->get();
             foreach($exam_users as $exam_user){
                // array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
-                array_push($result,
-                [
-                    "user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),
-                    "exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),
-                    "user_exam_created_at"=>$exam_user->created_at,
-                    'name'=>$exam_user->name,
-                    'exam_user_id'=>$exam_user->id,
-                    'seen'=>$exam_user->seen,
-                    'count'=>[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()],
-                ]);
+               $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()];
+                if($count[0]-$count[1]!=$count[0])
+                {
+                    array_push($result,
+                    [
+                        "user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),
+                        "exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),
+                        "user_exam_created_at"=>$exam_user->created_at,
+                        'name'=>$exam_user->name,
+                        'exam_user_id'=>$exam_user->id,
+                        'seen'=>$exam_user->seen,
+                        'count'=>$count,
+                    ]);
+                }
             }
         }
         else{
@@ -291,16 +295,20 @@ class ApiController extends Controller
             }
             foreach($exam_users as $exam_user){
                 //array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
-                array_push($result,
-                [
-                    "user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),
-                    "exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),
-                    "user_exam_created_at"=>$exam_user->created_at,
-                    'name'=>$exam_user->name,
-                    'exam_user_id'=>$exam_user->id,
-                    'seen'=>$exam_user->seen,
-                    'count'=>[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()],
-                ]);
+                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()];
+                if($count[0]-$count[1]!=$count[0])
+                {
+                    array_push($result,
+                    [
+                        "user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),
+                        "exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),
+                        "user_exam_created_at"=>$exam_user->created_at,
+                        'name'=>$exam_user->name,
+                        'exam_user_id'=>$exam_user->id,
+                        'seen'=>$exam_user->seen,
+                        'count'=>$count,
+                    ]);
+                }
             }
         }
         return $result;

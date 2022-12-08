@@ -171,7 +171,7 @@ class PanelController extends Controller
                     $res=1;
                     break;
                 case '4'://نتیجه 
-                    $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
+                    // $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
                     if(!in_array(4,$status))
                     {
                         $status[]=4;

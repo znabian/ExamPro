@@ -694,6 +694,123 @@ class ExamController extends Controller
         }
         //return view('conclusions.show',["score"=>$score,"exam"=>$exam,"conclusion"=>$conclusion]);
     }
+    public function showConclusion_Formular($id){
+        $EUtbl=DB::table("exam_user")->find($id);
+
+       DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
+        ->where('user_id',$EUtbl->user_id)
+        ->where('name',$EUtbl->name)
+        ->update(['active'=>0]);
+        DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
+
+        $examtbl=Exam::find($EUtbl->exam_id);
+        $out='';
+        if($examtbl->formuls()->count())
+        {
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->toArray();
+            
+            foreach($examtbl->formuls()->where('type','1')->get() as $formul)
+            {
+                $ids=[];
+                foreach(json_decode($formul->questions) as $quiz)
+                    $ids[":$quiz"]=0;
+
+                $answers=Answer::whereIn('question_id',(Array)json_decode($formul->questions))->whereIn('id',$historyResult)->get(); 
+                foreach($answers as $ans)
+                    $ids[":$ans->question_id"]=$ans->value;
+
+                $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
+                $formul->formul=strtr($formul->formul,['{'=>'','}'=>'']);
+                $rep=strtr($formul->formul,$ids);
+                $rep=strtr($rep,$oprator);
+                $res=eval("return number_format($rep,2);");
+                $defaultResult[$formul->id]=$res;
+              
+                $conditation=exam_formular::find($formul->id)->conditations()->get();
+                //$conditation=(Array)json_decode($formul->conditation);
+                $formul->default=strtr($formul->default,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label]);
+                
+                    if(!$formul->default)
+                    {
+                        $formul->label=strtr($formul->label,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']);
+                        $title=['tit'=>$formul->label.' : ','num'=>$res];
+                    }
+                    else
+                    {
+                        $formul->default=strtr($formul->default,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']);
+                        $title=explode(':',$formul->default);
+                        $title=['tit'=>$title[0].' : ','num'=>$title[1]];
+                    }
+                    
+                 foreach($conditation as $con)
+                    {
+                        $conditation_if=strtr($con->conditation,['{:RESULT}'=>$res]);
+                        
+                        if(!is_null($conditation_if))
+                        {
+                            $res2=eval("return $conditation_if;");
+                            if($res2)
+                            {
+                                $out=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']);
+                                $descripts[]=["title"=>$title,"body"=>strtr($out,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
+
+                            }
+                        }                         
+                        
+                    } 
+                
+            }
+            
+            $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
+            foreach($examtbl->formuls()->where('type','1')->get() as $fid)
+            {
+                $furmulids["{:RESULT-$fid->id}"]=$defaultResult[$fid->id];
+                $furmulids["{:LABEL-$fid->id}"]=$fid->label;
+                $furmulids2["RESULT"][]=$defaultResult[$fid->id];
+                $furmulids2["LABEL"][]=$fid->label;
+            }
+            $default=$examtbl->conditation()->where('default',1)->first();   
+                $default->body=strtr($default->body,$furmulids);
+                $default->body=strtr($default->body,$oprator);
+                //$item->body=strtr($item->body,["\r\n"=>'']); 
+                $default=explode("\r\n",$default->body) ;
+                foreach($default as $index=>$item)
+                $data[]=['title'=>strtr(strtr(trim(explode(":",$item)[0]),['( از 100 )'=>'']),['(100)'=>'']),'num'=>trim(explode(":",$item)[1]),'img'=>'images/img'.($index+1).'.png'] ;        
+           
+            foreach( $examtbl->formuls()->where('type','2')->get() as $formul)
+            {
+                $rep=strtr($formul->formul,$furmulids);
+                $rep=strtr($rep,$oprator); 
+                
+                
+                $rep=strtr($rep,$furmulids);
+
+                $res=eval("return number_format($rep,2);");
+                $conditation=exam_formular::find($formul->id)->conditations()->get();
+               
+                foreach($conditation as $con)
+                {
+                    $conditation_if=strtr($con->conditation,['{:RESULT}'=>$res,"\r\n"=>'<br/>']);
+                    $conditation_if=strtr($conditation_if,$furmulids);
+                    
+                    if(!is_null($conditation_if))
+                    {
+                        $res2=eval("return $conditation_if;");
+                        if($res2)
+                        {
+                            list($tit,$bod)=explode('</b>',$con->then);
+                             $descripts[]=["title"=>['tit'=>strtr($tit,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']),'num'=>''],"body"=>strtr($bod,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
+                           
+                            
+                        }
+                    } 
+                }  
+                       
+            }
+            return ["descripts"=>json_encode($descripts),'data'=>json_encode($data),'work'=>json_encode($work??[])];
+        }
+        return ["descripts"=>[],'data'=>[],'work'=>[]];
+    }
     public function export($id){
         $examUser = new ExamUsers;
         $examUser->id = $id;
@@ -773,14 +890,12 @@ class ExamController extends Controller
                             $score.=$indexs[$item];
                         } 
             }
-                $data=$this->showConclusion_OLD($exam->id);
+                $data=$this->showConclusion_Formular($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);
                if($score)
-               $out=$data['out'];
+               $out=$data;
                else
-               $out="<div id='MobileConclusionShow'>
-               <img src='".asset('images/result.png')."'>
-                </div><p style='text-align:center'>برای دریافت نتیجه تحلیل روی دکمه زیر کلیک کنید</p><p id='hand' style='text-align:center'>&#128071;&#127995;</p>";
+               $out=[];
 
                $a=new PanelController();
                $b=new Request(['sts'=>4]);
