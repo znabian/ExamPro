@@ -171,7 +171,7 @@ class PanelController extends Controller
                     $res=1;
                     break;
                 case '4'://نتیجه 
-                    // $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
+                    
                     if(!in_array(4,$status))
                     {
                         $status[]=4;
@@ -189,6 +189,8 @@ class PanelController extends Controller
                        DB::table('user_crons')
                        ->where('phone',auth()->user()->phone)
                        ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                       $response = Http::post("https://exam.erfankhoshnazar.com/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
+                 
                     }
                     else
                     $res=1;

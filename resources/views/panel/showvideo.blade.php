@@ -38,7 +38,7 @@
             <span class="text-white fw-bold">{{$txt}}</span>
         </div>
         <div class="video position-relative radius-12">
-            <video id="videoRes" class="blurEffect w-100" width="100%" controls>
+            <video id="videoRes" class="blurEffect w-100" width="100%" controls  controlsList="nodownload" oncontextmenu="return false;">
                 <source src="{{$url}}" type="video/mp4">
                 Your browser does not support HTML video.
             </video>
@@ -47,6 +47,7 @@
     </div>
         @if($st==1)   
         <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
+        <button id="errorbtn" onclick="okchstatus()" class="btn btn-outline-warning m-auto w-auto d-none">در مشاهده ویدیو مشکلی است؟</button>
         @endif
 </div>
 @endsection
@@ -62,7 +63,7 @@
         }  
 
         let timerD = timer2=null;
-        var totalTimeD = $ctmer =0;
+        var totalTimeD = ctmer =0;
          
          var flag=false;
 
@@ -83,6 +84,21 @@
          }
 
         function startPlaying() {
+            @if(!in_array(1,explode(',',auth()->user()->status))) 
+                 if(ctmer==0)
+                 { 
+                    ctmer=1;
+                    axios.post("{{route('pish.ok')}}",{sts:"1"})
+                        .then(function ({data}) {
+                                if(data.status)
+                                flag=true;
+                                
+                            })
+                            .catch(error => {
+                                ctmer=0;
+                            });
+                }
+            @endif
             Duration=converttime(videoRes.duration);
         timerD = window.setInterval(function() {
             totalTimeD =converttime(videoRes.currentTime);
@@ -93,9 +109,9 @@
             if(totalTimeD[0]== Duration[0] && parseInt(totalTimeD[1])>= parseInt(Duration[1])-3)
             {
                  clearInterval(timer2);
-                 if($ctmer==0)
+                 if(ctmer==0)
                  {
-                    $ctmer=1
+                    ctmer=1
                     axios.post("{{route('pish.ok')}}",{sts:{{$st}}})
                     .then(function ({data}) {
                             if(data.status)
@@ -105,7 +121,7 @@
                             
                         })
                         .catch(error => {
-                            $ctmer=0;
+                            ctmer=0;
                         });
                 }
             }            
@@ -163,5 +179,44 @@
                 @endif
             @endif
         }
+        @if(!in_array(1,explode(',',auth()->user()->status)))  
+        var video = document.getElementById("videoRes");
+
+        if ( video.readyState!= 4 ) {
+           document.getElementById("errorbtn").classList.remove('d-none');
+        }
+        function okchstatus()
+        {
+            swal('لطفا صبر کنید'," در حال ذخیره سازی اطلاعات ...",'warning');
+            if(!flag)
+            {
+                axios.post("{{route('pish.ok')}}",{sts:"1"})
+                .then(function ({data}) {
+                        if(data.status)
+                        @if(!in_array(4,explode(',',auth()->user()->status))) 
+                        location.href='/';
+                        @else
+                        location.href='/Exams-Result/';
+                        @endif
+                        else
+                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        
+                    })
+                    .catch(error => {
+                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        location.reload();
+                    });
+            }
+            else
+            {
+                @if(!in_array(4,explode(',',auth()->user()->status))) 
+                    location.href='/';
+                @else
+                    location.href='/Exams-Result/';
+                @endif
+            }
+           
+        }
+        @endif
     </script>
 @endsection
