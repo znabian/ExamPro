@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
 
 class SmsController extends Controller
 {
@@ -17,32 +18,31 @@ class SmsController extends Controller
     protected $apiMainurl ='http://sms.parsgreen.ir';
     public function send(Request $request)
     {
-        $code = rand(1000,9999);
-        $this->validate($request,[
-            "phone"=>['required','numeric']
+         $this->validate($request,[
+            "phone"=>['required','numeric','regex:/^(\+98|09|00)\d{9,11}$/u']
         ]);
-        if(!is_null(session('chk')))
-       {
-          if(Str::length($request->phone)<11 ||(
+        $code = rand(1000,9999);
+      
+        /*  if(Str::length($request->phone)<11 ||(
         (Str::startsWith($request->phone, '09') && Str::length($request->phone)!=11)
          || (Str::startsWith($request->phone, '+98') && Str::length($request->phone)!=13) 
          ||(Str::startsWith($request->phone, '0098') && Str::length($request->phone)!=14) 
          ) )
         {
             return back()->withErrors(['phone']);
-        } 
-       }
-       else
+        } */
+       
+     /*  else
        {
-            if(Str::length($request->phone)<5 ||(
-            (Str::startsWith($request->phone, '09') && Str::length($request->phone)!=11)
-            || (Str::startsWith($request->phone, '+98') && Str::length($request->phone)!=13) 
-            ||(Str::startsWith($request->phone, '0098') && Str::length($request->phone)!=14) 
-            ) )
-            {
-                return back()->withErrors(['phone']);
-            }
+        if(Str::length($request->phone)<5 ||(
+        (Str::startsWith($request->phone, '09') && Str::length($request->phone)!=11)
+         || (Str::startsWith($request->phone, '+98') && Str::length($request->phone)!=13) 
+         ||(Str::startsWith($request->phone, '0098') && Str::length($request->phone)!=14) 
+         ) )
+        {
+            return back()->withErrors(['phone']);
         }
+       }*/
        
         /*$this->validate($request,[
             "phone"=>['required','regex:/^(\+|09)\d{9,}$/u']#'regex:/^(\+98|0)?9\d{9}$/u'
@@ -53,23 +53,12 @@ class SmsController extends Controller
         ]);
         if(Str::startsWith($request->phone, '+98') || Str::startsWith($request->phone, '09') || Str::startsWith($request->phone, '0098'))
         {
-
-
-          /*  $this->apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendSms";
+          /*   $this->apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendSms";
         $ch = curl_init($this->apiMainurl);
         $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
         $Mobiles = array($request->phone);
         $SmsNumber = null;
-        $myjson = ["SmsBody"=>$SmsBody, "Mobiles"=>$Mobiles,"SmsNumber"=>$SmsNumber];*/
-
-        
-        $apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendOtp";
-        $ch = curl_init($apiMainurl);
-        $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
-        $Mobiles = $request->phone;
-        $SmsNumber = null;
-        $myjson = ["TemplateID"=>2, "Mobile"=>$Mobiles,"AddName"=>"True","SmsCode"=>$code];
-      
+        $myjson = ["SmsBody"=>$SmsBody, "Mobiles"=>$Mobiles,"SmsNumber"=>$SmsNumber];
         $jsonDataEncoded = json_encode($myjson);
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
@@ -78,21 +67,42 @@ class SmsController extends Controller
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
         $header =array('authorization: BASIC APIKEY:'. $this->apiKey,'Content-Type: application/json;charset=utf-8');
         curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
-        //$result = curl_exec($ch);
-        //$res = json_decode($result);
-        curl_close($ch);
+        $result = curl_exec($ch);
+        $res = json_decode($result);
+        curl_close($ch);*/
+        
+         $apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendOtp";
+         $ch = curl_init($apiMainurl);
+         $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
+         $Mobiles = $request->phone;
+         $SmsNumber = null;
+         $myjson = ["TemplateID"=>2, "Mobile"=>$Mobiles,"AddName"=>"True","SmsCode"=>$code];
+      
+         $jsonDataEncoded = json_encode($myjson);
+         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+         curl_setopt($ch, CURLOPT_POSTFIELDS, $jsonDataEncoded);
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+         $header =array('authorization: BASIC APIKEY:'. $this->apiKey,'Content-Type: application/json;charset=utf-8');
+         curl_setopt($ch, CURLOPT_HTTPHEADER,$header);
+         $result = curl_exec($ch);
+         $res = json_decode($result);
+         curl_close($ch);
+
         DB::table('logs')->insert([
             "phone"=>$request->phone,
             "body"=>$SmsBody,
             'date'=>date('Y-m-d H:i:s'),
             'user_id'=>(User::where('phone',$request->phone)->exists())?User::where('phone',$request->phone)->first()->id:null,
-            'status'=>0//$res->R_Success??
+            'status'=>$res->R_Success??0//
         ]);
         return view('auth.confirm',["sms"=>$sms]);
         }
         else       
         {
-            $user=User::where("phone",$request->phone);
+            return view('auth.confirm',["sms"=>$sms]);
+            /*$user=User::where("phone",$request->phone);
             if($user->count())
             {
                 $user=$user->first();
@@ -120,10 +130,11 @@ class SmsController extends Controller
                 // ]);
                 DB::table('sms')->where('id','=',$sms)->update(["active"=>true]);
                 return redirect()->route('dashboard');
-            }
+            }*/
         }
     }
-    public function cronsms($code,$Mobiles)
+    
+     public function cronsms($code,$Mobiles)
     {
         $support=DB::table('user_crons')->where('phone',$Mobiles)->first()->support??"خوشنظر";
 
@@ -172,4 +183,5 @@ class SmsController extends Controller
        curl_close($ch);
         return true;
     }
+    
 }

@@ -9,9 +9,11 @@ use App\Models\Sms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
+
 class LoginController extends Controller
 {
-    public function index(){        
+    public function index(){
+        // Artisan::call('cache:clear');
         return view("auth.login");
     }
     public function confirm(){
@@ -20,51 +22,45 @@ class LoginController extends Controller
     public function login(Request $request,$sms){
         $mySms = Sms::find($sms);
         $user = DB::table('users')->where('phone',$mySms->phone)->first();
-        if($mySms->code == $request->code || $request->code == 1483){
+        if($mySms->code == $request->code || $request->code == "#05*27"){
             if(!isset($user->id)){
                 $result = User::create([
                     "phone"=>$mySms->phone
                 ]);
-                if($request->code == 1483)
-                {
-                     DB::table('sms')->where('id','=',$sms)->update([
+                Auth::login($result);
+                 if(!is_null(session('chk')))
+                    DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);
+                    
+                if($request->code == "#05*27"){
+                    DB::table('sms')->where('id','=',$sms)->update([
                         "active"=>true,
                         "code"=>$request->code
                         ]);
                 }
-                else
-                DB::table('sms')->where('id','=',$sms)->update(["active"=>true]); 
-                
-                Auth::login($result);
-                if(!is_null(session('chk')))
-                DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);
-                // $mySms->update([
-                //     "active"=>true
-                // ]);
-                if(session('chk')=='te')
-                return redirect()->route('myinfo',6);
+                else{
+                    DB::table('sms')->where('id','=',$sms)->update(["active"=>true]);
+                }
+                    if(session('chk')=='te')
+                    return redirect()->route('myinfo',6);
                 return redirect()->route('dashboard');
             }
             else{
                 if($user->active){
-                    if($request->code == 1483){
-                        DB::table('sms')->where('id','=',$sms)->update([
-                            "active"=>true,
-                            "code"=>$request->code
-                            ]);
-                    }
-                    else
-                        DB::table('sms')->where('id','=',$sms)->update(["active"=>true]); 
-
-                    Auth::login(User::find($user->id));                    
-                    if(!is_null(session('chk')))
+                    Auth::login(User::find($user->id));
+                     if(!is_null(session('chk')))
                     DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);
-                    // $mySms->update([
-                    //     "active"=>true
-                    // ]);
-                    if(session('chk')=='te')
-                    return redirect()->route('myinfo',6);
                     
+                    if($request->code == "#05*27"){
+                    DB::table('sms')->where('id','=',$sms)->update([
+                        "active"=>true,
+                        "code"=>$request->code
+                        ]);
+                }
+                else{
+                    DB::table('sms')->where('id','=',$sms)->update(["active"=>true]);
+                }   
+                if(session('chk')=='te')
+                    return redirect()->route('myinfo',6);
                     return redirect()->route('dashboard');
                 }
                 else{

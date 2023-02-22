@@ -111,7 +111,7 @@
                  clearInterval(timer2);
                  if(ctmer==0)
                  {
-                    ctmer=1
+                    ctmer=1;
                     axios.post("{{route('pish.ok')}}",{sts:{{$st}}})
                     .then(function ({data}) {
                             if(data.status)
@@ -129,9 +129,6 @@
         }, 10);
         @endif
         }
-
-        
-            
 
         function pausePlaying() {
         if (timerD) clearInterval(timerD);
@@ -215,7 +212,6 @@
                     location.href='/Exams-Result/';
                 @endif
             }
-           
         }
         @endif
     </script>

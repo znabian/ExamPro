@@ -141,11 +141,17 @@ button.swal-button:hover
       color: #fe004b;
     border:2px solid #fe004b;
 }
-.btn-success {
+.btn-success-2 {
     color: #fe004b;
     font-weight: bold;
     background-color: #fff;
     border-color: #fff;
+}
+.btn-success {
+    color: #fff;
+    font-weight: bold;
+    background-color: #fe004b;
+    border-color: #fe004b;
 }
 .btn:active {
     -webkit-box-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
@@ -206,7 +212,7 @@ button.swal-button:hover
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
 </div>
-<div id="MobileConclusionShowDescription" onscroll=" if(this.scrollTop > 50){mygift();}">
+<div id="MobileConclusionShowDescription">
    
         {!!$output!!}
   
@@ -228,7 +234,7 @@ button.swal-button:hover
 <div id="MobileConclusionShow">
     <img src="{{asset('images/result.png')}}">
 </div>
-<div id="MobileConclusionShowDescription" >
+<div id="MobileConclusionShowDescription">
     
        {!!$output!!}
    

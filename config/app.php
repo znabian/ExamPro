@@ -52,7 +52,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://localhost'),
+    'url' => env('APP_URL', 'https://exam.erfankhoshnazar.com'),
 
     'asset_url' => env('ASSET_URL', null),
 
@@ -163,7 +163,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         UxWeb\SweetAlert\SweetAlertServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
+       // ProtoneMedia\LaravelFFMpeg\Support\ServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -233,7 +233,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Alert' => UxWeb\SweetAlert\SweetAlert::class,
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
+        //'FFMpeg' => ProtoneMedia\LaravelFFMpeg\Support\FFMpeg::class,
 
     ],
 

@@ -25,16 +25,21 @@
     right: -8%;
     top: -21%;
 }
+
+.accordion-button
+{
+    font-size: 1rem!important;
+}
 }
 .noimg
 {
     position: absolute;
 }
+
 .accordion-button
 {
     font-size: 10pt;
 }
-
 </style>
 @endsection
 @section('content')
