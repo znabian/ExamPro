@@ -45,6 +45,15 @@ class LoginController extends Controller
                 return redirect()->route('dashboard');
             }
             else{
+                if(!DB::table("exam_user")->where('active',1)->where('enable',1)->where('user_id',$user->id)->whereIn('exam_id',[4,6])->exists())
+                {
+                    $status=($user->status)?explode(',',$user->status):[];
+                    if(in_array(4,$status))
+                    unset($status[array_search(4,$status)]);
+                    if(in_array(3,$status))
+                    unset($status[array_search(3,$status)]);
+                 DB::table('users')->where('id',$user->id)->update(['status'=>implode(',',$status)]);
+                }
                 if($user->active){
                     Auth::login(User::find($user->id));
                      if(!is_null(session('chk')))

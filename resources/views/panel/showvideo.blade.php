@@ -148,9 +148,9 @@
                 .then(function ({data}) {
                         if(data.status)
                         @if(!in_array(4,explode(',',auth()->user()->status))) 
-                        location.href='/';
+                        location.href='{{route("dashboard")}}';
                         @else
-                        location.href='/Exams-Result/';
+                        location.href='{{route("dashboard")}}/Exams-Result/';
                         @endif
                         else
                         swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
@@ -162,17 +162,17 @@
                     });
             else           
             @if(!in_array(4,explode(',',auth()->user()->status))) 
-            location.href='/';
+            location.href='{{route("dashboard")}}';
             @else
-            location.href='/Exams-Result/';
+            location.href='{{route("dashboard")}}/Exams-Result/';
             @endif
             
             @else
             
                 @if(!in_array(4,explode(',',auth()->user()->status))) 
-                location.href='/';
+                location.href='{{route("dashboard")}}';
                 @else
-                location.href='/Exams-Result/';
+                location.href='{{route("dashboard")}}/Exams-Result/';
                 @endif
             @endif
         }
@@ -191,9 +191,9 @@
                 .then(function ({data}) {
                         if(data.status)
                         @if(!in_array(4,explode(',',auth()->user()->status))) 
-                        location.href='/';
+                        location.href='{{route("dashboard")}}';
                         @else
-                        location.href='/Exams-Result/';
+                        location.href='{{route("dashboard")}}/Exams-Result/';
                         @endif
                         else
                         swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
@@ -207,9 +207,9 @@
             else
             {
                 @if(!in_array(4,explode(',',auth()->user()->status))) 
-                    location.href='/';
+                    location.href='{{route("dashboard")}}';
                 @else
-                    location.href='/Exams-Result/';
+                    location.href='{{route("dashboard")}}/Exams-Result/';
                 @endif
             }
         }

@@ -222,6 +222,7 @@
    
 @endsection
 @section('mobileScript')
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
     var slideIndex = 1;
     showSlides(slideIndex);
@@ -250,13 +251,13 @@
       dots[slideIndex-1].className += " active";
     }
     function openIdentityExamsPage(){
-        window.location.href = "/identify/exams";
+        window.location.href = "{{route('dashboard')}}/identify/exams";
     }
     function openSuggestionExamsPage(){
-        window.location.href = "/suggest/exams";
+        window.location.href = "{{route('dashboard')}}/suggest/exams";
     }
     function showResult() {
-        window.location.href = "/Exams-Result/";
+        window.location.href = "{{route('dashboard')}}/Exams-Result/";
     }
     function showvideo(type) {
                 url='{{route("pish.video")}}';
@@ -292,6 +293,14 @@
             });*/
         
     }
+    </script>
+     <script>
+       @if(session('error'))
+       swal('توجه',"{{session('error')}}",'error');
+    @endif
+    @if(session('success'))
+    swal('عملیات موفقیت آمیز',"{{session('success')}}",'success');
+    @endif
     </script>
 @endsection
 <style>

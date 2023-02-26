@@ -17,6 +17,7 @@ class PanelController extends Controller
     {$hids=[];
          $examusers=DB::table('exam_user')
          //->where('active',1)
+         ->where('enable',1)
          ->groupBy('user_id','exam_id')
          ->select('user_id','exam_id')
          ->get();
@@ -27,13 +28,14 @@ class PanelController extends Controller
                 $examusers2=DB::table('exam_user')                    
                     ->where('exam_id',$examuser->exam_id)
                     ->where('user_id',$examuser->user_id)
+                    ->where('enable',1)
                         ->select('id','created_at')
                         ->orderByDesc('created_at')
                         ->get();                       
                       
                             DB::table('histories')
                             ->where('exam_id',$examuser->exam_id)
-                            ->where('user_id',$examuser->user_id)
+                            ->where('user_id',$examuser->user_id)->where('active',1)
                             ->update([ "exam_user_id"=>$examusers2->first()->id]);
 
                             DB::table('exam_user')                    
@@ -87,7 +89,7 @@ class PanelController extends Controller
         $EUtbl=DB::table("exam_user")->find($id);
         DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
         

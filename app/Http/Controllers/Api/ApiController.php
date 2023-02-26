@@ -51,7 +51,7 @@ class ApiController extends Controller
     public function saveExamQuestionAnswerRecord(Request $request){
         $userExams = DB::table('exam_user')->find($request->exam_user_id);
        
-       $old=DB::table('histories')->where("exam_user_id","=",$request->exam_user_id)->count();
+       /*$old=DB::table('histories')->where("exam_user_id","=",$request->exam_user_id)->count();
        
         $result = DB::table('histories')
             ->updateOrInsert ( ['user_id'=>$userExams->user_id,'exam_id'=>$userExams->exam_id, "question_id"=>$request->question_id,"exam_user_id"=>$request->exam_user_id]
@@ -62,7 +62,14 @@ class ApiController extends Controller
         {
             return ['status'=>true,'num'=>$new];
         }
-        return response()->json([],500);// ['status'=>false,'num'=>''];
+        return response()->json([],500);// ['status'=>false,'num'=>''];*/
+        $result = DB::table('histories')
+        ->updateOrInsert ( [ "question_id"=>$request->question_id,"exam_user_id"=>$request->exam_user_id,"active"=>1]
+                            ,[ "answer_id"=>$request->answer_id ,'user_id'=>$userExams->user_id,'exam_id'=>$userExams->exam_id] );
+                            
+        $new=DB::table('histories')->where("active",1)->where("exam_user_id","=",$request->exam_user_id)->count();
+               
+        return ['status'=>true,'num'=>$new];
     }
     public function checkUser(Request $request){
        $existingUser = DB::table("users")->where("phone","=",$request->phone)->get()->first();
@@ -109,7 +116,7 @@ class ApiController extends Controller
     public function userExams(Request $request){
         $user = DB::table('users')->where("phone","=",$request->phone)->get()->first();
         $userExams = DB::table('exam_user')->where([
-            ["user_id","=",$user->id], ["active",1],
+            ["user_id","=",$user->id], ["active",1],["enable",1],
         ])->get();
         $result = [];
         foreach($userExams as $userExam){
@@ -139,6 +146,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->orderByDesc('created_at')->get();
             }
             elseif($perm==4)
@@ -146,10 +154,11 @@ class ApiController extends Controller
                $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->orderByDesc('created_at')->get();
             }
             else
-                $exam_users = DB::table('exam_user')->where('active',1)->orderByDesc('created_at')->get();
+                $exam_users = DB::table('exam_user')->where('active',1)->where('enable',1)->orderByDesc('created_at')->get();
             foreach($exam_users as $exam_user){
                // array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
                 array_push($result,
@@ -174,6 +183,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->whereBetween('created_at', [
                 $first_date, $last_date
             ])->orderByDesc('created_at')->get();
@@ -183,6 +193,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
                 $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
                 //->where('active',1)
+                ->where('enable',1)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
                 ])->orderByDesc('created_at')->get();
@@ -191,6 +202,7 @@ class ApiController extends Controller
             {
                 $exam_users = DB::table('exam_user')
                 //->where('active',1)
+                ->where('enable',1)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
                 ])->orderByDesc('created_at')->get();
@@ -226,6 +238,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)->get();
             }
             elseif($perm==4)
@@ -233,15 +246,17 @@ class ApiController extends Controller
                 $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)->orderByDesc('created_at')->get();
             }
             else
                 $exam_users = DB::table('exam_user')
                 //->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)->get();
             foreach($exam_users as $exam_user){
                // array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
-                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()];
+                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->where('active',1)->count()];
                 if($count[0]-$count[1]!=$count[0])
                 {
                 array_push($result,
@@ -270,6 +285,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             //->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)
             ->whereBetween('created_at', [
                 $first_date, $last_date
@@ -280,6 +296,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
                 $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
                 //->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
@@ -289,6 +306,7 @@ class ApiController extends Controller
             {
                 $exam_users = DB::table('exam_user')
                 //->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
@@ -296,7 +314,7 @@ class ApiController extends Controller
             }
             foreach($exam_users as $exam_user){
                 //array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
-                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->count()];
+                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->where('active',1)->count()];
                 if($count[0]-$count[1]!=$count[0])
                 {
                 array_push($result,
@@ -330,6 +348,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)->get();
             }
             elseif($perm==4)
@@ -337,12 +356,14 @@ class ApiController extends Controller
                 $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)->orderByDesc('created_at')->get();
             }
             else
             {
                 $exam_users = DB::table('exam_user')
                 ->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)->get();
             }
           if($seen)
@@ -360,6 +381,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->where('active',1)
+            ->where('enable',1)
             ->where('seen',$seen)
             ->whereBetween('created_at', [
                 $first_date, $last_date
@@ -370,6 +392,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
                 $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
                 ->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
@@ -379,6 +402,7 @@ class ApiController extends Controller
             {
                 $exam_users = DB::table('exam_user')
                 ->where('active',1)
+                ->where('enable',1)
                 ->where('seen',$seen)
                 ->whereBetween('created_at', [
                     $first_date, $last_date
@@ -401,6 +425,7 @@ class ApiController extends Controller
                 $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->where('active',1)
+            ->where('enable',1)
             ->where('seen',0)
             ->whereDate('created_at','>=',today())
             ->orderByDesc('created_at')->get();
@@ -409,6 +434,7 @@ class ApiController extends Controller
             {
                 $exam_users = DB::table('exam_user')
                 ->where('active',1)
+                ->where('enable',1)
                 ->where('seen',0)->whereDate('created_at','>=',today())
                 ->orderByDesc('created_at')->get();
             }
@@ -441,7 +467,7 @@ class ApiController extends Controller
         $S=0;
         $D=0;
         $inputFlag=false;
-        $histories = DB::table('histories')->where('exam_user_id',$request->exam_id)->get();
+        $histories = DB::table('histories')->where('exam_user_id',$request->exam_id)->where('active',1)->get();
         foreach($histories as $value){
             if(Answer::find($value->answer_id)->is_char){
                 $flag=true;
@@ -553,7 +579,7 @@ class ApiController extends Controller
         $out='';
         if($examtbl->formuls()->count())
         {
-            $historyResult = DB::table('histories')->where("exam_user_id","=",$req->exam_user_id)->pluck("answer_id")->toArray();
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$req->exam_user_id)->where('active',1)->pluck("answer_id")->toArray();
             
             foreach($examtbl->formuls()->where('type','1')->get() as $formul)
             {
@@ -657,6 +683,7 @@ class ApiController extends Controller
             $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->whereIn('exam_id',[4,6])
+            ->where('enable',1)
             //->where('active',1)
            ->distinct()->pluck('user_id')->toArray();
             
@@ -670,6 +697,7 @@ class ApiController extends Controller
              $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
             $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
             ->whereIn('exam_id',[4,6])
+            ->where('enable',1)
             //->where('active',1)
             ->whereBetween('created_at', [
                 $first_date, $last_date
@@ -705,7 +733,7 @@ class ApiController extends Controller
                         $flag=false;
                        if($cron->user_id)
                        {
-                            if(DB::table("exam_user")->where('user_id',$cron->user_id)->exists())
+                            if(DB::table("exam_user")->where('user_id',$cron->user_id)->where('enable',1)->exists())
                             DB::table("user_crons")->where('id',$cron->id)->update(['done'=>1]);
                             else
                             $flag=true;
@@ -787,13 +815,23 @@ class ApiController extends Controller
     }
     public function getCountDateExams(Request $request){
         $first_date = $request->first_date;
-        $last_date = $request->last_date;
+        $last_date = $request->last_date??null;
+
                 $exam_users = DB::table('exam_user')
-                ->where('active',1)
-                ->where('created_at','>=',$first_date)
-                ->where('created_at','<=',$last_date)
-                ->orderByDesc('created_at')->pluck('user_id');
-        return count(array_unique($exam_users->toArray()));
+                ->where('enable',1)
+                ->where('active',1);
+    		if($last_date)
+            {
+                $exam_users = $exam_users->whereDate('created_at','>=',$first_date)
+                ->whereDate('created_at','<=',$last_date);
+            }
+            else
+            {
+                $exam_users = $exam_users->whereDate('created_at','=',$first_date);
+            }
+
+       $exam_users = $exam_users->orderByDesc('created_at')->pluck('user_id');
+        return ["users"=>count(array_unique($exam_users->toArray())),"exams"=>count($exam_users->toArray())];
     }
     
     public function getPhoneExamUsers(Request $request)
@@ -802,7 +840,7 @@ class ApiController extends Controller
         ->whereNotNull('firstName')
          ->whereDate('created_at','>=',$request->first_date)
         ->whereDate('created_at','<=',$request->last_date)
-        ->whereRaw('exists( select id from exam_user where user_id=users.id and seen=0  and active=1 and exam_id=6 )')
+        ->whereRaw('exists( select id from exam_user where user_id=users.id and seen=0  and active=1 and enable=1 and exam_id=6 )')
         ->pluck('phone');          
          
         return response()->json($result->toArray());

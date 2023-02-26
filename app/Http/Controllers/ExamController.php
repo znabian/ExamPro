@@ -94,12 +94,12 @@ class ExamController extends Controller
 
     public function countMyAnswer($euid)
     {$keys=$a=[];
-        $exam = DB::table('histories')->where('exam_user_id',$euid)->count();
+        $exam = DB::table('histories')->where('exam_user_id',$euid)->where('active',1)->count();
         //return $exam;
         if($exam>0)
         {
             $quiz=Exam::find(DB::table('exam_user')->find($euid)->exam_id)->questions()->pluck('id')->toArray();
-            $a=array_diff($quiz,DB::table('histories')->where('exam_user_id',$euid)->pluck('question_id')->toArray());
+            $a=array_diff($quiz,DB::table('histories')->where('exam_user_id',$euid)->where('active',1)->pluck('question_id')->toArray());
             foreach($a as $index)
             {
             $key=array_search($index,$quiz);
@@ -107,7 +107,7 @@ class ExamController extends Controller
                 $keys[]=$key+1;
             }
         }
-        return ['ans'=>$exam,'emt'=>implode(' و ',$keys),'qid'=>$a,'aid'=>DB::table('histories')->where('exam_user_id',$euid)->pluck('answer_id')->toArray()];
+        return ['ans'=>$exam,'emt'=>implode(' و ',$keys),'qid'=>$a,'aid'=>DB::table('histories')->where('exam_user_id',$euid)->where('active',1)->pluck('answer_id')->toArray()];
     }
     /**
      * Show the form for editing the specified resource.
@@ -162,6 +162,7 @@ class ExamController extends Controller
         //
     }
     public function cancelExam($id){        
+        DB::table("histories")->where('exam_user_id',$id)->delete();
         DB::table("exam_user")->delete($id);
         return redirect(route('dashboard'));
     }
@@ -179,7 +180,7 @@ class ExamController extends Controller
       
         DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
         $a=new PanelController();
@@ -197,12 +198,12 @@ class ExamController extends Controller
         $is6=($EUtbl->exam_id==6 );//&& is_null(auth()->user()->gift)
         DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
 
         $Fail=$Show=0;
-        $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->toArray();
+        $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->where('active',1)->pluck("answer_id")->toArray();
         $groups=group::where('exam_id',DB::table("exam_user")->find($id)->exam_id)->where('status',1)->orderBy('id')->get();
             $out='';
              $answers=implode(',',$historyResult);
@@ -380,12 +381,12 @@ class ExamController extends Controller
         $EUtbl=DB::table("exam_user")->find($id);
         DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
 
         $Fail=$Show=0;
-        $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->toArray();
+        $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->where('active',1)->pluck("answer_id")->toArray();
         $groups=group::where('exam_id',DB::table("exam_user")->find($id)->exam_id)->where('status',1)->orderBy('id')->get();
             $out='';$videos=[];$audios=[];$images=[];
              $answers=implode(',',$historyResult);
@@ -508,7 +509,7 @@ class ExamController extends Controller
 
        DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
 
@@ -516,7 +517,7 @@ class ExamController extends Controller
         $out='';
         if($examtbl->formuls()->count())
         {
-            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->toArray();
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->where('active',1)->pluck("answer_id")->toArray();
             
             foreach($examtbl->formuls()->where('type','1')->get() as $formul)
             {
@@ -637,7 +638,7 @@ class ExamController extends Controller
             $S=0;
             $D=0;
 
-            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->get();
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->where('active',1)->get();
             foreach($historyResult as $value){
                 if(Answer::find($value->answer_id)->is_char){
                     $flag=true;
@@ -699,7 +700,7 @@ class ExamController extends Controller
 
        DB::table("exam_user")->where('exam_id',$EUtbl->exam_id)
         ->where('user_id',$EUtbl->user_id)
-        ->where('name',$EUtbl->name)
+        ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
 
@@ -707,7 +708,7 @@ class ExamController extends Controller
         $out='';
         if($examtbl->formuls()->count())
         {
-            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->toArray();
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->where('active',1)->toArray();
             
             foreach($examtbl->formuls()->where('type','1')->get() as $formul)
             {
@@ -826,13 +827,14 @@ class ExamController extends Controller
    }
    public function GetExamResult()
    {
-    $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->latest()->first();
-    $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->latest()->first();
-    
+    $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->where('enable',1)->latest()->first();
+    $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->where('enable',1)->latest()->first();
+    if(!$talnet)
+    return back()->with('error','نتیجه آزمون یافت نشد');
         
             $out='';$flag=false;$score='';
              
-             $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->get();
+             $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->where('active',1)->get();
              foreach($historyResult as $value){
                  if(Answer::find($value->answer_id)->is_char){
                      $flag=true;
