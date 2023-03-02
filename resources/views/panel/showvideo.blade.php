@@ -16,6 +16,7 @@
 @endsection
 @section('content')
 @php
+$nodownload="download";
    switch ($st) {
             case 1:
                $url="https://dl.erfankhoshnazar.com/disc/pish.mp4";
@@ -23,11 +24,11 @@
                 break;
             case 5:
                 $url='http://dl.erfankhoshnazar.com/etemad%20be%20nafs/Mvi%202648%201.mp4%20%DA%A9%D9%85%20%D8%AD%D8%AC%D9%85%20%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF%20%D8%A8%D9%87%20%D9%86%D9%81%D8%B3.mp4';
-               $txt="افزایش اعتماد به نفس";
+               $txt="افزایش اعتماد به نفس";$nodownload="nodownload";
                 break;
             case 6:
                 $url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
-               $txt="افزایش علاقه مندی به یادگیری";
+               $txt="افزایش علاقه مندی به یادگیری";$nodownload="nodownload";
                 break;
         }
 @endphp
@@ -38,7 +39,7 @@
             <span class="text-white fw-bold">{{$txt}}</span>
         </div>
         <div class="video position-relative radius-12">
-            <video id="videoRes" class="blurEffect w-100" width="100%" controls  controlsList="nodownload" oncontextmenu="return false;">
+            <video id="videoRes" class="blurEffect w-100" width="100%" controls  controlsList="{{$nodownload}}" oncontextmenu="return false;">
                 <source src="{{$url}}" type="video/mp4">
                 Your browser does not support HTML video.
             </video>
@@ -215,4 +216,13 @@
         }
         @endif
     </script>
+     @if($st==1)  
+    <script>
+     var dnone= setTimeout(function(){
+        document.getElementById("errorbtn").classList.remove('d-none');
+        clearInterval(dnone);
+    }
+    ,10000);
+    </script>
+    @endif
 @endsection
