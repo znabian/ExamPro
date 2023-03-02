@@ -42,3 +42,4 @@ Route::get('/UserPanel',[ApiController::class,'UserPanel']);
 Route::post('/addLogSMS',[ApiController::class,'addLogApi']);
 Route::post('/PhoneUsers',[ApiController::class,'getPhoneExamUsers']);
 Route::post('/Exam/addRequest',[ApiController::class,'addRquestINPanel']);
+Route::post('/UpdateUserInfo',[ApiController::class,'updateuserinfo']);

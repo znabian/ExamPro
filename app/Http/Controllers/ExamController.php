@@ -829,9 +829,9 @@ class ExamController extends Controller
    {
     $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->where('enable',1)->latest()->first();
     $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->where('enable',1)->latest()->first();
-    if(!$talnet)
+    
+        if(!$talnet)
     return back()->with('error','نتیجه آزمون یافت نشد');
-        
             $out='';$flag=false;$score='';
              
              $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->where('active',1)->get();

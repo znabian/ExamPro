@@ -47,12 +47,14 @@ class SmsController extends Controller
         /*$this->validate($request,[
             "phone"=>['required','regex:/^(\+|09)\d{9,}$/u']#'regex:/^(\+98|0)?9\d{9}$/u'
         ]);*/
+        $phone=(str_starts_with($request->phone,"+98"))?str_replace("+98",'0',$request->phone):((str_starts_with($request->phone,"0098"))?str_replace("0098",'0',$request->phone):$request->phone);
         $sms = Sms::create([
-            "phone"=>$request->phone,
+            "phone"=>$phone,
             "code"=>$code
         ]);
         if(Str::startsWith($request->phone, '+98') || Str::startsWith($request->phone, '09') || Str::startsWith($request->phone, '0098'))
         {
+          
           /*   $this->apiMainurl =  $this->apiMainurl . '/Apiv2/' . "Message/SendSms";
         $ch = curl_init($this->apiMainurl);
         $SmsBody = "کد ورود به پنل:". $code . "\n سامانه رشد عرفان خوش نظر";
