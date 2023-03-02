@@ -19,7 +19,7 @@ class SmsController extends Controller
     public function send(Request $request)
     {
          $this->validate($request,[
-            "phone"=>['required','numeric','regex:/^(\+98|09|00)\d{9,11}$/u']
+            "phone"=>['required','numeric','regex:/^(\+98|09|00)\d{9,16}$/u']
         ]);
         $code = rand(1000,9999);
       

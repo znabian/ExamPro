@@ -1,0 +1,2 @@
+Minute	Hour	Day	Month	Weekday	Command	
+*/5	*	*	*	*	php /home/erfankho/public_html/nbproject/crontest.php
