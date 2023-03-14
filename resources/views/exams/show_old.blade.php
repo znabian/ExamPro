@@ -127,15 +127,21 @@
         .then(function ({data}) {
                 if(data.ans == {{$exam->questions()->count()}}){
                     // document.getElementById("MobileShowExamQuizeEndButtonDisableA").style.display="none";
-                   @if($exam->id==4)
-                    swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
-                   @elseif(is_null(session('chk')) && $exam->id==6)
-                    swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                    @if(auth()->user()->source!='survey')
+                        @if($exam->id==4)
+                        swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
+                        @elseif(is_null(session('chk')) && $exam->id==6)
+                        swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                        @endif
+                        document.location.href=url;
+                    @else
+                        document.location.href="{{route('end.survey',$ExamUserid)}}";
                     @endif
-                    document.location.href=url;
+                    
                 }
                 else
                 {
+                    @if(auth()->user()->source!='survey')
                     if(data.ans >0)
                     {
                         @if($exam->id==6)
@@ -184,6 +190,9 @@
                             a[i].checked = false;
                     swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
                     }
+                    @else
+                    swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
+                    @endif
                 }
             })
             .catch(error => {

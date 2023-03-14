@@ -18,6 +18,9 @@ Route::get('/cache-clear', function () {
     Artisan::call('config:clear');
     dd('ok');
 });
+Route::get('/survey/{castle}/{payment}/{panel_id}',[App\Http\Controllers\SurveyController::class,'surveyLogin'] );
+Route::middleware('auth')->get('/survey-end/{ExamUserid}',[App\Http\Controllers\SurveyController::class,'surveyEnd'] )->name('end.survey');
+
 /*Route::get('/te',function(){
     session(['chk' => "te"]);
     return redirect(route('login'));

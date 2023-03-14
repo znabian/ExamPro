@@ -833,7 +833,8 @@ class ExamController extends Controller
     return back()->with('error','نتیجه آزمون یافت نشد');
         
             $out='';$flag=false;$score='';
-             
+             if(!$talnet->score)
+             {
              $historyResult = DB::table('histories')->where("exam_user_id","=",$talnet->id)->where('active',1)->get();
              foreach($historyResult as $value){
                  if(Answer::find($value->answer_id)->is_char){
@@ -891,6 +892,14 @@ class ExamController extends Controller
                             if(strlen($score)<2)                     
                             $score.=$indexs[$item];
                         } 
+                DB::table("exam_user")->where('id',$talnet->id)->update(['score'=>json_encode(['disc'=>$disc,'score'=>$score])]);
+
+            }
+            }
+            else
+            {
+                $score=json_decode($talnet->score);
+                $score=$score->score;
             }
                 $data=$this->showConclusion_Formular($exam->id);
                // return view('conclusions.show',["score"=>$data['score'],"exam"=>$data['exam'],"conclusion"=>$data['conclusion']]);

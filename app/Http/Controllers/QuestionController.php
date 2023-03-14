@@ -46,7 +46,7 @@ class QuestionController extends Controller
     {
         $this->validate($request,[
             'question'=>'required_if:type,==,text',
-            'groupid'=>'required',
+            //'groupid'=>'required',
             ]);
         $is_char = false;
         if($request->is_char){
@@ -56,6 +56,8 @@ class QuestionController extends Controller
             "name"=>$request->question,
             'exam_id'=>$request->azmonId
         ]);
+        if($request->groupid)
+        {
         $group=group::find($request->groupid);
        /* $quiz=json_decode($group->questions)??[];
        if(!in_array($questionResult->id,$quiz))
@@ -67,7 +69,7 @@ class QuestionController extends Controller
        
        $group->questions()->updateOrInsert(['question_id'=>$questionResult->id,'group_id'=>$group->id],['updated_at'=>now()]);
        $group->save();
-       
+       }
         if($questionResult){
            
                 $link=$this->uplaod($request,'AnswerAnalysis',$request->type,'Questions/'."q{$questionResult->id}","q{$questionResult->id}"); 
@@ -171,7 +173,10 @@ class QuestionController extends Controller
                 ]);
             }*/
         }
+        if($request->groupid)
         return redirect(route('group.edit',[$request->groupid]));
+        else
+        return redirect(route('quiz.index',[$request->azmonId]));
     }
 
     public function OLD_uplaod(Request $request,$qid,$fname,$aid)
@@ -291,6 +296,9 @@ class QuestionController extends Controller
             "name"=>$request->question, 
              "type"=>$request->type,'link'=>$link
         ]);
+        
+        if($request->gid)
+        {
         $group=group::find($request->gid);
         $quiz=json_decode( $group->questions)??[];
            if(!in_array($id,$quiz))
@@ -299,7 +307,7 @@ class QuestionController extends Controller
             $group->update(['questions'=>json_encode($quiz)]);
             $group->save();
            }
-            
+         }   
         return redirect()->route('question.index');
     }
 

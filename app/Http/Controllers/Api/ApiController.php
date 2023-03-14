@@ -452,6 +452,132 @@ class ApiController extends Controller
         
         $EUtbl=DB::table("exam_user")->find($request->exam_id);
         $examtbl=Exam::find($EUtbl->exam_id);
+        $score2=0;
+        if($examtbl->formuls()->count())
+           $type=2;
+        else
+            $type=1;
+            
+        $result = [];
+        $flag = false;
+        $score =DB::table("exam_user")->find($request->exam_id)->score??0;
+        $C=0;
+        $I=0;
+        $S=0;
+        $D=0;
+        $inputFlag=false;
+        
+        $histories = DB::table('histories')->where('exam_user_id',$request->exam_id)->where('active',1)->get();
+        foreach($histories as $value){
+            $question = DB::table('questions')->find($value->question_id);
+            $answer = DB::table('answers')->find($value->answer_id);
+            array_push($result,["question"=>$question->name,"answer"=>$answer->name]);
+            if($answer->is_char)
+            {
+                if(!$score)
+                {
+                    $flag=true;
+                    $char = $answer->char_value;
+                    $char_value = $answer->value;
+                    if($char=="I"){
+                        $I = $I + $char_value;
+                    }
+                    if($char=="C"){
+                        $C = $C + $char_value;
+                    }
+                    if($char=="S"){
+                        $S = $S + $char_value;
+                    }
+                    if($char=="D"){
+                        $D = $D + $char_value;
+                    }
+                }
+            }
+            else
+            $score2 += $answer->value;
+        }
+        if($flag)
+        {
+            $disc=["D"=>$D,"I"=>$I,"S"=>$S,"C"=>$C];
+            foreach($disc as $index=>$item)
+                    {
+                        $num=DB::table('talents')->where('type',$index)->where('number',$item)->first()->index;
+                        if($num>=13 )
+                        {
+                        $scores[]=$num;  
+                        $indexs[]=$index;  
+                        }                     
+                    }  
+                    $score=''; 
+                    asort($scores);
+                    $scores=array_reverse($scores,1);
+                    $max=max($scores);
+                    //$scores=array_unique($scores);
+
+                    foreach($scores as $index=>$item)
+                    {    if($max==$item)
+                        $maxs[]=$index;
+                    } 
+                     asort($maxs);
+                    if(count($maxs)==1)
+                        foreach($scores as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$index];
+                        } 
+                    else
+                        foreach($maxs as $index=>$item)
+                        {
+                            if(strlen($score)<2)                     
+                            $score.=$indexs[$item];
+                        } 
+                    $inputFlag=true;
+            
+           /* $find = DB::table('talent_history')->where([
+                ["i","=",$I],
+                ["s","=",$S],
+                ["c","=",$C],
+                ["d","=",$D],
+                ])->first();
+            if($find){
+                $score = $find->personal_type;
+                $inputFlag=true;
+            }
+            else{
+                $score = "D=>(".$D."),I=>(".$I."),S=>(".$S."),C=>(".$C.")";
+            }*/
+        }
+        else{
+            if($score)
+            {
+            $score=json_decode($score);
+            if($EUtbl->exam_id==4)
+            {
+                $D=$score->disc->D;
+                $I=$score->disc->I;
+                $S=$score->disc->S;
+                $C=$score->disc->C;
+                    $inputFlag=true;
+            }
+                $score=$score->score;
+            }
+            else
+            $score=$score2;
+        }
+        if($EUtbl->exam_id==6)
+        {
+            DB::table("exam_user")->where('id',$request->exam_id)->update(['score'=>json_encode(['disc'=>[],'score'=>$score])]);
+        }
+       // array_push($result,["name"=>$eu->name]);
+        array_push($result,['type'=>$type,"score"=>$score,"i"=>$I,"s"=>$S,"c"=>$C,"d"=>$D,"UserName"=>$EUtbl->name,'ExamName'=>$examtbl->name]);
+        array_push($result,["flag"=>$inputFlag]);
+       return $result;
+    } 
+    public function examResults_1(Request $request){
+        $this->setExamRead($request);
+        
+        $EUtbl=DB::table("exam_user")->find($request->exam_id);
+        $examtbl=Exam::find($EUtbl->exam_id);
         $out='';
         if($examtbl->formuls()->count())
            $type=2;
