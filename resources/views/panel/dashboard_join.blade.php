@@ -34,9 +34,8 @@
             {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/1.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
                 </div>
@@ -45,45 +44,19 @@
         <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/2.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا دوازده سال</span>
-                </div>
-            </div>
-        </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',6)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی نوجوان</span>
-                    <span class="categoryDataExamDescription">سیزده تا هجده سال</span>
-                </div>
-            </div>
-        </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',9)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون هالند</span>
-                    <span class="categoryDataExamDescription">بالای دوازده سال</span>
+                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
                 </div>
             </div>
         </div>
         <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/3.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
                     <span class="categoryDataExamDescription"></span>
@@ -94,9 +67,8 @@
         <div class="MobileCategoryContainer" onclick="showvideo(2)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/4.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
                     <span class="categoryDataExamDescription"></span>
@@ -107,9 +79,8 @@
         <div class="MobileCategoryContainer" onclick="showvideo(3)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/5.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
                     <span class="categoryDataExamDescription"></span>
@@ -163,9 +134,8 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(1)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" src="{{asset('images/1.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
                     <span class="categoryDataExamDescription"></span>
@@ -175,45 +145,19 @@
         <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" src="{{asset('images/2.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا دوازده سال</span>
-                </div>
-            </div>
-        </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',6)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی نوجوان</span>
-                    <span class="categoryDataExamDescription">سیزده تا هجده سال</span>
-                </div>
-            </div>
-        </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',9)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون هالند</span>
-                    <span class="categoryDataExamDescription">بالای دوازده سال</span>
+                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
                 </div>
             </div>
         </div>
         <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" src="{{asset('images/3.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">مشاهده نتیجه</span>
                     <span class="categoryDataExamDescription"></span>
@@ -224,9 +168,8 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(2)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" src="{{asset('images/4.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
                     <span class="categoryDataExamDescription"></span>
@@ -237,9 +180,8 @@
         <div class="DesktopCategoryContainer" onclick="showvideo(3)">
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
+                <img class="categoryDataImages" src="{{asset('images/5.png')}}">
+                <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
                     <span class="categoryDataExamDescription"></span>

@@ -22,7 +22,7 @@
               <div class=" col-md-12 mb-5 border  p-3 " dir="ltr" >
                 <div class="form-row">
                     <div class="col">
-                        <textarea name="body" class="form-control " rows="10" id="deftxtFormular" >{{$def->body}}</textarea>
+                        <textarea name="body" class="form-control " rows="10" id="deftxtFormular" >{{$def->body??''}}</textarea>
                     </div>
                     
                 </div>

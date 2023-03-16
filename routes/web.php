@@ -58,7 +58,8 @@ Route::group([
     Route::get('admin/exam/{id}',[App\Http\Controllers\ExamController::class,"show"])->name('exam.show');
     Route::get('/suggest/exams',[App\Http\Controllers\Panel\PanelController::class,'suggestExams'])->name('suggest.exams');
 
-    Route::get('/Exams-Result',[App\Http\Controllers\ExamController::class,"GetExamResult"])->name('result.exams');
+    Route::view('/Exams-Result',"panel.result")->name('result.exams');
+    Route::get('/Exams-Result/{id}',[App\Http\Controllers\ExamController::class,"GetExamResult"])->name('result.exam');
  Route::get('/Exams-PreRequisite',function(){$st=request('status')??1;return view("panel.showvideo",compact("st"));})->name('pish.video');
     Route::post('/Exams-PreRequisite-save',[App\Http\Controllers\Panel\PanelController::class,"changeStatus"])->name('pish.ok');
 

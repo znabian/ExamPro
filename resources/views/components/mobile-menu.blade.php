@@ -51,7 +51,20 @@
                             
                         </a>
                     </li>
-                    @if(in_array(3,explode(',',auth()->user()->status))) 
+                    <li>
+                        <a href="{{route('myinfo',6)}}" style="font-size: 10pt; ">
+                            <i class="fa fa-diamond"></i>                        
+                          <span style="padding-right: 2%"> استعدادیابی نوجوان</span>                        
+                            
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('myinfo',9)}}" style="font-size: 10pt; ">
+                            <i class="fa fa-diamond"></i>                        
+                          <span style="padding-right: 2%"> آزمون هالند</span>                        
+                            
+                        </a>
+                    </li>
                     <li>
                         <a href="/Exams-Result" style="font-size: 10pt; ">
                             <i class="fa fa-diamond"></i>                        
@@ -59,7 +72,6 @@
                             
                         </a>
                     </li>
-                    @endif
                     @else
                     <li>
                         <a href="{{route('pish.video')}}" style="font-size: 10pt; ">

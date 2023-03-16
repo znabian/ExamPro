@@ -40,52 +40,27 @@
 {
     font-size: 10pt;
 }
+.numbers
+{
+    padding-right: 0.26rem;
+}
 </style>
 @endsection
 @section('content')
 
-@if(isset($score))
-@if($score)
+
 <div class="row mt-6 mb-3 px-3">
     <div class="col-12 w-100 h-100 px-0 position-relative">
         <div class="check radius-12 bg-green-1 position-absolute">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
             <span class="text-white fw-bold">نتیجه تحلیل آزمون شما</span>
         </div>
-        <div class="video position-relative radius-12">
-            <video id="videoRes" class="blurEffect w-100" width="100%" controls>
-                <source src="https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4" type="video/mp4">
-                Your browser does not support HTML video.
-            </video>
-            <span class="icon-video"></span>
-        </div>
-    </div>
-    
-    <div class="col-12 mt-5">
-        <div class="check radius-12 bg-green-1">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
-        </div>
+        <div id="videoRes" style="/*max-height:15rem!important;*/">
+            <canvas id="myChart"></canvas>
+          </div>
     </div>
 </div>
-@else
-<div class="row mt-6 mb-3 px-3">
-    <div class="col-12 w-100 h-100 p-5 position-relative card">
-        <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">برای دریافت تحلیل آزمون خود روی دکمه زیر کلیک کنید</h3>
-    
-        <div class="check radius-12 bg-green-1" style="padding: 0px;">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
-        </div>
-   
-            
-    </div>
-    
-</div>
-@endif
-@elseif(isset($out))
-@if(count($out['data']))
+@if(count($out??[]))
 <div class="row mb-5 px-3 justify-content-between">
     @foreach (json_decode($out["data"]) as $item)        
     <div class="col-6 px-0 d-flex justify-content-center mt-6">
@@ -112,22 +87,24 @@
         </div>
     </div> --}}
 </div>
-
+@endif
+@if($descripts)
 <div class="row my-5 px-3">
-    @foreach(json_decode($out["descripts"]) as $item)
+    @foreach($descripts as $item)
     <div class="col-12 px-0 mb-3">
         <div class="accordion acc-me " id="accordionExample{{$loop->index}}">
             <div class="accordion-item shadow-dark-1 radius-23">
                 <h2 class="accordion-header radius-23" id="heading{{$loop->index}}">
                     <button class="accordion-button radius-23 collapsed" type="button" data-bs-toggle="collapse"
                         data-bs-target="#collapse{{$loop->index}}" aria-expanded="true" aria-controls="collapse{{$loop->index}}">
-                        {{$item->title->tit}}<b class="ltr numbers">{{$item->title->num}} </b>
+                      {{$item['title']}}
+                        <b class="ltr numbers">{{'%'.intdiv($item['num']*100,$sum)}} </b>
                     </button>
                 </h2>
                 <div id="collapse{{$loop->index}}" class="accordion-collapse collapse  asas"
                     aria-labelledby="heading{{$loop->index}}" data-bs-parent="#accordionExample{{$loop->index}}">
                     <div class="accordion-body text-white">
-                        {!!$item->body!!}
+                        {!!$item['body']!!}
                     </div>
                 </div>
             </div>
@@ -157,27 +134,94 @@
     </div>
     
 </div>
-@endif
-@else
-<div class="row mt-6 mb-3 px-3">
-    <div class="col-12 w-100 h-100 p-5 position-relative card">
-        <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">برای دریافت تحلیل آزمون خود روی دکمه زیر کلیک کنید</h3>
-    
-        <div class="check radius-12 bg-green-1" style="padding: 0px;">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
-        </div>
-   
-            
-    </div>
-    
-</div>
 
 @endif
 
 @endsection
 @section('mobileScript')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('myChart');
+
+    const labels = JSON.parse('{!!json_encode($labels)!!}');
+    const data = {
+    labels: labels,
+    datasets: [
+        {
+        label: 'رتبه',
+       data: JSON.parse('{!!json_encode($furmulids2["RESULT"])!!}'),
+        borderColor:'blue',
+        backgroundColor:'rgba(54, 162, 235, 0.2)',
+        fill:false,
+        },
+    ]
+    };
+    const config = {
+    type: 'radar',
+    data: data,
+    options: {
+        responsive: true,
+        font:{
+        family:"Peyda",
+            size:6,
+        },
+        chartArea: { backgroundColor: 'red' },
+       
+      elements: {
+        fontFamily:"Peyda",
+        fontSize:56,
+        line: {
+            borderWidth: 3
+        }
+        },
+        scales: {
+            r:{
+                suggestedMin: 0,
+            suggestedMax: 100,
+            grid:{
+                    color:'white',
+                    lineWidth:3,
+                },
+            angleLines:{
+            color:'white',
+            lineWidth: 3
+            },
+        pointLabels:{color:'white',
+                font: {
+                    family:'peyda',
+                size:15,
+                weight:"bold"
+                }
+        },
+        ticks:{
+            color:'red',fontFamily:'peyda',stepSize: 10,
+        }
+            },
+          
+        },
+        plugins: {
+        title: {
+            display: false,
+            text: 'تیپ شخصیتی شما'
+        },
+        customCanvasBackgroundColor: {
+        //color: 'lightGreen',
+      },
+      legend: {
+                        display:false,
+                labels: {
+                    // This more specific font property overrides the global property
+                    font: {
+                        size: 65,
+                        family:"Peyda"
+                    }
+                }
+            }
+        }
+    },
+    };
+    new Chart(ctx, config);
+  </script>
 <script>
        function mygift()
     {
@@ -187,7 +231,7 @@
     {
         @if(in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
         swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
-        window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
+        window.axios.post('https://exam.erfankhoshnazar.com/api/Exam/addRequest', {Phone:"{{auth()->user()->phone}}",Description:"شرکت در استعدادیابی و درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {                               
                                 location.href="https://erfankhoshnazar.com/b";                                
 

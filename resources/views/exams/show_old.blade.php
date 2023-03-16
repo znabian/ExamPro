@@ -27,7 +27,7 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
         {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">اتمام آزمون</a> --}}
-        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        {{-- @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Mb')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
@@ -37,7 +37,13 @@
             @else
             <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >اتمام آزمون</a>
             @endif
-        @endif
+        @endif --}}
+        @if(!is_null(session('chk')))
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Mb')" >اتمام آزمون</a>
+            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+            @else
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >اتمام آزمون</a>
+            @endif
 
     </div>
 @endsection
@@ -68,7 +74,7 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
        
-        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        {{-- @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Db')" >ادامه آزمون</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
         @else
@@ -78,7 +84,13 @@
             @else
             <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >اتمام آزمون</a>
             @endif
-        @endif
+        @endif --}}
+        @if(!is_null(session('chk')))
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Db')" >اتمام آزمون</a>
+            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+            @else
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >اتمام آزمون</a>
+            @endif
 
     </div>
 @endsection
@@ -128,11 +140,12 @@
                 if(data.ans == {{$exam->questions()->count()}}){
                     // document.getElementById("MobileShowExamQuizeEndButtonDisableA").style.display="none";
                     @if(auth()->user()->source!='survey')
-                        @if($exam->id==4)
-                        swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
-                        @elseif(is_null(session('chk')) && $exam->id==6)
-                        swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
-                        @endif
+                        //{-- @if($exam->id==4)
+                        // swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
+                        // @elseif(is_null(session('chk')) && $exam->id==6)
+                        // swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                        // @endif--}
+                         swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
                         document.location.href=url;
                     @else
                         document.location.href="{{route('end.survey',$ExamUserid)}}";
@@ -144,11 +157,12 @@
                     @if(auth()->user()->source!='survey')
                     if(data.ans >0)
                     {
-                        @if($exam->id==6)
-                        yes='آزمون پایان یابد ';
-                        @elseif($exam->id==4)
-                        yes=' برو به مرحله دوم آزمون ';
-                        @endif
+                        /* @if($exam->id==6)
+                         yes='آزمون پایان یابد ';
+                         @elseif($exam->id==4)
+                         yes=' برو به مرحله دوم آزمون ';
+                         @endif*/
+                         var yes=' آزمون پایان یابد ';
                         quizz=(data.emt)?"\n"+"سوالات \n"+data.emt+"\n":'';
                         uncheckd(data.qid);
                         checkd(data.aid,pl);
@@ -168,11 +182,12 @@
                                         swal("توجه",quizz+' پاسخ داده نشده است',"info");
                                             break;
                                         case "defeat":
-                                        @if($exam->id==4)
-                                            swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
-                                        @elseif(is_null(session('chk')) && $exam->id==6)
-                                            swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
-                                            @endif
+                                        /* @if($exam->id==4)
+                                             swal('لطفا صبر کنید',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
+                                         @elseif(is_null(session('chk')) && $exam->id==6)
+                                             swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
+                                             @endif*/
+                                        swal('آزمون شما ثبت شد',"نتیجه آزمون را می توانید در 'مشاهده ی نتیجه' بررسی نمایید",'info');
                                             document.location.href=url;
                                             break;
                                         }

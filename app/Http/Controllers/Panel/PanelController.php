@@ -172,6 +172,22 @@ class PanelController extends Controller
                     else
                     $res=1;
                     break;
+                case '7': //ازمون سوم                   
+                    if(!in_array(7,$status))
+                    {
+                        $status[]=7;
+                        $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        /*if(DB::table('user_crons') ->where('phone',auth()->user()->phone)->exists())                        
+                        {
+                            DB::table('user_crons')
+                            ->where('phone',auth()->user()->phone)
+                            ->update(['cron'=>7,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                            $sms->cronsms(6,auth()->user()->phone);
+                        }*/
+                    }
+                    else
+                    $res=1;
+                    break;
                 case '4'://نتیجه 
                     
                     if(!in_array(4,$status))

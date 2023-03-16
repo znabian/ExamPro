@@ -87,6 +87,20 @@ class ExamController extends Controller
     {
         $ExamUsers= DB::table("exam_user")->find($id);
         $exam = Exam::find($ExamUsers->exam_id);
+        $a=new PanelController();
+        switch ($ExamUsers->exam_id)
+         {
+            case '4':
+                $b=new Request(['sts'=>2]);
+                break;
+            case '6':
+                $b=new Request(['sts'=>3]);
+                break;
+            case '9':
+                $b=new Request(['sts'=>7]);
+                break;
+        }
+        $a->changeStatus($b);
         if($exam->groups()->where('status',1)->count())
         return view("exams.show",["exam"=>$exam,'ExamUserid'=>$ExamUsers->id]);
         return view("exams.show_old",["exam"=>$exam,'ExamUserid'=>$ExamUsers->id]);
@@ -825,7 +839,7 @@ class ExamController extends Controller
         $filename='campaign-users-'.now().'.xlsx';
        return Excel::download($examUser, $filename);
    }
-   public function GetExamResult()
+   public function GetExamResult_1()
    {
     $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->where('enable',1)->latest()->first();
     $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->where('enable',1)->latest()->first();
@@ -912,5 +926,236 @@ class ExamController extends Controller
                $b=new Request(['sts'=>4]);
                $a->changeStatus($b);
         return view('conclusions.result',compact("score",'out'));
+   }
+   public function GetExamResult($Eid)
+   {
+    
+    $ExamUser=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',$Eid)->where('enable',1)->latest()->first();
+    if(!$ExamUser)
+    return back()->with('error','نتیجه آزمون یافت نشد');
+    if(DB::table('histories')->where("exam_user_id","=",$ExamUser->id)->where('active',1)->count()<=5)
+    return back()->with('error','نتیجه آزمون یافت نشد');
+    switch ($ExamUser->exam_id) {
+        case '4'://talent
+            $flag=false;$score='';
+            if(!$ExamUser->score)
+            {
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$ExamUser->id)->where('active',1)->get();
+            foreach($historyResult as $value){
+                if(Answer::find($value->answer_id)->is_char){
+                    $flag=true;
+                }
+                break;
+            }
+            $disc=['D'=>0,'I'=>0,'S'=>0,'C'=>0];
+            if($flag){
+                foreach($historyResult as $value){
+                    $char = Answer::find($value->answer_id)->char_value;
+                    $char_value = Answer::find($value->answer_id)->value;
+                    if($char=="I"){
+                       $disc['I'] += $char_value;
+                    }
+                    if($char=="C"){
+                       $disc['C']+=$char_value;
+                    }
+                    if($char=="S"){
+                       $disc['S']+=$char_value;
+                    }
+                    if($char=="D"){
+                       $disc['D']+=$char_value;
+                    }
+                }
+                   foreach($disc as $index=>$item)
+                   {
+                       $num=DB::table('talents')->where('type',$index)->where('number',$item)->first()->index;
+                       if($num>=13 )
+                       {
+                       $scores[]=$num;  
+                       $indexs[]=$index;  
+                       }          
+                       $all[$index]=$num;            
+                   }
+                   asort($scores);
+                   $scores=array_reverse($scores,1);
+                   $max=max($scores);
+                   //$scores=array_unique($scores);
+
+                   foreach($scores as $index=>$item)
+                   {    if($max==$item)
+                       $maxs[]=$index;
+                   } 
+                    asort($maxs);
+                   if(count($maxs)==1)
+                       foreach($scores as $index=>$item)
+                       {
+                           if(strlen($score)<2)                     
+                           $score.=$indexs[$index];
+                       } 
+                   else
+                       foreach($maxs as $index=>$item)
+                       {
+                           if(strlen($score)<2)                     
+                           $score.=$indexs[$item];
+                       } 
+               DB::table("exam_user")->where('id',$ExamUser->id)->update(['score'=>json_encode(['disc'=>$disc,'score'=>$score])]);
+
+           }
+           }
+           else
+           {
+               $score=json_decode($ExamUser->score);
+               $score=$score->score;
+           }
+              
+              $a=new PanelController();
+              $b=new Request(['sts'=>4]);
+              $a->changeStatus($b);
+              return view('conclusions.result',compact("score"));
+            break;
+        case '6'://theen
+            $out='';
+            
+               $data=$this->showConclusion_Formular($ExamUser->exam_id);
+              $out=$data;
+
+              $a=new PanelController();
+              $b=new Request(['sts'=>4]);
+              $a->changeStatus($b);
+       return view('conclusions.result',compact('out'));
+            break;
+        case '9'://holand
+            $examtbl=Exam::find($ExamUser->exam_id);
+            if($examtbl->formuls()->count())
+            {
+                $historyResult = DB::table('histories')->where("exam_user_id",$ExamUser->id)->where('active',1)->pluck("answer_id")->toArray();
+               
+                foreach($examtbl->formuls()->where('type','1')->get() as $formul)
+                {
+                    $ids=[];
+                    foreach(json_decode($formul->questions) as $quiz)
+                        $ids[":$quiz"]=0;
+                        
+                    $answers=Answer::whereIn('question_id',(Array)json_decode($formul->questions))->whereIn('id',$historyResult)->get(); 
+                    foreach($answers as $ans)
+                        $ids[":$ans->question_id"]=$ans->value;
+    
+                        
+                    $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
+                    $formul->formul=strtr($formul->formul,['{'=>'','}'=>'']);
+                    $rep=strtr($formul->formul,$ids);
+                    $rep=strtr($rep,$oprator);
+                    $res=eval("return number_format($rep);");
+                    $defaultResult[$formul->id]=$res;
+                  
+                    $conditation=exam_formular::find($formul->id)->conditations()->get();
+                    //$conditation=(Array)json_decode($formul->conditation);
+                    $formul->default=strtr($formul->default,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label]);
+                    $out=strtr($formul->default,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']);
+                    list($title,$body)=explode('{:BREAK}',$out);
+                    $descripts[]=['num'=>$res,"title"=>$title,"body"=>strtr($body,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
+
+                        if(!$formul->default)
+                        {
+                            $formul->label=strtr($formul->label,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']);
+                            $title=['tit'=>$formul->label.' : ','num'=>$res];
+                        }
+                        else
+                        {
+                            $formul->default=strtr($formul->default,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']);
+                            $title=explode(':',$formul->default);
+                            $title=['tit'=>$title[0].' : ','num'=>$title[1]];
+                        }
+                        
+                     foreach($conditation as $con)
+                        {
+                            $conditation_if=strtr($con->conditation,['{:RESULT}'=>$res]);
+                            
+                            if(!is_null($conditation_if))
+                            {
+                                $res2=eval("return $conditation_if;");
+                                if($res2)
+                                {
+                                    $out=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']);
+                                    $descripts[]=["title"=>$title,"body"=>strtr($out,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
+    
+                                }
+                            }                         
+                            
+                        } 
+                    
+                }
+                $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
+                foreach($examtbl->formuls()->where('type','1')->get() as $fid)
+                {
+                    $furmulids["{:RESULT-$fid->id}"]=$defaultResult[$fid->id];
+                    $furmulids["{:LABEL-$fid->id}"]=$fid->label;
+                    $furmulids2["RESULT"][]=$defaultResult[$fid->id];
+                    $furmulids2["LABEL"][]=$fid->label;
+                }
+                $labels=array_map(function($item){return strtr($item,['تیپ شخصیتی'=>'']);},$furmulids2["LABEL"]);
+             //asort($furmulids2["RESULT"]);
+                $sum=array_sum($furmulids2["RESULT"]);
+                
+             
+                $default=$examtbl->conditation()->where('default',1)->first(); 
+                if($default)  
+                {
+                    $default->body=strtr($default->body,$furmulids);
+                    $default->body=strtr($default->body,$oprator);
+                    //$item->body=strtr($item->body,["\r\n"=>'']); 
+                    $default=explode("\r\n",$default->body) ;
+                    foreach($default as $index=>$item)
+                    $data[]=['title'=>strtr(strtr(trim(explode(":",$item)[0]),['( از 100 )'=>'']),['(100)'=>'']),'num'=>trim(explode(":",$item)[1]),'img'=>'images/img'.($index+1).'.png'] ;        
+                }
+                foreach( $examtbl->formuls()->where('type','2')->get() as $formul)
+                {
+                    $rep=strtr($formul->formul,$furmulids);
+                    $rep=strtr($rep,$oprator); 
+                    
+                    
+                    $rep=strtr($rep,$furmulids);
+    
+                    $res=eval("return number_format($rep,2);");
+                    $conditation=exam_formular::find($formul->id)->conditations()->get();
+                   
+                    foreach($conditation as $con)
+                    {
+                        $conditation_if=strtr($con->conditation,['{:RESULT}'=>$res,"\r\n"=>'<br/>']);
+                        $conditation_if=strtr($conditation_if,$furmulids);
+                        
+                        if(!is_null($conditation_if))
+                        {
+                            $res2=eval("return $conditation_if;");
+                            if($res2)
+                            {
+                                list($tit,$bod)=explode('</b>',$con->then);
+                                 $descripts[]=["title"=>['tit'=>strtr($tit,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']),'num'=>''],"body"=>strtr($bod,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
+                               
+                                
+                            }
+                        } 
+                    }  
+                           
+                }
+                usort($descripts, function($a, $b)use($sum){
+                    $a = intdiv($a['num']*100,$sum);
+                    $b = intdiv($b['num']*100,$sum);
+                
+                    if ($a == $b) {
+                        return 0;
+                    }
+                    return ($a > $b) ? -1 : 1;
+                });
+               return view('conclusions.analysis_Holand',compact('descripts','sum','labels','furmulids2'));
+                
+            }
+            break;
+        
+        default:
+            # code...
+            break;
+    }
+        
+            
    }
 }
