@@ -1,17 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <title>ورود به سامانه</title>
+    <title>{{__('messages.ورود به سامانه')}}</title>
+    <style>
+        
+#langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+    font-size: 13px;
+    font-weight: normal;
+}
+    </style>
 </head>
 <body id="loginBody">
+    
+<form id="chlang" action="{{route('chLang')}}" method="post">
+    @csrf
+    <select name="language" onchange="chlang.submit();" id='langselect'>
+        <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+        <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+        <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+        <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+    </select>
+</form>
     <div id="loginHeader">
         <figure>
-            <img id="logoImage" src="{{asset('/images/logo.png')}}" alt="سامانه رشد خوش نظر">
-            <figcaption id="logoCaption">سامانه رشد خوش نظر</figcaption>
+            <img id="logoImage" src="{{asset('/images/logo.png')}}" alt="{{__('messages.سامانه رشد خوش نظر')}}">
+            <figcaption id="logoCaption">{{__('messages.سامانه رشد خوش نظر')}}</figcaption>
         </figure>
     </div>
     <div id="loginDesktopHeader">
@@ -22,20 +49,20 @@
             <div id="loginContainerHeader">
                 <figure>
                     <img id="loginContainerHeaderFigureLogoDesktop" src="{{asset('/images/loginPersonRed.png')}}" alt="person">
-                    <figcaption id="loginContainerHeaderFigureCaption">کد تایید را وارد نمایید</figcaption>
+                    <figcaption id="loginContainerHeaderFigureCaption">{{__('messages.کد تایید را وارد نمایید')}}</figcaption>
                 </figure>
                 <hr/>
             </div>
             <div id="loginContainerBody">
                 <form action="{{route("loginConfirmation",$sms)}}" method="post">
                     @csrf
-                    <label for="codeInput"><small id="codeLable">کد تایید برای شماره موبایل {{$sms->phone}} ارسال گردید</small></label>
+                    <label for="codeInput"><small id="codeLable">{{__('messages.کد تایید برای شماره موبایل ارسال گردید',['mobile'=>$sms->phone])}}</small></label>
                     <br>
                     <input type="tel" id="codeInput" name="code" autocomplete="off" required placeholder="----">
                     <br>
                     <div id="timer"></div>
-                    <div id="timerLink">ارسال مجدد کد</div>
-                    <button type="submit" id="loginButton">ورود</button>
+                    <div id="timerLink">{{__('messages.ارسال مجدد کد')}}</div>
+                    <button type="submit" id="loginButton">{{__('messages.ورود')}}</button>
                 </form>
             </div>
         </div>
@@ -48,22 +75,22 @@
             <div id="loginContainerHeader">
                 <figure>
                     <img id="loginContainerHeaderFigureLogo" src="{{asset('/images/loginPerson.png')}}" alt="person">
-                    <figcaption id="loginContainerHeaderFigureCaption">کد تایید را وارد نمایید</figcaption>
+                    <figcaption id="loginContainerHeaderFigureCaption">{{__('messages.کد تایید را وارد نمایید')}}</figcaption>
                 </figure>
                 <hr/>
             </div>
             <div id="loginContainerBody">
                 <form action="{{route("loginConfirmation",$sms)}}" method="post">
                     @csrf
-                    <label for="codeInputMobile"><small id="codeLableMobile">کد تایید برای شماره موبایل {{$sms->phone}} ارسال گردید</small>
+                    <label for="codeInputMobile"><small id="codeLableMobile">{{__('messages.کد تایید برای شماره موبایل ارسال گردید',['mobile'=>$sms->phone])}}</small>
                        
                     </label>
                     <br>
                     <input type="tel" id="codeInputMobile" autocomplete="off" name="code" required placeholder="----">
                     <br>
                     <div id="timerMobile"></div>
-                    <div id="timerMobileLink">ارسال مجدد کد</div>
-                    <button type="submit" id="loginButtonMobile">ورود</button>
+                    <div id="timerMobileLink">{{__('messages.ارسال مجدد کد')}}</div>
+                    <button type="submit" id="loginButtonMobile">{{__('messages.ورود')}}</button>
                 </form>
             </div>
         </div>
@@ -78,8 +105,8 @@
         var seconds_left = 120;
         var seconds_left_mobile = 120;
         var interval = setInterval(function() {
-            document.getElementById('timer').innerHTML =  "ارسال مجدد کد تا"+ --seconds_left +"ثانیه";
-            document.getElementById('timerMobile').innerHTML = "ارسال مجدد کد تا"+ --seconds_left_mobile +"ثانیه";
+            document.getElementById('timer').innerHTML =  "{{__('messages.ارسال مجدد کد تا')}} "+ --seconds_left +" {{__('messages.ثانیه')}}";
+            document.getElementById('timerMobile').innerHTML = "{{__('messages.ارسال مجدد کد تا')}} "+ --seconds_left_mobile +" {{__('messages.ثانیه')}}";
             if (seconds_left <= 0)
             {
                 document.getElementById('timer').style.display = "none";
@@ -99,10 +126,10 @@
     <script>
         @if(isset($error))
         swal({
-            title: "خطا",
-            text:  "لطفا کد ورود را به درستی وارد نمایید",
+            title: "{{__('messages.خطا')}}",
+            text:  "{{__('messages.لطفا کد ورود را به درستی وارد نمایید')}}",
             icon: "error",
-            button: "دوباره سعی کن",
+            button: "{{__('messages.دوباره سعی کن')}}",
         });
         @endif
     </script>

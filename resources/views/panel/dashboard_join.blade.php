@@ -37,28 +37,28 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>7,"max"=>18])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -99,7 +99,7 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">{{$ex->name}}</span>
-                    <span class="categoryDataExamDescription">{{$ex->ageRange}} سال</span>
+                    <span class="categoryDataExamDescription">{{$ex->ageRange}}</span>
                   
                 </div>
             </div>
@@ -119,7 +119,7 @@
     </div>
     {{-- <div id="MobileDashboardExamExitButton">
         <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-        <a href="{{route('logout')}}">خروج</a>
+        <a href="{{route('logout')}}">{{__('messages.خروج')}}</a>
     </div> --}}
 @endsection
 @section('DesktopContent')
@@ -137,29 +137,29 @@
                 <img class="categoryDataImages" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>7,"max"=>18])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -171,7 +171,7 @@
                 <img class="categoryDataImages" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -183,7 +183,7 @@
                 <img class="categoryDataImages" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -199,8 +199,8 @@
                 <img class="categoryDataImages" src="{{asset('images/love.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">{{$ex->name}}</span>
-                    <span class="categoryDataExamDescription">{{$ex->ageRange}} سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.$ex->name')}}</span>
+                    <span class="categoryDataExamDescription">{{$ex->ageRange}}</span>
                   
                 </div>
             </div>
@@ -285,7 +285,7 @@
                     window.focus();
                 }                
                 else
-                 swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                 swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
             })
             .catch(error => {
                
@@ -296,7 +296,7 @@
     </script>
      <script>
        @if(session('error'))
-       swal('توجه',"{{session('error')}}",'error');
+       swal('{{__('messages.توجه')}}',"{{session('error')}}",'error');
     @endif
     @if(session('success'))
     swal('عملیات موفقیت آمیز',"{{session('success')}}",'success');

@@ -27,4 +27,7 @@ class Question extends Model
     public function answers(){
         return $this->hasMany(Answer::class);
     }
+    public function lang($lang){
+        return $this->hasMany(lang::class)->where('lang',$lang);
+    }
 }

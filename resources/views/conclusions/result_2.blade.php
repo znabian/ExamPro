@@ -195,7 +195,7 @@ button.swal-button:hover
 <div id="MobileConclusionShowDescription" onscroll=" if(this.scrollTop > 50){mygift();}">
    @if($score)
    <div class='col-12 justify-content-center' style="text-align: center;">
-    <p dir="rtl">نتیجه تحلیل آزمون شما: </p>
+    <p dir="rtl">{{__('messages.analysisTest')}}: </p>
         <video  controls style='width:100%;height: 10rem;'>
             <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
         Your browser does not support the video player.</video>
@@ -208,7 +208,7 @@ button.swal-button:hover
     <a id="btnreqM" onclick="senRequest()" style="cursor: pointer;"> دریافت مشاوره رایگان دوره آموزشی </a>
 </div>
 <div id="MobileConclusionShowGoBackButton">
-    <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
+    <a href="{{route('dashboard')}}">{{__('messages.صفحه اصلی')}} </a>
 </div>
 @endsection
 @section('DesktopContent')
@@ -220,7 +220,7 @@ button.swal-button:hover
 <div id="MobileConclusionShowDescription" >
     @if($score)
     <div class='col-12 justify-content-center' style="text-align: center;">
-        <p dir="rtl">نتیجه تحلیل آزمون شما: </p>
+        <p dir="rtl">{{__('messages.analysisTest')}}: </p>
          <video  controls style='height: 100%;width:100%'>
          <source src='https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4'>
          Your browser does not support the video player.</video>
@@ -233,7 +233,7 @@ button.swal-button:hover
     <a id="btnreqD" onclick="senRequest()" style="cursor: pointer;"> دریافت مشاوره رایگان دوره آموزشی </a>
 </div>
 <div id="MobileConclusionShowGoBackButton">
-    <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
+    <a href="{{route('dashboard')}}">{{__('messages.صفحه اصلی')}} </a>
 </div>
 @endsection
 @section('mobileScript')
@@ -245,7 +245,7 @@ button.swal-button:hover
     function senRequest()
     {
         @if(in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
-        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
+        swal('{{__('messages.alert_wait.title')}}',"{{__('messages.alert_wait.body')}}",'warning');
         window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {                               
                                 location.href="https://erfankhoshnazar.com/b";                                
@@ -253,23 +253,23 @@ button.swal-button:hover
                             })
                             .catch(function (error) {
                             console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                                swal('{{__('messages.خطا')}}',"{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
                             });    
 
         @else
             @if(in_array(5,explode(',',auth()->user()->status)) && !in_array(6,explode(',',auth()->user()->status))) 
-            text="شما تاکنون از هدیه رایگان فایل آموزشی علاقه مندی به یادگیری استفاده نکرده اید ";
-            btn={ defeat: "فایل آموزشی علاقه مندی به یادگیری",   };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش علاقه مندی به یادگیری')])}}";
+            btn={ defeat: "{{__('messages.افزایش علاقه مندی به یادگیری')}}",   };
             @elseif(!in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
-            text="شما تاکنون از هدیه رایگان فایل آموزشی اعتماد به نفس استفاده نکرده اید ";
-            btn={ conf: "فایل آموزشی اعتماد به نفس",  };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش اعتماد به نفس')])}} ";
+            btn={ conf: "{{__('messages.افزایش اعتماد به نفس')}}",  };
             @else
-            text="شما تاکنون از هدیه رایگان فایلهای آموزشی اعتماد به نفس و علاقه مندی به یادگیری استفاده نکرده اید ";
-            btn={ conf: "فایل آموزشی اعتماد به نفس",defeat: "فایل آموزشی علاقه مندی به یادگیری",  };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش علاقه مندی به یادگیری').','.__('messages.افزایش اعتماد به نفس')])}} ";
+            btn={ conf: "{{__('messages.افزایش اعتماد به نفس')}}",defeat: "{{__('messages.افزایش علاقه مندی به یادگیری')}}",  };
             @endif
         swal( {
-            title:"توجه",
-            text:text+". جهت تکمیل فرایند، هدایای زیر رو مشاهده نمایید",
+            title:"{{__('messages.توجه')}}",
+            text:text+". {{__('messages.gift2')}}",
             icon: 'info',
             showDenyButton: true,
             buttons: btn,
@@ -294,9 +294,9 @@ button.swal-button:hover
         window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {
                                 if(response.data.status)                                
-                                swal('توجه','درخواست شما با موفقیت ثبت شد','success');
+                                swal('{{__('messages.توجه')}}','{{__('messages.درخواست شما با موفقیت ثبت شد')}}','success');
                                 else
-                                swal('خطا',response.data.error,'error');
+                                swal('{{__('messages.خطا')}}',response.data.error,'error');
                                 
                                 btnreqM.style.display="none";
                                 btnreqD.style.display="none";
@@ -304,7 +304,7 @@ button.swal-button:hover
                             })
                             .catch(function (error) {
                             console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                                swal('{{__('messages.خطا')}}',"{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
                             }); 
     }*/
    

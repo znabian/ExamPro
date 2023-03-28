@@ -218,7 +218,7 @@ button.swal-button:hover
   
 </div>
 <div id="MobileConclusionShowGoBackButton">
-    <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
+    <a href="{{route('dashboard')}}">{{__('messages.صفحه اصلی')}} </a>
 </div>
 @endsection
 @section('DesktopContent')
@@ -240,7 +240,7 @@ button.swal-button:hover
    
 </div>
 <div id="MobileConclusionShowGoBackButton">
-    <a href="{{route('dashboard')}}">بازگشت به صفحه اصلی</a>
+    <a href="{{route('dashboard')}}">{{__('messages.صفحه اصلی')}} </a>
 </div>
 @endsection
 @section('mobileScript')

@@ -20,15 +20,15 @@ $nodownload="download";
    switch ($st) {
             case 1:
                $url="https://dl.erfankhoshnazar.com/disc/pish.mp4";
-               $txt="پیش نیاز استعدادیابی";
+               $txt=__('messages.پیش نیاز استعدادیابی');
                 break;
             case 5:
                 $url='http://dl.erfankhoshnazar.com/etemad%20be%20nafs/Mvi%202648%201.mp4%20%DA%A9%D9%85%20%D8%AD%D8%AC%D9%85%20%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF%20%D8%A8%D9%87%20%D9%86%D9%81%D8%B3.mp4';
-               $txt="افزایش اعتماد به نفس";$nodownload="nodownload";
+               $txt=__('messages.افزایش اعتماد به نفس');$nodownload="nodownload";
                 break;
             case 6:
                 $url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
-               $txt="افزایش علاقه مندی به یادگیری";$nodownload="nodownload";
+               $txt=__('messages.افزایش علاقه مندی به یادگیری');$nodownload="nodownload";
                 break;
         }
 @endphp
@@ -47,8 +47,8 @@ $nodownload="download";
         </div>
     </div>
         @if($st==1)   
-        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
-        <button id="errorbtn" onclick="okchstatus()" class="btn btn-outline-warning m-auto w-auto d-none">در مشاهده ویدیو مشکلی است؟</button>
+        <p style="color:white;text-align: center;">{{__('messages.watchvideo')}}</p>
+        <button id="errorbtn" onclick="okchstatus()" class="btn btn-outline-warning m-auto w-auto d-none">{{__('messages.watchvideoerr')}}</button>
         @endif
 </div>
 @endsection
@@ -142,7 +142,7 @@ $nodownload="download";
             if(!e) { e = window.event; }
             /*document.getElementById('videoRes').style.visibility="hidden";
             document.getElementById('waitD').style.display="block";*/
-            swal('لطفا صبر کنید',"شما در حال انتقال به صفحه قبلی هستید...",'warning');
+            swal('{{__('messages.alert_wait.title')}}',"{{__('messages.moveback')}} ",'warning');
             @if(!in_array($st,explode(',',auth()->user()->status)))  
             if(!flag)
                 axios.post("{{route('pish.ok')}}",{sts:"{{$st}}"})
@@ -154,11 +154,11 @@ $nodownload="download";
                         location.href='{{route("dashboard")}}/Exams-Result/';
                         @endif
                         else
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         
                     })
                     .catch(error => {
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         location.reload();
                     });
             else           
@@ -185,7 +185,7 @@ $nodownload="download";
         }
         function okchstatus()
         {
-            swal('لطفا صبر کنید'," در حال ذخیره سازی اطلاعات ...",'warning');
+            swal('{{__('messages.alert_wait.title')}}'," {{__('messages.alert_wait.body')}} ...",'warning');
             if(!flag)
             {
                 axios.post("{{route('pish.ok')}}",{sts:"1"})
@@ -197,11 +197,11 @@ $nodownload="download";
                         location.href='{{route("dashboard")}}/Exams-Result/';
                         @endif
                         else
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         
                     })
                     .catch(error => {
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         location.reload();
                     });
             }
@@ -215,6 +215,37 @@ $nodownload="download";
             }
         }
         @endif
+        function okchstatus()
+        {
+            swal('{{__('messages.alert_wait.title')}}'," {{__('messages.alert_wait.body')}} ...",'warning');
+            if(!flag)
+            {
+                axios.post("{{route('pish.ok')}}",{sts:"1"})
+                .then(function ({data}) {
+                        if(data.status)
+                        @if(!in_array(4,explode(',',auth()->user()->status))) 
+                        location.href='{{route("dashboard")}}';
+                        @else
+                        location.href='{{route("dashboard")}}/Exams-Result/';
+                        @endif
+                        else
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
+                        
+                    })
+                    .catch(error => {
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
+                        location.reload();
+                    });
+            }
+            else
+            {
+                @if(!in_array(4,explode(',',auth()->user()->status))) 
+                    location.href='{{route("dashboard")}}';
+                @else
+                    location.href='{{route("dashboard")}}/Exams-Result/';
+                @endif
+            }
+        }
     </script>
      @if($st==1)  
     <script>

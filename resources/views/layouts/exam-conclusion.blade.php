@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
         #MobileExamQuizeHeader{
             text-align: center;
@@ -78,6 +78,19 @@
             right: 5%;
         }
     }
+    
+   #langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+}
     </style>
 </head>
 <body>
@@ -87,6 +100,16 @@
             دریافت هدیه
         </button>
     </div> --}}
+    
+<form id="chlang" action="{{route('chLang')}}" method="post">
+    @csrf
+    <select name="language" onchange="chlang.submit();"  id='langselect'>
+        <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+        <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+        <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+        <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+    </select>
+</form>
     <div id="MobileComponents">
         <x-mobile-menu />
         <div id="MobileExamQuizeHeader">

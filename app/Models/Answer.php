@@ -22,4 +22,7 @@ class Answer extends Model
     public function question(){
         return $this->belongsTo(Question::class);
     }
+    public function lang($lang){
+        return $this->hasMany(lang::class)->where('lang',$lang);
+    }
 }

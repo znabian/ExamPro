@@ -4,13 +4,13 @@
     <div class="container mt-5" style="text-align: center;">
       <div style="display:flex;justify-content:flex-start;align-items:center;">
         <a class="btn btn-success m-2" href="{{route('createUser')}}">افزودن کاربر</a>
-        <a class="btn btn-danger m-2" href="{{route('users.export')}}">دریافت خروجی اکسل</a>
+        <a class="btn btn-danger m-2" href="{{route('users.export')}}">دریافت {{__('messages.خروج')}}ی اکسل</a>
       </div>
         <table class="table">
             <thead class="thead-dark">
               <tr>
                 <th scope="col">شناسه</th>
-                <th scope="col">نام و نام خانوادگی</th>
+                <th scope="col">{{__('messages.نام و نام خانوادگی')}}</th>
                 <th scope="col">شماره موبایل</th>
                 <th scope="col">وضعیت</th>
                 <th scope="col">نقش</th>

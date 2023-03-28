@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
       .wait {
     text-align: center;
@@ -89,10 +89,10 @@
     
     <div id="MobileComponents">
         <div id="KhoshNazarText" style="color:white;text-align: center;">
-            سامانه رشد خوش نظر
+            {{__('messages.سامانه رشد خوش نظر')}}
         </div>
         @if($st==1)   
-        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
+        <p style="color:white;text-align: center;">{{__('messages.watchvideo')}}</p>
         @endif
         <div class="videoplayer">
         <h2 id="waitM" class="wait">شما در حال انتقال به صفحه قبلی هستید. لطفا کمی صبر کنید ...</h2>
@@ -103,10 +103,10 @@
     </div>
     <div id="DesktopComponents">
         <div id="KhoshNazarText">
-            سامانه رشد خوش نظر
+            {{__('messages.سامانه رشد خوش نظر')}}
         </div>   
         @if($st==1)   
-        <p style="color:white;text-align: center;">برای شرکت در آزمون استعدادیابی حتما ویدیو را تا انتها مشاهده کنید</p>
+        <p style="color:white;text-align: center;">{{__('messages.watchvideo')}}</p>
         @endif
         <div class="videoplayer">
                 <h2 id="waitD" class="wait">شما در حال انتقال به صفحه قبلی هستید. لطفا کمی صبر کنید ...</h2>
@@ -208,11 +208,11 @@
                         location.href='/Exams-Result/';
                         @endif
                         else
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         
                     })
                     .catch(error => {
-                        swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                        swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
                         location.reload();
                     });
             else           

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
 {
@@ -21,8 +22,13 @@ class LoginController extends Controller
         ]);
         $user = DB::table('users')->where('phone',$request->phone)->first();
         if($user->active && $user->is_admin){
-            Auth::login(User::find($user->id));
-            return redirect()->route('users');
+            if(Hash::check($request->password, $user->password))
+			{
+				Auth::login(User::find($user->id));
+				return redirect()->route('users');
+
+			}
+			return back();
         }
         else{
             return redirect()->back();

@@ -16,4 +16,7 @@ class exam_formular extends Model
     {
         return $this->hasMany(FormularConditation::class,'formular_id','id');
     }
+    public function lang($lang){
+        return $this->hasMany(lang::class,'formular_id','id')->where('lang',$lang);
+    }
 }

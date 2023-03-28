@@ -16,6 +16,7 @@ use App\Models\exam_formular;
 use App\Models\group;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -198,7 +199,18 @@ class ExamController extends Controller
         ->update(['active'=>0]);
         DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
         $a=new PanelController();
-        $b=new Request(['sts'=>3]);
+        switch ($EUtbl->exam_id)
+        {
+           case '4':
+               $b=new Request(['sts'=>2]);
+               break;
+           case '6':
+               $b=new Request(['sts'=>3]);
+               break;
+           case '9':
+               $b=new Request(['sts'=>7]);
+               break;
+       }
         $a->changeStatus($b);
         return redirect(route('dashboard'));
     }
@@ -722,7 +734,7 @@ class ExamController extends Controller
         $out='';
         if($examtbl->formuls()->count())
         {
-            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->pluck("answer_id")->where('active',1)->toArray();
+            $historyResult = DB::table('histories')->where("exam_user_id","=",$id)->where('active',1)->pluck("answer_id")->toArray();
             
             foreach($examtbl->formuls()->where('type','1')->get() as $formul)
             {
@@ -733,6 +745,7 @@ class ExamController extends Controller
                 $answers=Answer::whereIn('question_id',(Array)json_decode($formul->questions))->whereIn('id',$historyResult)->get(); 
                 foreach($answers as $ans)
                     $ids[":$ans->question_id"]=$ans->value;
+                $formul->label=$formul->lang(App::getLocale())->first()->label??$formul->label;
 
                 $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
                 $formul->formul=strtr($formul->formul,['{'=>'','}'=>'']);
@@ -752,6 +765,8 @@ class ExamController extends Controller
                     }
                     else
                     {
+                         $formul->default=$formul->lang(App::getLocale())->first()->translate??$formul->default;
+ 
                         $formul->default=strtr($formul->default,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']);
                         $title=explode(':',$formul->default);
                         $title=['tit'=>$title[0].' : ','num'=>$title[1]];
@@ -766,6 +781,8 @@ class ExamController extends Controller
                             $res2=eval("return $conditation_if;");
                             if($res2)
                             {
+                                $con->then= $con->lang(App::getLocale())->first()->translate??$con->then;
+
                                 $out=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']);
                                 $descripts[]=["title"=>$title,"body"=>strtr($out,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
 
@@ -779,19 +796,24 @@ class ExamController extends Controller
             $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
             foreach($examtbl->formuls()->where('type','1')->get() as $fid)
             {
+                $fid->label=$fid->lang(App::getLocale())->first()->label??$fid->label;
+
                 $furmulids["{:RESULT-$fid->id}"]=$defaultResult[$fid->id];
                 $furmulids["{:LABEL-$fid->id}"]=$fid->label;
                 $furmulids2["RESULT"][]=$defaultResult[$fid->id];
                 $furmulids2["LABEL"][]=$fid->label;
             }
-            $default=$examtbl->conditation()->where('default',1)->first();   
+            $default=$examtbl->conditation()->where('default',1)->first();  
+            if($default) 
+            {
+                $default->body=$default->lang(App::getLocale())->first()->translate??$default->body;
                 $default->body=strtr($default->body,$furmulids);
                 $default->body=strtr($default->body,$oprator);
                 //$item->body=strtr($item->body,["\r\n"=>'']); 
                 $default=explode("\r\n",$default->body) ;
                 foreach($default as $index=>$item)
                 $data[]=['title'=>strtr(strtr(trim(explode(":",$item)[0]),['( از 100 )'=>'']),['(100)'=>'']),'num'=>trim(explode(":",$item)[1]),'img'=>'images/img'.($index+1).'.png'] ;        
-           
+           }
             foreach( $examtbl->formuls()->where('type','2')->get() as $formul)
             {
                 $rep=strtr($formul->formul,$furmulids);
@@ -813,6 +835,8 @@ class ExamController extends Controller
                         $res2=eval("return $conditation_if;");
                         if($res2)
                         {
+                            $con->then= $con->lang(App::getLocale())->first()->translate??$con->then;
+                            
                             list($tit,$bod)=explode('</b>',$con->then);
                              $descripts[]=["title"=>['tit'=>strtr($tit,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']),'num'=>''],"body"=>strtr($bod,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
                            
@@ -844,7 +868,7 @@ class ExamController extends Controller
     $talnet=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',4)->where('enable',1)->latest()->first();
     $exam=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',6)->where('enable',1)->latest()->first();
     if(!$talnet)
-    return back()->with('error','نتیجه آزمون یافت نشد');
+    return back()->with('error',__('messages.alert_wait.err'));
         
             $out='';$flag=false;$score='';
              if(!$talnet->score)
@@ -932,9 +956,9 @@ class ExamController extends Controller
     
     $ExamUser=DB::table("exam_user")->where('user_id',auth()->user()->id)->where('exam_id',$Eid)->where('enable',1)->latest()->first();
     if(!$ExamUser)
-    return back()->with('error','نتیجه آزمون یافت نشد');
+    return back()->with('error',__('messages.alert_wait.err'));
     if(DB::table('histories')->where("exam_user_id","=",$ExamUser->id)->where('active',1)->count()<=5)
-    return back()->with('error','نتیجه آزمون یافت نشد');
+    return back()->with('error',__('messages.alert_wait.err'));
     switch ($ExamUser->exam_id) {
         case '4'://talent
             $flag=false;$score='';
@@ -1015,7 +1039,7 @@ class ExamController extends Controller
         case '6'://theen
             $out='';
             
-               $data=$this->showConclusion_Formular($ExamUser->exam_id);
+               $data=$this->showConclusion_Formular($ExamUser->id);
               $out=$data;
 
               $a=new PanelController();
@@ -1046,7 +1070,10 @@ class ExamController extends Controller
                     $rep=strtr($rep,$oprator);
                     $res=eval("return number_format($rep);");
                     $defaultResult[$formul->id]=$res;
-                  
+
+                  $formul->label=$formul->lang(App::getLocale())->first()->label??$formul->label;
+                  $formul->default=$formul->lang(App::getLocale())->first()->translate??$formul->default;
+
                     $conditation=exam_formular::find($formul->id)->conditations()->get();
                     //$conditation=(Array)json_decode($formul->conditation);
                     $formul->default=strtr($formul->default,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label]);
@@ -1075,6 +1102,7 @@ class ExamController extends Controller
                                 $res2=eval("return $conditation_if;");
                                 if($res2)
                                 {
+                                    $con->then=$con->lang(App::getLocale())->first()->translate??$con->then;
                                     $out=strtr($con->then,['{:RESULT}'=>$res,'{:LABEL}'=>$formul->label,"\r\n"=>'<br/>',"</b>"=>'</b><br/>']);
                                     $descripts[]=["title"=>$title,"body"=>strtr($out,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
     
@@ -1087,6 +1115,8 @@ class ExamController extends Controller
                 $oprator=[":count"=>count($ids),":mode"=>"%",":%"=>"/100"];
                 foreach($examtbl->formuls()->where('type','1')->get() as $fid)
                 {
+                    $fid->label= $fid->lang(App::getLocale())->first()->label??$fid->label;
+
                     $furmulids["{:RESULT-$fid->id}"]=$defaultResult[$fid->id];
                     $furmulids["{:LABEL-$fid->id}"]=$fid->label;
                     $furmulids2["RESULT"][]=$defaultResult[$fid->id];
@@ -1100,6 +1130,8 @@ class ExamController extends Controller
                 $default=$examtbl->conditation()->where('default',1)->first(); 
                 if($default)  
                 {
+                    $default->body=$default->lang(App::getLocale())->first()->translate??$default->body;
+
                     $default->body=strtr($default->body,$furmulids);
                     $default->body=strtr($default->body,$oprator);
                     //$item->body=strtr($item->body,["\r\n"=>'']); 
@@ -1128,6 +1160,7 @@ class ExamController extends Controller
                             $res2=eval("return $conditation_if;");
                             if($res2)
                             {
+                                $con->then=$con->lang(App::getLocale())->first()->translate??$con->then;
                                 list($tit,$bod)=explode('</b>',$con->then);
                                  $descripts[]=["title"=>['tit'=>strtr($tit,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>'']),'num'=>''],"body"=>strtr($bod,["\r\n"=>'<br>',"</b>"=>'',"<b>"=>''])];
                                
@@ -1146,6 +1179,9 @@ class ExamController extends Controller
                     }
                     return ($a > $b) ? -1 : 1;
                 });
+                $a=new PanelController();
+                $b=new Request(['sts'=>4]);
+                $a->changeStatus($b);
                return view('conclusions.analysis_Holand',compact('descripts','sum','labels','furmulids2'));
                 
             }

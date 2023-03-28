@@ -40,6 +40,18 @@
 {
     font-size: 10pt;
 }
+.numbers
+{
+    @if(!in_array(App::getLocale(),['ar','fa']))
+    font-family: "Peyda"!important;
+    @endif
+}
+@if(!in_array(App::getLocale(),['ar','fa']))
+    .accordion-body {
+    direction: ltr;
+    text-align: left;
+    }
+@endif
 </style>
 @endsection
 @section('content')
@@ -50,7 +62,7 @@
     <div class="col-12 w-100 h-100 px-0 position-relative">
         <div class="check radius-12 bg-green-1 position-absolute">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold">نتیجه تحلیل آزمون شما</span>
+            <span class="text-white fw-bold">{{__('messages.analysisTest')}}</span>
         </div>
         <div class="video position-relative radius-12">
             <video id="videoRes" class="blurEffect w-100" width="100%" controls>
@@ -64,7 +76,7 @@
     <div class="col-12 mt-5">
         <div class="check radius-12 bg-green-1">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
+            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
     </div>
 </div>
@@ -72,11 +84,11 @@
 <div class="row mt-6 mb-3 px-3">
     <div class="col-12 w-100 h-100 p-5 position-relative card">
         <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">برای دریافت تحلیل آزمون خود روی دکمه زیر کلیک کنید</h3>
+            <h3 class=" text-center">{{__('messages.analysis')}}</h3>
     
         <div class="check radius-12 bg-green-1" style="padding: 0px;">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
+            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
    
             
@@ -85,7 +97,7 @@
 </div>
 @endif
 @elseif(isset($out))
-@if(count($out['data']))
+@if($out['data']??[])
 <div class="row mb-5 px-3 justify-content-between">
     @foreach (json_decode($out["data"]) as $item)        
     <div class="col-6 px-0 d-flex justify-content-center mt-6">
@@ -138,7 +150,7 @@
     <div class="col-12 mt-5">
         <div class="check radius-12 bg-green-1">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
+            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
     </div>
 </div>
@@ -146,11 +158,11 @@
 <div class="row mt-6 mb-3 px-3">
     <div class="col-12 w-100 h-100 p-5 position-relative card">
         <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">برای دریافت تحلیل آزمون خود روی دکمه زیر کلیک کنید</h3>
+            <h3 class=" text-center">{{__('messages.analysis')}}</h3>
     
         <div class="check radius-12 bg-green-1" style="padding: 0px;">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
+            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
    
             
@@ -162,11 +174,11 @@
 <div class="row mt-6 mb-3 px-3">
     <div class="col-12 w-100 h-100 p-5 position-relative card">
         <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">برای دریافت تحلیل آزمون خود روی دکمه زیر کلیک کنید</h3>
+            <h3 class=" text-center">{{__('messages.analysis')}}</h3>
     
         <div class="check radius-12 bg-green-1" style="padding: 0px;">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">مشاوره تکمیلی رایگان</span>
+            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
    
             
@@ -186,7 +198,7 @@
     function senRequest()
     {
         @if(in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
-        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
+        swal('{{__('messages.alert_wait.title')}}',"{{__('messages.alert_wait.body')}}",'warning');
         window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {                               
                                 location.href="https://erfankhoshnazar.com/b";                                
@@ -194,24 +206,24 @@
                             })
                             .catch(function (error) {
                             // console.log(error);
-                            //     swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                            //     swal('{{__('messages.خطا')}}',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
                             location.href="https://erfankhoshnazar.com/b"; 
                             });    
 
         @else
             @if(in_array(5,explode(',',auth()->user()->status)) && !in_array(6,explode(',',auth()->user()->status))) 
-            text="شما تاکنون از هدیه رایگان فایل آموزشی علاقه مندی به یادگیری استفاده نکرده اید ";
-            btn={ defeat: "فایل آموزشی علاقه مندی به یادگیری",   };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش علاقه مندی به یادگیری')])}}";
+            btn={ defeat: "{{__('messages.افزایش علاقه مندی به یادگیری')}}",   };
             @elseif(!in_array(5,explode(',',auth()->user()->status)) && in_array(6,explode(',',auth()->user()->status))) 
-            text="شما تاکنون از هدیه رایگان فایل آموزشی اعتماد به نفس استفاده نکرده اید ";
-            btn={ conf: "فایل آموزشی اعتماد به نفس",  };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش اعتماد به نفس')])}} ";
+            btn={ conf: "{{__('messages.افزایش اعتماد به نفس')}}",  };
             @else
-            text="شما تاکنون از هدیه رایگان فایلهای آموزشی اعتماد به نفس و علاقه مندی به یادگیری استفاده نکرده اید ";
-            btn={ conf: "فایل آموزشی اعتماد به نفس",defeat: "فایل آموزشی علاقه مندی به یادگیری",  };
+            text="{{__('messages.gift',['file'=>__('messages.افزایش علاقه مندی به یادگیری').','.__('messages.افزایش اعتماد به نفس')])}} ";
+            btn={ conf: "{{__('messages.افزایش اعتماد به نفس')}}",defeat: "{{__('messages.افزایش علاقه مندی به یادگیری')}}",  };
             @endif
         swal( {
-            title:"توجه",
-            text:text+". جهت تکمیل فرایند، هدایای زیر رو مشاهده نمایید",
+            title:"{{__('messages.توجه')}}",
+            text:text+". {{__('messages.gift2')}}",
             icon: 'info',
             showDenyButton: true,
             buttons: btn,
@@ -236,9 +248,9 @@
         window.axios.post('http://85.208.255.101:8012/RedCastlePanel/public/api/manager/adduserFromEX', {Phone:"{{auth()->user()->phone}}",Description:"درخواست مشاوره رایگان تلفنی",Platform:26})
                             .then(function (response) {
                                 if(response.data.status)                                
-                                swal('توجه','درخواست شما با موفقیت ثبت شد','success');
+                                swal('{{__('messages.توجه')}}','{{__('messages.درخواست شما با موفقیت ثبت شد')}}','success');
                                 else
-                                swal('خطا',response.data.error,'error');
+                                swal('{{__('messages.خطا')}}',response.data.error,'error');
                                 
                                 btnreqM.style.display="none";
                                 btnreqD.style.display="none";
@@ -246,7 +258,7 @@
                             })
                             .catch(function (error) {
                             console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                                swal('{{__('messages.خطا')}}',"{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
                             }); 
     }*/
    

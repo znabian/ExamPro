@@ -1,24 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
+     <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
-        
+     
+    .noclcik
+    {
+    cursor: not-allowed!important;
+
+    }   
+#langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+    font-size: 13px;
+    font-weight: normal;
+}
     </style>
    @yield('style')
 </head>
 <body>
+    <form id="chlang" action="{{route('chLang')}}" method="post">
+        @csrf
+        <select name="language" onchange="chlang.submit();"  id='langselect'>
+            <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+            <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+            <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+            <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+        </select>
+    </form>
     <div class="app">
         <div class="container">
 
             <div class="row">
                 <div class="col-12 d-flex align-items-center justify-content-end mt-2">
+                    @if(url()->full()!=route('dashboard'))
                     <a href="{{route('dashboard')}}" class="bg-red-1 shadow-red-1 prevbtn rounded-circle mx-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="13" height="19" viewBox="0 0 8.52 14.212">
                             <g transform="translate(1.414 1.414)">
@@ -29,6 +59,7 @@
                             </g>
                         </svg>
                     </a>
+                    @endif
                     <a href="{{route('logout')}}" class="bg-white shadow-red-1 prevbtn rounded-circle mx-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 12.382 12.382">
                             <path
@@ -44,7 +75,7 @@
                     class="col-12 d-flex align-items-center justify-content-center bg-red-1 radius-12 shadow-dark-1 py-4 px-2">
                     <img src="{{asset('images/logo2.png')}}" width="75px" height="75px" class=" img-fluid" alt="">
                     <div class="d-flex flex-column align-items-center">
-                        <h1 class="fs-6 text-white border-bottom border-white pb-2">سامانه رشد خوش نظر</h1>
+                        <h1 class="fs-6 text-white border-bottom border-white pb-2">{{__('messages.سامانه رشد خوش نظر')}}</h1>
                         <a href="#" class="fs-6 text-white d-flex">
 
                         {{auth()->user()->phone}}
@@ -73,6 +104,8 @@
     <script>
        
     $(document).ready(function(){
+        if(document.getElementById('videoRes'))
+        {
         $('.icon-video').click(function () {
             if(videoRes.paused){
                 videoRes.play();
@@ -90,6 +123,8 @@
                 $('.icon-video').hide();
         });
          videoRes.addEventListener("pause", pausePlaying);
+            
+        }
     })
     function pausePlaying() {
         $('.icon-video').show();

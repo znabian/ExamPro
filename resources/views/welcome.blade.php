@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,8 +11,8 @@
     @include('sweet::alert')
     <div id="loginHeader">
         <figure>
-            <img id="logoImage" src="{{asset('/images/logo.png')}}" alt="سامانه رشد خوش نظر">
-            <figcaption id="logoCaption">سامانه رشد خوش نظر</figcaption>
+            <img id="logoImage" src="{{asset('/images/logo.png')}}" alt="{{__('messages.سامانه رشد خوش نظر')}}">
+            <figcaption id="logoCaption">{{__('messages.سامانه رشد خوش نظر')}}</figcaption>
         </figure>
     </div>
     <div id="loginDesktopHeader">

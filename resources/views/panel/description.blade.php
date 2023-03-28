@@ -13,11 +13,11 @@
     </div>
     <div id="MobileDiscriptionContainerInformations">
         <div id="MobileDiscriptionContainerInformationsFirst" class="MobileDiscriptionContainerInformationsElements" style="margin-top:2%;">
-            <span>زمان تقریبی : {{$exam->time}} دقیقه</span>
+            <span>{{__('messages.زمان تقریبی')}} : {{$exam->time}} {{__('messages.دقیقه')}}</span>
             <img src="{{asset('images/examTime.png')}}">
         </div>
         <div id="MobileDiscriptionContainerInformationsSecond" class="MobileDiscriptionContainerInformationsElements">
-            <span>تعداد سوالات :{{$quizcount}}</span>
+            <span>{{__('messages.تعداد سوالات')}} :{{$quizcount}}</span>
             <img src="{{asset('images/questionsNumber.png')}}">
         </div>
         {{-- <div id="MobileDiscriptionContainerInformationsThird" class="MobileDiscriptionContainerInformationsElements">
@@ -28,15 +28,13 @@
     <hr style="margin-left: 5%;margin-right:5%;">
     <div id="MobileDiscriptionContainerDescriptions">
         <ul>
-            <li>لطفا به سوالات همانگونه که وجود دارد پاسخ دهید نه به صورتی که دوست دارید باشد</li>
-            <li>در پاسخگویی به سوالات صادق بوده و وقت زیادی را صرف یک عبارت نکنید</li>
-            <li>جواب صحیح و غلط در این ابزار سنجش وجود ندارد</li>
+           {!!__('messages.descriptions')!!}
         </ul>
     </div>
     <div id="MobileDescriptionStartExamButtonContainer">
-        <a href="{{route("exam.show",$ExamUserid)}}">شروع آزمون</a>
+        <a href="{{route("exam.show",$ExamUserid)}}">{{__('messages.شروع آزمون')}}</a>
         @if(!is_null(session('chk')))
-        <a href="{{route("dashboard")}}">بازگشت</a>
+        <a href="{{route("dashboard")}}">{{__('messages.بازگشت')}}</a>
         @endif
     </div>
 @endsection
@@ -46,11 +44,11 @@
     </div>
     <div id="DesktopDiscriptionContainerInformations">
         <div id="DesktopDiscriptionContainerInformationsFirst" class="DesktopDiscriptionContainerInformationsElements" style="margin-top:2%;">
-            <span>زمان تقریبی : {{$exam->time}} دقیقه</span>
+            <span>{{__('messages.زمان تقریبی')}} : {{$exam->time}} {{__('messages.دقیقه')}}</span>
             <img src="{{asset('images/examTime.png')}}">
         </div>
         <div id="DesktopDiscriptionContainerInformationsSecond" class="DesktopDiscriptionContainerInformationsElements">
-            <span>تعداد سوالات :{{$quizcount}}</span>
+            <span>{{__('messages.تعداد سوالات')}} :{{$quizcount}}</span>
             <img src="{{asset('images/questionsNumber.png')}}">
         </div>
         {{-- <div id="DesktopDiscriptionContainerInformationsThird" class="DesktopDiscriptionContainerInformationsElements">
@@ -61,19 +59,22 @@
     <hr style="margin-left: 5%;margin-right:5%;">
     <div id="DesktopDiscriptionContainerDescriptions">
         <ul>
-            <li>لطفا به سوالات همانگونه که وجود دارد پاسخ دهید نه به صورتی که دوست دارید باشد</li>
-            <li>در پاسخگویی به سوالات صادق بوده و وقت زیادی را صرف یک عبارت نکنید</li>
-            <li>جواب صحیح و غلط در این ابزار سنجش وجود ندارد</li>
+            {!!__('messages.descriptions')!!}
         </ul>
     </div>
     <div id="DesktopDescriptionStartExamButtonContainer">
-        <a href="{{route("exam.show",$ExamUserid)}}">شروع آزمون</a>
+        <a href="{{route("exam.show",$ExamUserid)}}">{{__('messages.شروع آزمون')}}</a>
         @if(!is_null(session('chk')) || $exam->id==4)
-        <a href="{{route("exam.cancel",$ExamUserid)}}">بازگشت</a>
+        <a href="{{route("exam.cancel",$ExamUserid)}}">{{__('messages.بازگشت')}}</a>
         @endif
     </div>
 @endsection
 <style>
+@if(!in_array(App::getLocale(),['ar','fa']))
+     ul{
+        direction:ltr;
+     }
+     @endif
     @media (max-width:576px) {
 
         #DesktopComponents

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
         @media screen and (min-width: 577px)
         {
@@ -24,24 +24,48 @@
             border-radius: 12px;
             font-family: "PeydaLight","Peyda";
         }
+#langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+    font-size: 13px;
+    font-weight: normal;
+}
     </style>
 </head>
-<body id="loginBody">
+<body>
+    <form id="chlang" action="{{route('chLang')}}" method="post">
+        @csrf
+        <select name="language" onchange="chlang.submit();"  id='langselect'>
+            <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+            <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+            <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+            <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+        </select>
+    </form>
     <div id="MobileComponents">
         <x-mobile-menu />
     </div>
     <div id="DesktopComponents">
         <div id="KhoshNazarText">
-            سامانه رشد خوش نظر
+            {{__('messages.سامانه رشد خوش نظر')}}
         </div>
-    <div id="DesktopExamsExitButton">
-        <img src="{{asset('images/arrow.png')}}" alt="back">
-        <a href="{{route('dashboard')}}">بازگشت</a>
-    </div>
-    <div id="DesktopExamsExitButton">
-        <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-        <a href="{{route('logout')}}">خروج</a>
+        <div id="DesktopExamsExitButton" >
+            <a   href="{{route('logout')}}"><i class="fa fa-sign-out pull-left"></i>{{__('messages.خروج')}}</a>
+            
         </div>
+        @if(url()->full()!=route('dashboard'))
+        <div id="DesktopExamsExitButton">           
+            <a href="{{route('dashboard')}}"><i class="fa fa-home pull-left" ></i>{{__('messages.خانه')}}</a>
+        </div>
+        @endif
     </div>
     @include('sweet::alert')
     
@@ -53,18 +77,18 @@
             <div id="loginContainerHeader">
                 <figure>
                     <img id="loginContainerHeaderFigureLogoDesktop" style="width: 34%;" src="{{asset('/images/avatar.png')}}" alt="person">
-                    <figcaption id="loginContainerHeaderFigureCaption">تکمیل اطلاعات</figcaption>
+                    <figcaption id="loginContainerHeaderFigureCaption">{{__('messages.تکمیل اطلاعات')}}</figcaption>
                 </figure>
                 <hr/>
             </div>
             <div id="loginContainerBody">
                 <form method="post" action="{{route('CompleteInformation',$id)}}">
                     @csrf
-                    <label for="name">نام و نام خانوادگی </label>
+                    <label for="name">{{__('messages.نام و نام خانوادگی')}} </label>
                     <br>
                     <input type="text" id="name" autocomplete="off"  name="name" value="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
                     <br>
-                    <label for="">سن </label>
+                    <label for="">{{__('messages.سن')}} </label>
                     <br>
                     <select required name="age" id="">
                         <option value="">انتخاب کنید</option>
@@ -83,7 +107,7 @@
                     </select>
                     {{-- <input type="number" max="99" min="5" minlength="1" maxlength="2" autocomplete="off" required  name="age" value="{{auth()->user()->age}}"> --}}
                     <br>
-                    <button type="submit" id="sendConfirmCodeButton">شروع آزمون</button>
+                    <button type="submit" id="sendConfirmCodeButton">{{__('messages.شروع آزمون')}}</button>
                 </form>
                 {{-- <label for="phoneNumberInput">شماره موبایل خود را وارد کنید</label>
                 <input type="tel" id="phoneNumberInput" autocomplete="off" required>
@@ -99,18 +123,18 @@
             <div id="loginContainerHeader">
                 <figure>
                     <img id="loginContainerHeaderFigureLogo" style="width: 34%;" src="{{asset('/images/avatar.png')}}" alt="person">
-                    <figcaption id="loginContainerHeaderFigureCaption">تکمیل اطلاعات</figcaption>
+                    <figcaption id="loginContainerHeaderFigureCaption">{{__('messages.تکمیل اطلاعات')}}</figcaption>
                 </figure>
                 <hr/>
             </div>
             <div id="loginContainerBody">
                 <form method="post" action="{{route('CompleteInformation',$id)}}">
                     @csrf
-                    <label for="phoneNumberInputMobile">نام و نام خانوادگی </label>
+                    <label for="phoneNumberInputMobile">{{__('messages.نام و نام خانوادگی')}} </label>
                     <br>
                     <input type="text" id="phoneNumberInputMobile" autocomplete="off"  name="name" value="{{auth()->user()->firstName.' '.auth()->user()->lastName}}">
                     <br>
-                    <label for="phoneNumberInputMobile">سن </label>
+                    <label for="phoneNumberInputMobile">{{__('messages.سن')}} </label>
                     <br>
                     <select required name="age" id="phoneNumberInputMobile">
                         <option value="">انتخاب کنید</option>
@@ -129,7 +153,7 @@
                     </select>
                     {{-- <input type="number" max="99" min="5" minlength="1" maxlength="2" id="phoneNumberInputMobile" autocomplete="off" required name="age" value="{{auth()->user()->age}}"> --}}
                     <br>
-                    <button type="submit" id="sendConfirmCodeButton">شروع آزمون</button>
+                    <button type="submit" id="sendConfirmCodeButton">{{__('messages.شروع آزمون')}}</button>
                 </form>
                 {{-- <label for="phoneNumberInput">شماره موبایل خود را وارد کنید</label>
                 <input type="tel" id="phoneNumberInput" autocomplete="off" required>

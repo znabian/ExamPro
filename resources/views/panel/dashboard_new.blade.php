@@ -36,7 +36,7 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی کودک</span>
-                    <span class="categoryDataExamDescription">شش تا سیزده سال</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"شش","max"=>"سیزده"])}}</span>
                 </div>
             </div>
         </div>
@@ -73,7 +73,7 @@
     </div>
     {{-- <div id="MobileDashboardExamExitButton">
         <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-        <a href="{{route('logout')}}">خروج</a>
+        <a href="{{route('logout')}}">{{__('messages.خروج')}}</a>
     </div> --}}
 @endsection
 @section('name')
@@ -99,7 +99,7 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">استعدادیابی کودک</span>
-                    <span class="categoryDataExamDescription">شش تا سیزده سال</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"شش","max"=>"سیزده"])}}</span>
                 </div>
             </div>
         </div>

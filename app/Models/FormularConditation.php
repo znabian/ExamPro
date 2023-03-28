@@ -17,4 +17,7 @@ class FormularConditation extends Model
     {
        return $this->belongsTo(Exam::class);
     }
+    public function lang($lang){
+        return $this->hasMany(lang::class,'conditation_id','id')->where('lang',$lang);
+    }
 }

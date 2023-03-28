@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('css/wizard.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
         #MobileExamQuizeHeader{
             text-align: center;
@@ -68,10 +68,34 @@
                 top:53vh;
             }
         }
+        
+#langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+    font-size: 13px;
+    font-weight: normal;
+}
     </style>
 </head>
 <body>
     
+<form id="chlang" action="{{route('chLang')}}" method="post">
+    @csrf
+    <select name="language" onchange="chlang.submit();"  id='langselect'>
+        <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+        <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+        <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+        <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+    </select>
+</form>
 @php
 if($exam->groups()->where('status',1)->count())
 $quizcount=DB::table('group_questions')->whereIn('group_id',$exam->groups()->where('status',1)->pluck('id'))->count();
@@ -98,9 +122,9 @@ $quizcount=$exam->questions()->where('status',1)->count();
         </div>
         <div id="MobileExamQuizeDescription">
            
-            <span>تعداد سوالات {{$quizcount}}</span>
+            <span>{{__('messages.تعداد سوالات')}} {{$quizcount}}</span>
             <div id="MobileExamQuizeHr"></div>
-            <span>{{$exam->name}}</span>
+            <span>{{__('messages.'.$exam->name)}}</span>
         </div>
         <div id="MobileExamQuizeQuestionsContainer">
             @yield('content')
@@ -114,9 +138,9 @@ $quizcount=$exam->questions()->where('status',1)->count();
             </figure>
         </div>
         <div id="MobileExamQuizeDescription">
-            <span>تعداد سوالات {{$quizcount}}</span>
+            <span>{{__('messages.تعداد سوالات')}} {{$quizcount}}</span>
             <div id="MobileExamQuizeHr"></div>
-            <span>{{$exam->name}}</span>
+            <span>{{__('messages.'.$exam->name)}}</span>
         </div>
         <div id="MobileExamQuizeQuestionsContainer">
     @yield('DesktopContent')

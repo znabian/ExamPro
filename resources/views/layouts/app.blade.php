@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,26 +7,53 @@
     <meta name="yn-tag" id="2fd2bba1-bc29-4b11-aa83-a176672cd88b">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
+    <style>
+        
+#langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+    font-size: 13px;
+    font-weight: normal;
+}
+    </style>
 </head>
 <body>
-    <div id="MobileComponents">
+<form id="chlang" action="{{route('chLang')}}" method="post">
+    @csrf
+    <select name="language" onchange="chlang.submit();"  id='langselect'>
+        <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+        <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+        <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+        <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+    </select>
+</form>
+<div id="MobileComponents">
         <x-mobile-menu />
         @yield('content')
     </div>
     <div id="DesktopComponents" style="overflow: auto; height: inherit;">
         
         <div id="KhoshNazarText">
-            سامانه رشد خوش نظر
+            {{__('messages.سامانه رشد خوش نظر')}}
         </div>
         <div id="DesktopExamsExitButton" >
-            <img src="{{asset('images/arrow.png')}}" alt="back">
-            <a href="{{route('dashboard')}}">بازگشت</a>
+            <a   href="{{route('logout')}}"><i class="fa fa-sign-out pull-left"></i>{{__('messages.خروج')}}</a>
+            
         </div>
-        <div id="DesktopExamsExitButton">
-            <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-            <a href="{{route('logout')}}">خروج</a>
-            </div>
+        @if(url()->full()!=route('dashboard'))
+        <div id="DesktopExamsExitButton">           
+            <a href="{{route('dashboard')}}"><i class="fa fa-home pull-left" ></i>{{__('messages.خانه')}}</a>
+        </div>
+        @endif
         @yield('DesktopContent')
     </div>
     @yield('mobileScript')

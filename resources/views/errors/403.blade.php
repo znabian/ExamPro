@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
     <meta name="yn-tag" id="2fd2bba1-bc29-4b11-aa83-a176672cd88b">
-    <title> سامانه رشد خوش نظر </title>
+    <title> {{__('messages.سامانه رشد خوش نظر')}} </title>
     <style>
      @import url("https://fonts.googleapis.com/css?family=Lato");
      @font-face {

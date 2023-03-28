@@ -18,6 +18,8 @@ Route::get('/cache-clear', function () {
     Artisan::call('config:clear');
     dd('ok');
 });
+Route::post('/chLang',[App\Http\Controllers\LanguageController::class,'changeLanguage'] )->name('chLang');
+
 Route::get('/survey/{castle}/{payment}/{panel_id}',[App\Http\Controllers\SurveyController::class,'surveyLogin'] );
 Route::middleware('auth')->get('/survey-end/{ExamUserid}',[App\Http\Controllers\SurveyController::class,'surveyEnd'] )->name('end.survey');
 

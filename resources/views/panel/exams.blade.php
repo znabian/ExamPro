@@ -18,7 +18,7 @@
                 <div id="MobileExamsContainerHeader">
                     <img src="{{asset('images/examTest.png')}}">
                     <br>
-                    <span>{{$exam->name}}</span>
+                    <span>{{__('messages.'.$exam->name)}}</span>
                 </div>
                 <img src="{{asset('images/khoshNazar.png')}}" id="MobileExamsCardKhoshNazarAvatar" style="z-index:1;">
                 <div id="MobileExamsContainerMiddle">
@@ -35,12 +35,12 @@
                 <div id="MobileExamsBodyContainer">
                   
                     <span>
-                        تعداد سوالات{{$quizcount}} | زمان تقریبی {{$exam->time}} دقیقه | تعداد شرکت کنندگان {{Illuminate\Support\Facades\DB::table('exam_user')->where("exam_id","=",$exam->id)->count()}} نفر
+                        {{__('messages.تعداد سوالات')}}{{$quizcount}} | {{__('messages.زمان تقریبی')}} {{$exam->time}} {{__('messages.دقیقه')}} | تعداد شرکت کنندگان {{Illuminate\Support\Facades\DB::table('exam_user')->where("exam_id","=",$exam->id)->count()}} نفر
                     </span>
                    
                 </div>
                 <div id="MobileExamsFooterContainer">
-                    <a href="{{route('myinfo',$exam->id)}}">ورود به آزمون</a>
+                    <a href="{{route('myinfo',$exam->id)}}">{{__('messages.شروع آزمون')}}</a>
                 </div>
             </div>
         @endforeach
@@ -50,7 +50,7 @@
     </div>
     <div id="MobileExamsExitButton">
         <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-        <a href="{{route('logout')}}">خروج</a>
+        <a href="{{route('logout')}}">{{__('messages.خروج')}}</a>
     </div> --}}
 @endsection
 @section('DesktopContent')
@@ -69,7 +69,7 @@
                 <div id="DesktopExamsContainerHeader">
                     <img src="{{asset('images/examTest.png')}}">
                     <br>
-                    <span>{{$exam->name}}</span>
+                    <span>{{__('messages.'.$exam->name)}}</span>
                 </div>
                 <img src="{{asset('images/khoshNazar.png')}}" id="DesktopExamsCardKhoshNazarAvatar" style="z-index:1;">
                 <div id="DesktopExamsContainerMiddle">
@@ -86,11 +86,11 @@
                 <div id="DesktopExamsBodyContainer">
                    
                     <span>
-                        تعداد سوالات{{$quizcount}} | زمان تقریبی {{$exam->time}} دقیقه | تعداد شرکت کنندگان {{Illuminate\Support\Facades\DB::table('exam_user')->where("exam_id","=",$exam->id)->count()}} نفر
+                        {{__('messages.تعداد سوالات')}}{{$quizcount}} | {{__('messages.زمان تقریبی')}} {{$exam->time}} {{__('messages.دقیقه')}} | تعداد شرکت کنندگان {{Illuminate\Support\Facades\DB::table('exam_user')->where("exam_id","=",$exam->id)->count()}} نفر
                     </span>
                 </div>
                 <div id="DesktopExamsFooterContainer">
-                    <a href="{{route('myinfo',$exam->id)}}">ورود به آزمون</a>
+                    <a href="{{route('myinfo',$exam->id)}}">{{__('messages.شروع آزمون')}}</a>
                 </div>
             </div>
         @endforeach

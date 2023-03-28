@@ -1,154 +1,122 @@
-@extends('layouts.app')
+@extends('layouts.exam-Result')
 @section('title', 'داشبورد')
 @section('content')
-    <div id="MobileDashboardExamCategoryHeader">
-        <span>{{auth()->user()->phone}}</span>
-    </div>
-    <div id="MobileDashboardExamCategoryContainer">
-        <div id="MobileDashboardExamCategoryImage">
-            <img src="{{asset('images/khoshNazar.png')}}" alt="{{auth()->user()->id}}">
-        </div>
-        <div id="MobileDashboardExamCategorySlider">
-            <div class="slideshow-container">
-                <div class="mySlides fade">
-                  <img src="{{asset('images/imageSlider.png')}}" style="width:100%">
-                </div>  
-                {{-- <div class="mySlides fade">
-                  <img src="{{asset('images/imageFirstSlider.png')}}" style="width:100%">
-                </div>
-                <div class="mySlides fade">
-                  <img src="{{asset('images/imageFirstSlider.png')}}" style="width:100%">
-                </div> 
-                <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                <a class="next" onclick="plusSlides(1)">&#10095;</a> --}}
-                </div>
-                <br>
-                <div id="mobileDotSlider" style="text-align:center">
-                  <span class="dot"  style="display: none" onclick="currentSlide(1)"></span> 
-                  {{-- <span class="dot" onclick="currentSlide(2)"></span> 
-                  <span class="dot" onclick="currentSlide(3)"></span>  --}}
-                </div>
-        </div>
+        
+<div class="justify-content-center m-auto mb-3 mt-6 px-3 row w-auto gap-1">
         @if(is_null(session('chk')))
-        <div class="MobileCategoryContainer" onclick="showvideo(1)">
+        <div class="col-12 bg-light d-inline-flex btn rounded"  onclick="showvideo(1)">
             {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',4)}}';" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا دوازده سال</span>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>7,"max"=>12])}}</span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',6)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',6)}}';" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی نوجوان</span>
-                    <span class="categoryDataExamDescription">سیزده تا هجده سال</span>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی نوجوان')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>"13","max"=>"18"])}}</span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',9)}}';" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',9)}}';" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون هالند</span>
-                    <span class="categoryDataExamDescription">بالای دوازده سال</span>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.آزمون هالند')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>"12","max"=>"30"])}}</span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(3,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(3,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else onclick="showResult();" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
-                    <span class="categoryDataExamDescription"></span>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
+                    <span class="text-secondary small"> </span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
+        </div>
+        <div class=" col-12 bg-light d-inline-flex btn rounded " onclick="showvideo(2);"   >
+           
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
+                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
+                </svg>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
+                    <span class="text-secondary small"> </span>
+                </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
+        </div>
+        <div class=" col-12 bg-light d-inline-flex btn rounded " onclick="showvideo(3);"   >
+           
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
+                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
+                </svg>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
+                    <span class="text-secondary small"> </span>
+                </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
         
-        <div class="MobileCategoryContainer" onclick="showvideo(2)">
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
-                    <span class="categoryDataExamDescription"></span>
-                </div>
-            </div>
-        </div>
-        
-        <div class="MobileCategoryContainer" onclick="showvideo(3)">
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
-                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
-                </svg>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
-                    <span class="categoryDataExamDescription"></span>
-                </div>
-            </div>
-        </div>
         @else
         @php
             $ex=\App\Models\Exam::find(6);
         @endphp
         @if($ex)
-        <div class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',$ex->id)}}'">
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <img class="categoryDataImages" src="{{asset('images/love.png')}}">
-                <hr>
-                <div class="categoryDataText">
+        <div class=" col-12 bg-light d-inline-flex btn rounded " onclick="location.href='{{route('myinfo',$ex->id)}}'" >
+           
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
+                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
+                </svg>
+                <div class="categoryDataText text-center d-grid" >
                     <span class="categoryDataExamTitle">{{$ex->name}}</span>
-                    <span class="categoryDataExamDescription">{{$ex->ageRange}} سال</span>
-                  
+                    <span class="text-secondary small"> {{$ex->ageRange}}</span>
                 </div>
-            </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
         </div>
         @endif
         @endif
         
     </div>
-    <div id="MobileDashboardExamFooterButton">
-        <div id="MobileDashboardExamFooterButtonText" style="font-size: 9pt;">
-            {{-- دسترسی به پادکست ها ویدئوهای آموزشی --}}
-            تمامی آزمون های این سامانه رایگان می باشد!
-        </div>
-        {{-- <div id="MobileDashboardExamFooterButtonIcon">
-            <img src="{{asset('images/arrow.png')}}" alt="arrow">
-        </div> --}}
-    </div>
     {{-- <div id="MobileDashboardExamExitButton">
         <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-        <a href="{{route('logout')}}">خروج</a>
+        <a href="{{route('logout')}}">{{__('messages.خروج')}}</a>
     </div> --}}
 @endsection
 @section('DesktopContent')
@@ -167,55 +135,55 @@
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا دوازده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"7","max"=>"12"])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',6)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',6)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی نوجوان</span>
-                    <span class="categoryDataExamDescription">سیزده تا هجده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی نوجوان')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"13","max"=>"18"])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',9)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',9)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آزمون هالند</span>
-                    <span class="categoryDataExamDescription">بالای دوازده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.آزمون هالند')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"12","max"=>"30"])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="" style="width: 10%; margin: 13px 10px 0 0;">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -228,7 +196,7 @@
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -241,7 +209,7 @@
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -258,7 +226,7 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">{{$ex->name}}</span>
-                    <span class="categoryDataExamDescription">{{$ex->ageRange}} سال</span>
+                    <span class="categoryDataExamDescription">{{$ex->ageRange}}</span>
                   
                 </div>
             </div>
@@ -343,7 +311,7 @@
                     window.focus();
                 }                
                 else
-                 swal('خطا',"ذخیره اطلاعات با خطا مواجه شد لطفا مجددا تلاش کنید","error");
+                 swal('{{__('messages.خطا')}}',"{{__('messages.errorSave')}} ","error");
             })
             .catch(error => {
                
@@ -354,10 +322,10 @@
     </script>
      <script>
        @if(session('error'))
-       swal('توجه',"{{session('error')}}",'error');
+       swal('{{__('messages.توجه')}}',"{{session('error')}}",'error');
     @endif
     @if(session('success'))
-    swal('عملیات موفقیت آمیز',"{{session('success')}}",'success');
+    swal('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
     @endif
     </script>
 @endsection

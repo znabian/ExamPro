@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,9 +8,33 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
 
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
+    <style>
+      
+     #langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+}
+    </style>
 </head>
 <body>
+  <form id="chlang" action="{{route('chLang')}}" method="post">
+      @csrf
+      <select name="language" onchange="chlang.submit();"  id='langselect'>
+          <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+          <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+          <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+          <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+      </select>
+  </form>
     <div id="MobileComponents">
         <x-mobile-menu />
         @yield('content')
@@ -33,12 +57,12 @@
               <ul class="navbar-nav mr-auto text-end">
                 <li class="nav-item active">
                   <a  class="nav-link" href="{{route('dashboard')}}">
-                    خانه
+                    {{__('messages.خانه')}}
                   <i class="fa fa-home"></i> </a>
                 </li>
                 <li  class="nav-item ">
                   <a class="nav-link" href="{{route('logout')}}">                    
-                  خروج
+                  {{__('messages.خروج')}}
                   <i class="fa fa-sign-out"></i></a>
                 </li>
               </ul>
@@ -49,15 +73,15 @@
     </div>
         
         <div id="KhoshNazarText">
-            سامانه رشد خوش نظر
+            {{__('messages.سامانه رشد خوش نظر')}}
         </div>
         <div id="DesktopExamsExitButton" >
             <img src="{{asset('images/arrow.png')}}" alt="back">
-            <a href="{{route('dashboard')}}">بازگشت</a>
+            <a href="{{route('dashboard')}}">{{__('messages.خانه')}}</a>
         </div>
         <div id="DesktopExamsExitButton">
             <img src="{{asset('images/exitIcon.png')}}" alt="exit">
-            <a href="{{route('logout')}}">خروج</a>
+            <a href="{{route('logout')}}">{{__('messages.خروج')}}</a>
             </div>
         
     

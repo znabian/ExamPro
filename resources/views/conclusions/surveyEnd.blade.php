@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/style.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
-    <title>سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
     <style>
         
     </style>
@@ -60,7 +60,7 @@
                     class="col-12 d-flex align-items-center justify-content-center bg-red-1 radius-12 shadow-dark-1 py-4 px-2">
                     <img src="{{asset('images/logo2.png')}}" width="75px" height="75px" class=" img-fluid" alt="">
                     <div class="d-flex flex-column align-items-center">
-                        <h1 class="fs-6 text-white border-bottom border-white pb-2">سامانه رشد خوش نظر</h1>
+                        <h1 class="fs-6 text-white border-bottom border-white pb-2">{{__('messages.سامانه رشد خوش نظر')}}</h1>
                         <a href="#" class="fs-6 text-white d-flex">
 
                         {{auth()->user()->phone}}
@@ -85,7 +85,7 @@
    
             
     </div>
-    <button class="btn btn-dark" onclick="location.href='{{route('logout')}}'">خروج</button>
+    <button class="btn btn-dark" onclick="location.href='{{route('logout')}}'">{{__('messages.خروج')}}</button>
 </div>
 </div>
 </div>

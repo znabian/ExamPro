@@ -57,10 +57,10 @@
     @endforeach
 @endforeach
     <div id="MobileShowExamQuizeEndButton">
-        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">اتمام آزمون</a> --}}
-        {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >اتمام آزمون</a>
-        <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">{{__('messages.اتمام آزمون')}}</a> --}}
+        {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion',$ExamUserid)}}">{{__('messages.اتمام آزمون')}}</a> --}}
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >{{__('messages.اتمام آزمون')}}</a>
+        <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
 
     </div>
 @endsection
@@ -117,9 +117,9 @@
 @endforeach
 @endforeach
     <div id="MobileShowExamQuizeEndButton">
-        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable();endexam('{{route('showConclusion',$ExamUserid)}}')">اتمام آزمون</a> --}}
-        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >اتمام آزمون</a>
-        <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >لغو</a>
+        {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable();endexam('{{route('showConclusion',$ExamUserid)}}')">{{__('messages.اتمام آزمون')}}</a> --}}
+        <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('myinfo',6)}}')" >{{__('messages.اتمام آزمون')}}</a>
+        <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
 
     </div>
 @endsection
@@ -171,7 +171,7 @@
                 {
                     if(data >0)
                     {
-                        swal("به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟", {
+                        swal("{{__('messages.alert_exam.body')}}", {
                             icon: 'info',
                             showDenyButton: true,
                             buttons: {
@@ -188,13 +188,13 @@
                                             break;
                                         }
                                     });
-                        /*if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
+                        /*if(confirm(' {{__('messages.alert_exam.body')}}'))
                         {
                             document.location.href=url;
                         }*/
                     }
                     else
-                    swal("توجه",'به تمامی سوالات پاسخ داده نشده است',"error");
+                    swal("{{__('messages.توجه')}}",'{{__('messages.alert_exam.err')}}',"error");
                 }
             })
             .catch(error => {
@@ -202,7 +202,7 @@
             });
     }
     function disable(){
-        swal("توجه",'لطفا به تمامی سوالات پاسخ دهید',"error");
+        swal("{{__('messages.توجه')}}",'{{__('messages.alert_exam.answerAll')}}',"error");
     }
 </script>
 @endsection

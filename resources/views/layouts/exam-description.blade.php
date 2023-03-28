@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{App::getLocale()}}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -84,8 +84,20 @@
     }
    
 
+   #langselect {
+    position: fixed;
+    opacity: 0.75;
+    top: 0;
+    text-align: center;
+    width: 5rem;
+    border: 0;
+    border-radius: 4px;
+    font-family: 'Peyda'!important;
+    left: 4px;
+    direction: ltr;
+}
     </style>
-    <title>@yield('title')-سامانه رشد عرفان خوش نظر</title>
+    <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
 </head>
 @php
  if(is_null(session('chk')) && $exam->id==6)
@@ -98,6 +110,16 @@
     //$exam->name="مرحله اول آزمون";
 @endphp
 <body style="height: auto;">
+    
+<form id="chlang" action="{{route('chLang')}}" method="post">
+    @csrf
+    <select name="language" onchange="chlang.submit();"  id='langselect'>
+        <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
+        <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
+        <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
+        <option value="es" @if(App::isLocale('es')) selected @endif>español</option>
+    </select>
+</form>
     <div id="MobileComponents">
         <x-mobile-menu />
         <div id="MobileExamDescriptionHeader">
@@ -108,12 +130,12 @@
         </div>
         <div id="MobileExamDescriptionTitle">
             <div class="MobileExamDescriptionTitleHr"></div>
-            <span>{{$exam->name}}</span>
+            <span>{{__('messages.'.$exam->name)}}</span>
             <div class="MobileExamDescriptionTitleHr"></div>
         </div>
         <div id="MobileExamDescriptionIcons" dir="rtl">
             <figure>
-                <figcaption>{{$exam->ageRange}} </figcaption>
+                <figcaption>{{--$exam->ageRange--}} </figcaption>
             </figure>
             {{-- <figure>
                 <img src="{{asset('images/usersComments.png')}}">
@@ -143,12 +165,12 @@
         </div>
         <div id="MobileExamDescriptionTitle">
             <div class="MobileExamDescriptionTitleHr"></div>
-            <span>{{$exam->name}}</span>
+            <span>{{__('messages.'.$exam->name)}}</span>
             <div class="MobileExamDescriptionTitleHr"></div>
         </div>
         <div id="MobileExamDescriptionIcons" dir="rtl">
             <figure>
-                <figcaption style="font-size:11pt!important">{{$exam->ageRange}} </figcaption>
+                <figcaption style="font-size:11pt!important">{{--$exam->ageRange--}} </figcaption>
             </figure>
           {{--   <figure>
                 <img src="{{asset('images/usersComments.png')}}">
