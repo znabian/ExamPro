@@ -207,7 +207,8 @@ class PanelController extends Controller
                        DB::table('user_crons')
                        ->where('phone',auth()->user()->phone)
                        ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
-                       $response = Http::post("https://exam.erfankhoshnazar.com/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
+                      # /*PRO:*/ $response = Http::post("https://erfankhoshnazar.com/exams/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
+                      #$response = Http::post("https://exam.erfankhoshnazar.com/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
                  
                     }
                     else

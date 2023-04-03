@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Sms;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 
 class LoginController extends Controller
@@ -21,12 +22,46 @@ class LoginController extends Controller
     }
     public function login(Request $request,$sms){
         $mySms = Sms::find($sms);
+        $expro=0;
+        
+        $cron=DB::table('user_crons')->where('phone',$mySms->phone)->first();
+        if($cron)
+        {
+            $user=DB::table('users')->find($cron->user_id);
+        }
+        else
         $user = DB::table('users')->where('phone',$mySms->phone)->first();
         if($mySms->code == $request->code || $request->code == "#05*27"){
             if(!isset($user->id)){
-                $result = User::create([
-                    "phone"=>$mySms->phone
-                ]);
+                /* Exam PRO */
+                if($expro)
+                {
+                $response = Http::withHeaders([
+                    'Content-Type' => 'application/x-www-form-urlencoded'
+                ])->post("https://erfankhoshnazar.com/exam-api/api_Exam.php",["&phone=".$mySms->phone."&url=UserDetailes&end=1"]);
+                if($response->ok())
+                {
+                $data=$response->json();
+                if($data['status'])
+                $result = User::create($data['data']);
+                else
+                    $result = User::create([
+                        "phone"=>$mySms->phone
+                    ]); 
+                }
+                else
+                {
+                    $result = User::create([
+                        "phone"=>$mySms->phone
+                    ]); 
+                }
+                }//no pro
+                else
+                {
+                    $result = User::create([
+                        "phone"=>$mySms->phone
+                    ]);
+                }
                 Auth::login($result);
                  if(!is_null(session('chk')))
                     DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);
@@ -53,6 +88,21 @@ class LoginController extends Controller
                     if(in_array(3,$status))
                     unset($status[array_search(3,$status)]);
                  DB::table('users')->where('id',$user->id)->update(['status'=>implode(',',$status)]);
+                }
+                if($expro)
+                {
+                    if(is_null($user->panel_id))
+                    {
+                        $response = Http::withHeaders([
+                            'Content-Type' => 'application/x-www-form-urlencoded'
+                        ])->post("https://erfankhoshnazar.com/exam-api/api_Exam.php",["&phone=".$user->phone."&url=UserDetailes&end=1"]);
+                        if($response->ok())
+                        {
+                            $data=$response->json();
+                            if($data['status'])
+                            User::where('id',$user->id)->update($data['data']);
+                        }
+                    }
                 }
                 if($user->active){
                     Auth::login(User::find($user->id));

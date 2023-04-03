@@ -42,3 +42,8 @@ Route::get('/UserPanel',[ApiController::class,'UserPanel']);
 Route::post('/addLogSMS',[ApiController::class,'addLogApi']);
 Route::post('/PhoneUsers',[ApiController::class,'getPhoneExamUsers']);
 Route::post('/Exam/addRequest',[ApiController::class,'addRquestINPanel']);
+
+Route::post('/UpdateUserInfo',[ApiController::class,'updateuserinfo']);
+Route::post('PRO/All',[ApiController::class,'getAllExamUserHistory_PRO']);
+Route::post('PRO/ExamCount',[ApiController::class,'getCountExam_PRO']);
+Route::post('PRO/today',[ApiController::class,'getCountTodayExams_PRO']);

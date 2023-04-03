@@ -107,6 +107,10 @@ class ApiController extends Controller
              if(in_array(4,$status)) $st.='- مشاهده نتیجه استعدادیابی<br>';
              if(in_array(5,$status)) $st.='- مشاهده فیلم آموزش افزایش اعتماد به نفس<br>';
              if(in_array(6,$status)) $st.='- مشاهده فیلم آموزش علاقه مندی به یادگیری<br>';            
+			 if(!($st))
+			 {
+				$st='× کاربر فعالیتی نداشته است ×';
+			 }
         $existingUser->status=$st;
         return response()->json(["result"=>$existingUser]); 
         } 
@@ -837,12 +841,44 @@ class ApiController extends Controller
     
     public function savecronjobs(Request $req)//phone,time,done,cron,support
     {
+        $pro=0;
+        if($pro)
+        {
+            /* Exam PRO */
+            if(User::where('phone',$req->phone)->exists())
+            {
+                $user=User::where('phone',$req->phone)->first();
+            User::where('id',$user->id)->update([
+                "support_id"=>$req->supportid,
+                "seller_id"=>$req->sellerid,
+                "panel_id"=>$req->userid
+            ]);
+
+            }
+            else
+            {
+                $user = User::create([
+                "phone"=>$req->phone,
+                "support_id"=>$req->supportid,
+                "seller_id"=>$req->sellerid,
+                "panel_id"=>$req->userid
+            ]);
+            }
+        DB::table('user_crons')->updateOrInsert(
+                ['phone'=>$req->phone],
+                ['done'=>$req->done,'user_id'=>$user->id,'time'=>$req->time,
+                'cron'=>$req->cron,'support'=>$req->support,'date'=>date('Y-m-d H:i:s')]);
+                return true;
+        }
+        else
+        {
         $uid=(User::where('phone',$req->phone)->exists())?User::where('phone',$req->phone)->first()->id:null;
        DB::table('user_crons')->updateOrInsert(
             ['phone'=>$req->phone],
             ['done'=>$req->done,'user_id'=>$uid,'time'=>$req->time,
             'cron'=>$req->cron,'support'=>$req->support,'date'=>date('Y-m-d H:i:s')]);
             return true;
+        }
     }
     public function runcronjob()
     {
@@ -992,5 +1028,295 @@ class ApiController extends Controller
     
     curl_close($curl);
     return ($response) ;
+   }
+   /* Exam PRO */
+   
+   public function getAllExamUserHistory_PRO(Request $request)
+    {
+        $result = [];
+        //$date = $request->date;
+        $first_date = $request->first_date;
+        $last_date = $request->last_date;
+        $perm = $request->perm??0;
+        $seen=$unseen=[];
+        $all = $request->all??0;
+        $phones = $request->phones??null;
+        $SID=$request->SID;
+    
+        //if($date==null){
+        if(($first_date==null && $last_date==null) || $all){
+            if($perm==3)
+            {
+                if($phones)
+                $uids=DB::table('users')->where('phone',$phones)->pluck('id');
+                else
+                $uids=DB::table('users')->where('support_id',$SID)->orWhere('seller_id',$SID)->pluck('id');
+                $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+                //->where('active',1)
+                ->where('enable',1)
+                ->get();
+            }
+            elseif($perm==4)
+            {
+                $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            //->where('active',1)
+            ->where('enable',1)
+        ->orderByDesc('created_at')->get();
+            }
+            else
+                $exam_users = DB::table('exam_user')
+                //->where('active',1)
+                ->where('enable',1)
+                ->get();
+                
+            foreach($exam_users as $exam_user){
+            // array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
+                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->where('active',1)->count()];
+                if($count[0]-$count[1]!=$count[0])
+                {
+                    if($exam_user->seen)
+                    {
+                        $seen[]=[
+                            "user"=>DB::table("users")->find($exam_user->user_id),
+                            "exam"=>DB::table('exams')->find($exam_user->exam_id),
+                            "user_exam_created_at"=>$exam_user->created_at,
+                            'name'=>$exam_user->name,
+                            'exam_user_id'=>$exam_user->id,
+                            'seen'=>$exam_user->seen,
+                            'count'=>$count,
+                            'active'=>$exam_user->active,
+                            'lang'=>$exam_user->lang??'fa',
+                            ];
+                    }
+                    else
+                    {
+                        $unseen[]=[
+                            "user"=>DB::table("users")->find($exam_user->user_id),
+                            "exam"=>DB::table('exams')->find($exam_user->exam_id),
+                            "user_exam_created_at"=>$exam_user->created_at,
+                            'name'=>$exam_user->name,
+                            'exam_user_id'=>$exam_user->id,
+                            'seen'=>$exam_user->seen,
+                            'count'=>$count,
+                            'active'=>$exam_user->active,
+                            'lang'=>$exam_user->lang??'fa',
+                            ];
+                        
+                    }
+                
+                }
+            }
+        }
+        else{
+            //$exam_users = DB::table('exam_user')->where('created_at','LIKE','%'.$date.'%')->get();
+            //$exam_users = DB::table('exam_user')->whereBetween('created_at',[$first_date,$last_date])->get();
+            /*$first_date = Carbon::parse($request->first_date)
+                            ->toDateTimeString();
+        $last_date = Carbon::parse($request->last_date)->addDay()
+                            ->toDateTimeString();*/
+            if($perm==3)
+            {
+                if($phones)
+                $uids=DB::table('users')->where('phone',$phones)->pluck('id');
+                else
+                $uids=DB::table('users')->where('support_id',$SID)->orWhere('seller_id',$SID)->pluck('id');
+                $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+                //->where('active',1)
+                ->where('enable',1)
+                ->whereDate('created_at',">=",$request->first_date)
+                ->whereDate('created_at',"<=",$request->last_date)
+                ->orderByDesc('created_at')->get();
+            }
+            elseif($perm==4)
+            {
+                $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
+                $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+                //->where('active',1)
+                ->where('enable',1)
+                ->whereDate('created_at',">=",$request->first_date)
+                ->whereDate('created_at',"<=",$request->last_date)
+                ->orderByDesc('created_at')->get();
+            }
+            else
+            {
+                $exam_users = DB::table('exam_user')
+                //->where('active',1)
+                ->where('enable',1)
+                ->whereDate('created_at',">=",$request->first_date)
+                ->whereDate('created_at',"<=",$request->last_date)
+                ->orderByDesc('created_at')->get();
+            }
+            foreach($exam_users as $exam_user){
+                //array_push($result,["user"=>DB::table("users")->where('id',"=",$exam_user->user_id)->get(),"exam"=>DB::table('exams')->where('id','=',$exam_user->exam_id)->get(),"user_exam_created_at"=>$exam_user->created_at]);
+                $count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->where('active',1)->count()];
+                if($count[0]-$count[1]!=$count[0])
+                {
+                    if($exam_user->seen)
+                    {
+                        $seen[]=[
+                            "user"=>DB::table("users")->find($exam_user->user_id),
+                            "exam"=>DB::table('exams')->find($exam_user->exam_id),
+                            "user_exam_created_at"=>$exam_user->created_at,
+                            'name'=>$exam_user->name,
+                            'exam_user_id'=>$exam_user->id,
+                            'seen'=>$exam_user->seen,
+                            'count'=>$count,
+                            'active'=>$exam_user->active,
+                            'lang'=>$exam_user->lang??'fa',
+                            ];
+                    }
+                    else
+                    {
+                        $unseen[]=[
+                            "user"=>DB::table("users")->find($exam_user->user_id),
+                            "exam"=>DB::table('exams')->find($exam_user->exam_id),
+                            "user_exam_created_at"=>$exam_user->created_at,
+                            'name'=>$exam_user->name,
+                            'exam_user_id'=>$exam_user->id,
+                            'seen'=>$exam_user->seen,
+                            'count'=>$count,
+                            'active'=>$exam_user->active,
+                            'lang'=>$exam_user->lang??'fa',
+                            ];
+                        
+                    }
+                
+                }
+            }
+        }
+        return [$unseen,$seen];
+    }
+    public function getCountExam_PRO(Request $request){
+        $first_date = $request->first_date;
+        $last_date = $request->last_date;
+        $perm = $request->perm??0;
+        $all = $request->all??0;
+        $phones = $request->phones??null;
+        $SID=$request->SID;
+        
+        for($seen=0;$seen<=1;$seen++)
+        {
+        if(($first_date==null && $last_date==null) || $all){
+            if($perm==3)
+            {
+                if($phones)
+                $uids=DB::table('users')->where('phone',$phones)->pluck('id');
+                else
+                $uids=DB::table('users')->where('support_id',$SID)->orWhere('seller_id',$SID)->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->where('active',1)
+            ->where('enable',1)
+            ->where('seen',$seen)->count();
+            }
+            elseif($perm==4)
+            {
+                $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->where('active',1)
+            ->where('enable',1)
+            ->where('seen',$seen)->orderByDesc('created_at')->count();
+            }
+            else
+            {
+                $exam_users = DB::table('exam_user')
+                ->where('active',1)
+                ->where('enable',1)
+                ->where('seen',$seen)->count();
+            }
+        if($seen)
+            $seencount=$exam_users; 
+        else
+        $unseencount=$exam_users; 
+        }
+        else{
+            /*$first_date = Carbon::parse($request->first_date)
+                            ->toDateTimeString();
+        $last_date = Carbon::parse($request->last_date)->addDay()
+                            ->toDateTimeString();*/
+            if($perm==3)
+            {
+            if($phones)
+                $uids=DB::table('users')->whereIn('phone',$phones)->pluck('id');
+                else
+                $uids=DB::table('users')->where('support_id',$SID)->orWhere('seller_id',$SID)->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->where('active',1)
+            ->where('enable',1)
+            ->where('seen',$seen)            
+            ->whereDate('created_at',">=",$request->first_date)
+            ->whereDate('created_at',"<=",$request->last_date)
+            ->orderByDesc('created_at')->count();
+            }
+            elseif($perm==4)
+            {
+                $uids=DB::table('users')->where('phone','like',"%".$phones."%")->pluck('id');
+                $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+                ->where('active',1)
+                ->where('enable',1)
+                ->where('seen',$seen)
+                ->whereDate('created_at',">=",$request->first_date)
+                ->whereDate('created_at',"<=",$request->last_date)
+                ->orderByDesc('created_at')->count();
+            }
+            else
+            {
+                $exam_users = DB::table('exam_user')
+                ->where('active',1)
+                ->where('enable',1)
+                ->where('seen',$seen)
+                ->whereDate('created_at',">=",$request->first_date)
+                ->whereDate('created_at',"<=",$request->last_date)
+                ->orderByDesc('created_at')->count();
+            }
+            
+            if($seen)
+                $seencount=$exam_users; 
+            else
+            $unseencount=$exam_users; 
+            }
+        }
+        return ['seen'=>$seencount,'unseen'=>$unseencount];
+    }
+    public function getCountTodayExams_PRO(Request $request)
+    {
+        $perm = $request->perm??0;
+        $SID = $request->SID;
+            if($perm==3)
+            {
+                $uids=DB::table('users')->where('support_id',$SID)->orWhere('seller_id',$SID)->pluck('id');
+            $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+            ->where('active',1)
+            ->where('enable',1)
+            ->where('seen',0)
+            ->whereDate('created_at','>=',today())
+            ->orderByDesc('created_at')->count();
+            }
+            else
+            {
+                $exam_users = DB::table('exam_user')
+                ->where('active',1)
+                ->where('enable',1)
+                ->where('seen',0)->whereDate('created_at','>=',today())
+                ->orderByDesc('created_at')->count();
+            }
+            
+        return $exam_users;
+    }
+   public function updateuserinfo(Request $req)
+   {
+	   foreach($req->data as $data)
+	   {
+		   if(User::where('phone',$data['Phone'])->exists())
+			{
+			User::where('phone',$data['Phone'])->update([
+				"support_id"=>$data['SupportId'],
+				"seller_id"=>$data['SellerId'],
+				"panel_id"=>$data['Id']
+			]);
+
+			}
+	   }
+		return true;
    }
 }
