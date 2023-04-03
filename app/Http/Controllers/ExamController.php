@@ -197,7 +197,7 @@ class ExamController extends Controller
         ->where('user_id',$EUtbl->user_id)
         ->where('name',$EUtbl->name)->where('enable',1)
         ->update(['active'=>0]);
-        DB::table("exam_user")->where('id',$id)->update(['active'=>1]);
+        DB::table("exam_user")->where('id',$id)->update(['active'=>1,'lang'=>App::getLocale()]);
         $a=new PanelController();
         switch ($EUtbl->exam_id)
         {
