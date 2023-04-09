@@ -66,7 +66,7 @@
         </div>
         <div class="video position-relative radius-12">
             <video id="videoRes" class="blurEffect w-100" width="100%" controls>
-                <source src="https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4" type="video/mp4">
+                <source src="https://dl.erfankhoshnazar.com/disc/{{App::getLocale()}}/{{strtoupper($score)}}.mp4" type="video/mp4">
                 Your browser does not support HTML video.
             </video>
             <span class="icon-video"></span>

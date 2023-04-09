@@ -19,15 +19,15 @@
 $nodownload="download";
    switch ($st) {
             case 1:
-               $url="https://dl.erfankhoshnazar.com/disc/pish.mp4";
+               $url="https://dl.erfankhoshnazar.com/disc/".App::getLocale()."/pish.mp4";
                $txt=__('messages.پیش نیاز استعدادیابی');
                 break;
             case 5:
-                $url='http://dl.erfankhoshnazar.com/etemad%20be%20nafs/Mvi%202648%201.mp4%20%DA%A9%D9%85%20%D8%AD%D8%AC%D9%85%20%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF%20%D8%A8%D9%87%20%D9%86%D9%81%D8%B3.mp4';
+                $url='http://dl.erfankhoshnazar.com/etemad%20be%20nafs/'.App::getLocale().'/Mvi%202648%201.mp4%20%DA%A9%D9%85%20%D8%AD%D8%AC%D9%85%20%D8%A7%D8%B9%D8%AA%D9%85%D8%A7%D8%AF%20%D8%A8%D9%87%20%D9%86%D9%81%D8%B3.mp4';
                $txt=__('messages.افزایش اعتماد به نفس');$nodownload="nodownload";
                 break;
             case 6:
-                $url='https://dl.erfankhoshnazar.com/2b/ab.mp4';
+                $url='https://dl.erfankhoshnazar.com/2b/'.App::getLocale().'/ab.mp4';
                $txt=__('messages.افزایش علاقه مندی به یادگیری');$nodownload="nodownload";
                 break;
         }

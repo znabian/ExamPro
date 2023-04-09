@@ -152,6 +152,13 @@ class PanelController extends Controller
                     {
                         $status[]=2;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
+                        if(DB::table('user_crons') ->where('phone',auth()->user()->phone)->exists())                        
+                        {
+                            DB::table('user_crons')
+                            ->where('phone',auth()->user()->phone)
+                            ->update(['cron'=>7,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                            $sms->cronsms(6,auth()->user()->phone);
+                        }
                     }
                     else
                     $res=1;

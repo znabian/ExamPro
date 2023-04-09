@@ -33,6 +33,8 @@ Route::get('login',[App\Http\Controllers\Auth\LoginController::class,'index'])->
 Route::get('confirm',[App\Http\Controllers\Auth\LoginController::class,'confirm']);
 Route::post('generate',[App\Http\Controllers\SmsController::class,'send'])->name("sendSms");
 Route::post('login/{sms}',[App\Http\Controllers\Auth\LoginController::class,'login'])->name("loginConfirmation");
+Route::post('generatePassword',[App\Http\Controllers\SmsController::class,'send_PRO'])->name("sendSms.pro");
+Route::post('loginUser',[App\Http\Controllers\Auth\LoginController::class,'login_PRO'])->name("login.pro");
 Route::group([
         "middleware"=>"auth"
     ],function(){
