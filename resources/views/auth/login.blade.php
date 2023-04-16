@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('css/app.css')}}">
+    <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
     <meta name="yn-tag" id="2fd2bba1-bc29-4b11-aa83-a176672cd88b">
     <title>{{__('messages.ورود به سامانه')}}</title>
     <style>
@@ -53,12 +54,80 @@
     }
 }
     </style>
+    <style>
+      
+      .langselect--move.is-active {
+        -webkit-animation: moveing 5s ease-out ;
+                animation: moveing 5s ease-out ;
+      }
+      @-webkit-keyframes moveing {
+        0% {
+          top:0;
+        }
+        50% {
+          top:30%;
+        }
+        80% {
+            top:0;
+            transform: rotate(-3deg);
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        }
+        85% {
+            transform: rotate(20deg);
+        }
+       90% {
+            transform: rotate(-15deg);
+        }
+        95% {
+            transform: rotate(5deg);
+        }
+        98% {
+            transform: rotate(-1deg);
+        }
+        100% {
+            transform: rotate(0);
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        }
+      }
+      
+      @keyframes moveing {
+        0% {
+          top:0;
+        }
+        50% {
+          top:30%;
+        }
+        80% {
+            top:0;
+            transform: rotate(-3deg);
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        }
+        85% {
+            transform: rotate(20deg);
+        }
+       90% {
+            transform: rotate(-15deg);
+        }
+        95% {
+            transform: rotate(5deg);
+        }
+        98% {
+            transform: rotate(-1deg);
+        }
+        100% {
+            transform: rotate(0);
+            box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+        }
+      }
+      
+      
+    </style>
 </head>
 <body id="loginBody">
     
 <form id="chlang" action="{{route('chLang')}}" method="post">
     @csrf
-    <select name="language" onchange="chlang.submit();"  id='langselect'>
+    <select class=" @if(App::isLocale('fa')) langselect--move is-active @endif" name="language" onchange="chlang.submit();"  id='langselect'>
         <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
         <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
         <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>
