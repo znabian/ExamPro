@@ -89,4 +89,6 @@ return [
         'defeat'=>['btn'=>"Sí, la prueba ha terminado.",'title'=>"Su prueba ha sido registrada",'body'=>"Puede consultar el resultado de la prueba en «ver el resultado»."],
         'conf'=>['btn'=>"Ver preguntas sin respuesta",'body'=>"Preguntas sin respuesta: "],
     ],
+    'شما دوره «سرخ فامیلی» را خریداری نکرده اید !'=> "No has comprado el curso Sorkh Family",
+    'اکانت کاربری غیرفعال می باشد!'=>"Tu cuenta está inactiva",
 ];

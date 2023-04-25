@@ -147,7 +147,7 @@ class SmsController extends Controller
 
        // $phone=(str_starts_with($request->phone,"+98"))?str_replace("+98",'0',$request->phone):((str_starts_with($request->phone,"0098"))?str_replace("0098",'0',$request->phone):$request->phone);
        $phone=(str_starts_with($request->phone,"+98"))?preg_replace('/[+]98/', "0", $request->phone, 1):((str_starts_with($request->phone,"0098"))?preg_replace('/0098/', "0", $request->phone, 1):$request->phone);
-        $r=new Request(['url'=>"http://85.208.255.101/API/passApi_jwt.php",'data'=>$phone]);
+        $r=new Request(['url'=>"http://85.208.255.101/API/ExamPassApi_jwt.php",'data'=>$phone]);
 
         $response=$this->getDataUser($r);
         
@@ -161,7 +161,18 @@ class SmsController extends Controller
             
         }
         else
-            return ['status'=>0,'msg'=>__('messages.کاربری یافت نشد')];
+        {
+            switch ($response->status) 
+            {
+                case '500':
+                  $msg=__('messages.کاربری یافت نشد');
+                break;                
+                default:
+                $msg=__('messages.'.$response->message);
+                break;
+            }
+            return ['status'=>0,'msg'=>$msg];
+        }
        
         if(Str::startsWith($request->phone, '+98') || Str::startsWith($request->phone, '09') || Str::startsWith($request->phone, '0098'))
         {        

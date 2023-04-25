@@ -89,5 +89,6 @@ return [
         'defeat'=>['btn'=>"Yes, the exam is over now",'title'=>"Your Exam has been registered",'body'=>"You can check the result of the exam in «view the result»"],
         'conf'=>['btn'=>"Show unanswered questions",'body'=>"Unanswered questions:"],
     ],
-
+    'شما دوره «سرخ فامیلی» را خریداری نکرده اید !'=> "You have not purchased the Sorkh Family course",
+    'اکانت کاربری غیرفعال می باشد!'=>"Your account is inactive",
 ];

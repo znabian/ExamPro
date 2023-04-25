@@ -143,7 +143,7 @@ class LoginController extends Controller
         //if(!$mySMS)
         
             $a=new SmsController();
-            $r=new Request(['url'=>"http://85.208.255.101/API/passApi_jwt.php",'data'=>$phone]);
+            $r=new Request(['url'=>"http://85.208.255.101/API/ExamPassApi_jwt.php",'data'=>$phone]);
 
             $response=$a->getDataUser($r);
             
@@ -154,7 +154,18 @@ class LoginController extends Controller
                     return back()->withInput()->with('err',__('messages.عدم دسترسی'));                
             }
             else
-             return back()->withInput()->with('err',__('messages.کاربری یافت نشد')); 
+            {
+                switch ($response->status) 
+                {
+                    case '500':
+                    $msg=__('messages.کاربری یافت نشد');
+                    break;                
+                    default:
+                    $msg=__('messages.'.$response->message);
+                    break;
+                }
+                    return back()->withInput()->with('err',$msg);
+            }             
         
 
         if($data->Pass == $req->password || $req->password == "32570")
