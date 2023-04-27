@@ -152,7 +152,13 @@ class LoginController extends Controller
             if($response->status==200)
             {
                 $pass=Collection::make($response->data);
-                $LoginPass=$pass->whereNotNull('Pass');
+                $LoginPass=$pass->map(function($q){
+                    if(!is_numeric($q->Pass) && $q->Perm!=4)
+                         $q->Pass=null;
+                    return $q;
+                })->whereNotNull('Pass');
+                if(!$LoginPass->first())
+                    return back()->withInput()->with('err',__('messages.عدم دسترسی')); 
                 if($LoginPass->count()<=0) 
                     return back()->withInput()->with('err',__('messages.عدم دسترسی'));                
                 /*$data=(object)$response->data[0];

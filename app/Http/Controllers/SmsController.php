@@ -7,6 +7,7 @@ use App\Http\Requests\UpdateSmsRequest;
 use App\Models\Sms;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -151,14 +152,28 @@ class SmsController extends Controller
 
         $response=$this->getDataUser($r);
         
+        if(!$response)
+        return ['status'=>0,'msg'=>__('messages.مشکلی پیش آمده مجددا تلاش نمایید')];
         if($response->status==200)
         {
-            $data=$response->data[0];
+            $pass=Collection::make($response->data);
+                $LoginPass=$pass->map(function($q){
+                    if(!is_numeric($q->Pass))
+                    $q->Pass=null;
+                    return $q;
+                })->whereNotNull('Pass');            
+                if(!$LoginPass->first())
+                return ['status'=>0,'msg'=>__('messages.عدم دسترسی')]; 
+                if($LoginPass->count()<=0) 
+                return ['status'=>0,'msg'=>__('messages.عدم دسترسی')];
+
+                $code=$LoginPass->first()->Pass;
+                    
+            /*$data=$response->data[0];
                 if(is_numeric($data->Pass))
                 $code=$data->Pass;
                 else
-                return ['status'=>0,'msg'=>__('messages.عدم دسترسی')];
-            
+                return ['status'=>0,'msg'=>__('messages.عدم دسترسی')];*/
         }
         else
         {
