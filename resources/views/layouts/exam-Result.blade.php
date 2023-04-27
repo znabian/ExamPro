@@ -9,6 +9,15 @@
      <link rel="icon" type="image/x-icon" href="{{asset('favicon.ico')}}">
     <link rel="stylesheet" href="{{asset('font/font-awesome/css/font-awesome.min.css')}}">
     <title>{{__('messages.سامانه رشد خوش نظر')}}</title>
+   
+        @if(!session('RedFamily') && ($st??1)!=1)
+         @php
+         session()->flash('error',"این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است");
+         @endphp
+          <script>   
+            document.location.href='{{route("dashboard")}}';
+          </script>
+         @endif
     <style>
      
     .noclcik

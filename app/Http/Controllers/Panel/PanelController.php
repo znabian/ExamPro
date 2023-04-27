@@ -201,8 +201,13 @@ class PanelController extends Controller
                     {
                         $status[]=4;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
-                       
-                        if(!in_array(5,$status) && !in_array(6,$status))//فیلمی ندیده
+                        if(DB::table('user_crons') ->where('phone',auth()->user()->phone)->where('cron',7)->exists())                        
+                        {
+                            DB::table('user_crons')
+                            ->where('phone',auth()->user()->phone)
+                            ->update(['done'=>1]);                            
+                        }
+                        /*if(!in_array(5,$status) && !in_array(6,$status))//فیلمی ندیده
                         DB::table('user_crons')
                         ->where('phone',auth()->user()->phone)
                         ->update(['cron'=>10,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
@@ -214,6 +219,7 @@ class PanelController extends Controller
                        DB::table('user_crons')
                        ->where('phone',auth()->user()->phone)
                        ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                       */
                       # /*PRO:*/ $response = Http::post("https://erfankhoshnazar.com/exams/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
                       #$response = Http::post("https://exam.erfankhoshnazar.com/api/Exam/addRequest",['phone'=>auth()->user()->phone,"description"=>"شرکت در استعدادیابی","platform"=>26]);
                  
@@ -226,10 +232,11 @@ class PanelController extends Controller
                     {
                         $status[]=5;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
-                        if(!in_array(6,$status))
+                        /*if(!in_array(6,$status))
                         DB::table('user_crons')
                         ->where('phone',auth()->user()->phone)
                         ->update(['cron'=>9,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
+                        */
                         
                     }
                     else
@@ -240,11 +247,11 @@ class PanelController extends Controller
                     {
                         $status[]=6;
                         $res= DB::table('users')->where('id',auth()->user()->id)->update(['status'=>implode(',',$status)]);
-                        if(!in_array(5,$status))
+                        /*if(!in_array(5,$status))
                         DB::table('user_crons')
                         ->where('phone',auth()->user()->phone)
                         ->update(['cron'=>8,'done'=>0,'time'=>'+24 hour','user_id'=>auth()->user()->id,'date'=>date('Y-m-d H:i:s')]);
-                        
+                        */
                     }
                     else
                     $res=1;

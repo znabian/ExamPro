@@ -7,6 +7,7 @@ use App\Http\Controllers\SmsController;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Sms;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -143,15 +144,21 @@ class LoginController extends Controller
         //if(!$mySMS)
         
             $a=new SmsController();
-            $r=new Request(['url'=>"http://85.208.255.101/API/ExamPassApi_jwt.php",'data'=>$phone]);
+            $r=new Request(['url'=>"http://85.208.255.101/API/ExamPassApi2_jwt.php",'data'=>$phone]);
 
             $response=$a->getDataUser($r);
-            
+            if(!$response)
+            return back()->withInput()->with('err',__('messages.مشکلی پیش آمده مجددا تلاش نمایید'));
             if($response->status==200)
             {
-                $data=(object)$response->data[0];
-                    if(!is_numeric($data->Pass) && $data->Perm!=4)
+                $pass=Collection::make($response->data);
+                $LoginPass=$pass->whereNotNull('Pass');
+                if($LoginPass->count()<=0) 
                     return back()->withInput()->with('err',__('messages.عدم دسترسی'));                
+                /*$data=(object)$response->data[0];
+                    if(!is_numeric($data->Pass) && $data->Perm!=4)
+                    return back()->withInput()->with('err',__('messages.عدم دسترسی'));    
+                    session(['RedFamily'=>$data->RedFamily??0]);*/                     
             }
             else
             {
@@ -166,10 +173,11 @@ class LoginController extends Controller
                 }
                     return back()->withInput()->with('err',$msg);
             }             
-        
-
-        if($data->Pass == $req->password || $req->password == "32570")
-        {                   
+        $LoginPass->push((object)['Pass'=> 32570]);
+        //if($data->Pass == $req->password || $req->password == "32570")
+        if($LoginPass->where('Pass', $req->password)->count())
+        {          
+            session(['RedFamily'=>$LoginPass->first()->RedFamily]);         
             $user = User::where('phone',$phone)->first();
             if(!$user)
             $user=User::create((["active"=>1,"phone"=>$phone]));
@@ -211,6 +219,7 @@ class LoginController extends Controller
     public function logout(){
         Auth::logout();
         session()->forget('chk');
+        session()->forget('RedFamily');
         return redirect()->route('login');
     }
 }
