@@ -64,7 +64,7 @@
             </div>
         </div>
         
-        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="swal('خطا','این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است','error')" @else   onclick="showvideo(2)" @endif>
+        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(2)" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/4.png')}}">
@@ -76,7 +76,7 @@
             </div>
         </div>
         
-        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="swal('خطا','این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است','error')" @else   onclick="showvideo(3)" @endif>
+        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(3)" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/5.png')}}">
@@ -108,7 +108,7 @@
         @endif
         
     </div>
-    <!--<div id="MobileDashboardExamFooterButton">
+    <div id="MobileDashboardExamFooterButton">
         <div id="MobileDashboardExamFooterButtonText" style="font-size: 9pt;">
             {{-- دسترسی به پادکست ها ویدئوهای آموزشی --}}
             
@@ -116,7 +116,7 @@
         {{-- <div id="MobileDashboardExamFooterButtonIcon">
             <img src="{{asset('images/arrow.png')}}" alt="arrow">
         </div> --}}
-    </div>-->
+    </div>
     {{-- <div id="MobileDashboardExamExitButton">
         <img src="{{asset('images/exitIcon.png')}}" alt="exit">
         <a href="{{route('logout')}}">خروج</a>
@@ -165,7 +165,7 @@
             </div>
         </div>
         
-        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="swal('خطا','این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است','error')" @else   onclick="showvideo(2)" @endif>
+        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(2)" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/4.png')}}">
@@ -177,7 +177,7 @@
             </div>
         </div>
         
-        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="swal('خطا','این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است','error')" @else   onclick="showvideo(3)" @endif>
+        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(3)" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/5.png')}}">
@@ -292,6 +292,53 @@
                 //location.reload();
             });*/
         
+    }
+    var showbtn=!(sessionStorage.getItem("RedFamilyReq")??0);
+    function RedFamilyAlert()
+    {
+        swal({
+            showDenyButton: true,
+                    title: "خطا",
+                    text:  "این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است",
+                    icon: "error",
+                        buttons:{
+                        conf:"عضویت در سرخ فامیلی",
+                        }
+                    
+                }).then((value) => {
+                    if (value=="conf")
+                    {
+                        if(showbtn)
+                        {
+                        senRequestRedFamily();
+                        }
+                        else
+                        {
+                            swal('توجه',"درخواست شما قبلا ثبت شده است",'warning');
+                        }
+                        }
+                    });
+    }
+     function senRequestRedFamily()
+    {
+        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
+        window.axios.post('{{route('send.request')}}', {phone:"{{auth()->user()->phone}}",description:"شرکت در استعدادیابی و درخواست عضویت در سرخ فامیلی",platform:26})
+                            .then(function (response) {
+                                if(response.data.status)                        {        
+                                swal('توجه','درخواست شما با موفقیت ثبت شد. کارشناسان ما در اسرع وقت با شما تماس خواهند گرفت','success');
+                                sessionStorage.setItem("RedFamilyReq", "1");
+                                showbtn=0;
+                                }
+                                else
+                                swal('خطا',response.data.error,'error');
+                                
+                                
+
+                            })
+                            .catch(function (error) {
+                            console.log(error);
+                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                            }); 
     }
     </script>
      <script>

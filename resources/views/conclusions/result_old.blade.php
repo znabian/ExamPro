@@ -40,6 +40,10 @@
 {
     font-size: 10pt;
 }
+.accordion-body {
+    font-family: 'Vazir';
+   /* font-weight: normal!important;*/
+}
 </style>
 @endsection
 @section('content')
@@ -51,7 +55,7 @@
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
             <span class="text-white fw-bold">نتیجه تحلیل آزمون شما</span>
         </div>
-        @if(session('RedFamily'))
+         {{--@if(session('RedFamily'))--}}
         <div class="video position-relative radius-12">
             <video id="videoRes" class="blurEffect w-100" width="100%" controls>
                 <source src="https://dl.erfankhoshnazar.com/disc/{{strtoupper($score)}}.mp4" type="video/mp4">
@@ -59,14 +63,13 @@
             </video>
             <span class="icon-video"></span>
         </div>
-        @else        
+        {{--@else        
         <div class="row mt-6 mb-3 px-3" id="btnRedFamily" >
             <div class="col-12 w-100 h-100 p-5 position-relative card">
                 <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-                    <h3 class=" text-center">جهت دریافت تحلیل تست استعدادیابی توسط استاد عرفان خوش نظر
+                <h3 class=" text-center">جهت دریافت تحلیل تست استعدادیابی توسط استاد عرفان خوش نظر
                         <br>
                          و عضویت در گروه سرخ فامیلی کلیک کنید</h3>
-            
                 <div class="check radius-12 bg-green-1" style="padding: 0px;">
                     <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
                     <span class="text-white fw-bold btn" onclick="senRequestRedFamily(btnRedFamily)">عضویت در سرخ فامیلی</span>
@@ -76,7 +79,7 @@
             </div>
             
         </div>
-        @endif
+        @endif--}}
     </div>
 </div>
 
