@@ -33,7 +33,7 @@
     </div>
     <div id="MobileDescriptionStartExamButtonContainer">
         <a href="{{route("exam.show",$ExamUserid)}}">{{__('messages.شروع آزمون')}}</a>
-        @if(!is_null(session('chk')))
+        @if(is_null(session('chk')))
         <a href="{{route("dashboard")}}">{{__('messages.بازگشت')}}</a>
         @endif
     </div>
@@ -64,7 +64,7 @@
     </div>
     <div id="DesktopDescriptionStartExamButtonContainer">
         <a href="{{route("exam.show",$ExamUserid)}}">{{__('messages.شروع آزمون')}}</a>
-        @if(!is_null(session('chk')) || $exam->id==4)
+        @if(is_null(session('chk'))) 
         <a href="{{route("exam.cancel",$ExamUserid)}}">{{__('messages.بازگشت')}}</a>
         @endif
     </div>

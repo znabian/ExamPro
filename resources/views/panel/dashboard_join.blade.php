@@ -87,6 +87,17 @@
                 </div>
             </div>
         </div>
+        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="RafiqShafiq()" @endif>
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" style="width: 10%;" src="https://dl.erfankhoshnazar.com/downloads/icon/1550.png">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">رفیق شفیق</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
         @else
         @php
             $ex=\App\Models\Exam::find(6);
@@ -184,6 +195,17 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="RafiqShafiq()" @endif>
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" src="https://dl.erfankhoshnazar.com/downloads/icon/1550.png">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">رفیق شفیق</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -339,6 +361,10 @@
                             console.log(error);
                                 swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
                             }); 
+    }
+    function RafiqShafiq()
+    {
+        location.href="{{route('rafiq.shafiq')}}"
     }
     </script>
      <script>

@@ -43,14 +43,20 @@ Route::group([
     })->name("dashboard");
     
     
+    Route::get('/join',function(){
+        return view('panel.dashboard_join');
+    });
+    Route::view('/reality-show','panel.reality-show')->name("rafiq.shafiq");
 
     Route::get('/logout',[App\Http\Controllers\Auth\LoginController::class,'logout'])->name("logout");
     Route::get('/identify/exams/',[App\Http\Controllers\Panel\PanelController::class,'identifyExams'])->name("identify.exams");
     
     Route::get('/continue/{exam}/{id}',[App\Http\Controllers\Panel\PanelController::class,'continueExam'])->name("continue");
-    Route::get('/CompleteInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'showmyinfo'])->name("myinfo");
-    Route::post('/CompleteInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'CompleteInformation'])->name("CompleteInformation");
+    Route::get('/ComplateInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'showmyinfo'])->name("myinfo");
+    Route::post('/ComplateInformation/{exam}',[App\Http\Controllers\Panel\PanelController::class,'CompleteInformation'])->name("CompleteInformation");
     Route::get('/answerCount/{exam}',[App\Http\Controllers\ExamController::class,"countMyAnswer"])->name("countMyAnswer");
+    Route::get('/generate-exam',[App\Http\Controllers\Panel\PanelController::class,'show_Exam_on_Age'])->name("myExam");
+    Route::post('/complate-my-info',[App\Http\Controllers\Panel\PanelController::class,'show_Exam_on_Age'])->name("myExamSetinfo");
    
     Route::get('/exam/cancel/{exam}',[App\Http\Controllers\ExamController::class,"cancelExam"])->name("exam.cancel");
    
@@ -64,6 +70,7 @@ Route::group([
 
     Route::view('/Exams-Result',"panel.result")->name('result.exams');
     Route::get('/Exams-Result/{id}',[App\Http\Controllers\ExamController::class,"GetExamResult"])->name('result.exam');
+    Route::get('/LastExams-Result',[App\Http\Controllers\ExamController::class,"GetLastExamResult"])->name('result.last.exam');
  Route::get('/Exams-PreRequisite',function(){$st=request('status')??1;return view("panel.showvideo",compact("st"));})->name('pish.video');
     Route::post('/Exams-PreRequisite-save',[App\Http\Controllers\Panel\PanelController::class,"changeStatus"])->name('pish.ok');
 

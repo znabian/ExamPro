@@ -16,20 +16,46 @@
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
         </div>
-        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myExam')}}';" @endif  >
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',4)}}';" @endif  >
             {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
             
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText text-center d-grid" >
-                    <span class="categoryDataExamTitle">{{__('messages.شروع آزمون')}}</span>
-                    <span class="text-secondary small"> </span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>7,"max"=>12])}}</span>
                 </div>
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
         </div>
-        <div class=" col-12 bg-light d-inline-flex btn rounded @if(count(array_diff(explode(',',auth()->user()->status),[3,7,2]))==count(explode(',',auth()->user()->status)))  opacity-50 noclcik @endif" @if(count(array_diff(explode(',',auth()->user()->status),[3,7,2]))==count(explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else onclick="showResult();" @endif  >
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',6)}}';" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
+                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
+                </svg>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی نوجوان')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>"13","max"=>"18"])}}</span>
+                </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
+        </div>
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(1,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(1,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else onclick="location.href='{{route('myinfo',9)}}';" @endif  >
+            {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
+            
+                <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
+                 <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
+                </svg>
+                <div class="categoryDataText text-center d-grid" >
+                    <span class="categoryDataExamTitle">{{__('messages.آزمون هالند')}}</span>
+                    <span class="text-secondary small"> {{__('messages.رده سنی',["min"=>"12","max"=>"30"])}}</span>
+                </div>
+                <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
+
+        </div>
+        <div class=" col-12 bg-light d-inline-flex btn rounded @if(!in_array(3,explode(',',auth()->user()->status))) opacity-50 noclcik @endif" @if(!in_array(3,explode(',',auth()->user()->status))) onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else onclick="showResult();" @endif  >
             {{-- @if(in_array(1,explode(',',auth()->user()->status))) disabled @else " onclick="showvideo(1)@endif" --}}
             
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
@@ -42,7 +68,7 @@
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
         </div>
-        <div class=" col-12 bg-light d-inline-flex btn rounded " @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(2)" @endif >
+        <div class=" col-12 bg-light d-inline-flex btn rounded " onclick="showvideo(2);"   >
            
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
@@ -54,7 +80,7 @@
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
         </div>
-        <div class=" col-12 bg-light d-inline-flex btn rounded " @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="showvideo(3)" @endif>
+        <div class=" col-12 bg-light d-inline-flex btn rounded " onclick="showvideo(3);"   >
            
                 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" class="mt-md-4" style="width: 5%; ">
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
@@ -129,7 +155,7 @@
         window.location.href = "{{route('dashboard')}}/suggest/exams";
     }
     function showResult() {
-        window.location.href = "{{route('result.last.exam')}}";
+        window.location.href = "{{route('dashboard')}}/Exams-Result/";
     }
     function showvideo(type) {
                 url='{{route("pish.video")}}';
@@ -164,54 +190,6 @@
                 //location.reload();
             });*/
         
-    }
-    var showbtn=!(sessionStorage.getItem("RedFamilyReq")??0);
-    function RedFamilyAlert()
-    {
-     showbtn=!(sessionStorage.getItem("RedFamilyReq")??0);
-        swal({
-            showDenyButton: true,
-                    title: "خطا",
-                    text:  "این ویدیو فقط برای اعضای سرخ فمیلی قابل مشاهده است",
-                    icon: "error",
-                        buttons:{
-                        conf:"عضویت در سرخ فمیلی",
-                        }
-                    
-                }).then((value) => {
-                    if (value=="conf")
-                    {
-                        if(showbtn)
-                        {
-                        senRequestRedFamily();
-                        }
-                        else
-                        {
-                            swal('توجه',"درخواست شما قبلا ثبت شده است",'warning');
-                        }
-                        }
-                    });
-    }
-     function senRequestRedFamily()
-    {
-        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
-        window.axios.post('{{route('send.request')}}', {phone:"{{auth()->user()->phone}}",description:"شرکت در استعدادیابی و درخواست عضویت در سرخ فمیلی",platform:26})
-                            .then(function (response) {
-                                if(response.data.status)                        {        
-                                swal('توجه','درخواست شما با موفقیت ثبت شد. کارشناسان ما در اسرع وقت با شما تماس خواهند گرفت','success');
-                                sessionStorage.setItem("RedFamilyReq", "1");
-                                showbtn=0;
-                                }
-                                else
-                                swal('خطا',response.data.error,'error');
-                                
-                                
-
-                            })
-                            .catch(function (error) {
-                            console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
-                            }); 
     }
     </script>
      <script>

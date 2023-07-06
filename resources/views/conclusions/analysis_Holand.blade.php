@@ -126,12 +126,14 @@
         </div>
     </div>
     @endforeach
+    @if(session('RedFamily'))
     <div class="col-12 mt-5">
         <div class="check radius-12 bg-green-1">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
             <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
         </div>
     </div>
+    @endif
 </div>
 @else
 <div class="row mt-6 mb-3 px-3">

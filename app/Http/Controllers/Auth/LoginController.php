@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Morilog\Jalali\Jalalian;
 
 
 class LoginController extends Controller
@@ -182,11 +183,20 @@ class LoginController extends Controller
         $LoginPass->push((object)['Pass'=> 32570]);
         //if($data->Pass == $req->password || $req->password == "32570")
         if($LoginPass->where('Pass', $req->password)->count())
-        {          
+        {      
+            $BirthDay=($LoginPass->whereNotNull('BirthDay')->count())?$LoginPass->whereNotNull('BirthDay')->first()->BirthDay:null;  
+            if(!$BirthDay)
+            $BirthDay=User::where('phone',$phone)->first()->birthday??$BirthDay;
+
+           if($BirthDay)
+           {
+            list($y,$m,$d)=explode('-',$BirthDay);
+               $age=(jdate(now())->format('Y'))-$y;
+           }
             session(['RedFamily'=>$LoginPass->first()->RedFamily]);         
             $user = User::where('phone',$phone)->first();
             if(!$user)
-            $user=User::create((["active"=>1,"phone"=>$phone]));
+            $user=User::create((["active"=>1,"phone"=>$phone,'birthday'=>$BirthDay,'age'=>$age??null]));
             if(!DB::table("exam_user")->where('active',1)->where('enable',1)->where('user_id',$user->id)->whereIn('exam_id',[4,6])->exists())
                 {
                     $status=($user->status)?explode(',',$user->status):[];
@@ -197,7 +207,7 @@ class LoginController extends Controller
                  DB::table('users')->where('id',$user->id)->update(['status'=>implode(',',$status)]);
                 } 
                 User::where('id',$user->id)->where('active',0)->update(['active'=>1]);
-                if(is_null($user->panel_id))
+                if(is_null($user->panel_id) || ($LoginPass->first()->RedFamily))
                 {
                     $response = Http::withHeaders([
                         'Content-Type' => 'application/x-www-form-urlencoded'
@@ -206,9 +216,16 @@ class LoginController extends Controller
                     {
                         $data=$response->json();
                         if($data['status'])
+                        {
+                            $date['data']['birthday']=$BirthDay;
+                            $date['data']['age']=$age??null;
                             User::where('id',$user->id)->update($data['data']);
+                            unset($age);
+                        }
                     }
                 }
+                if(isset($age))
+                User::where('id',$user->id)->update(['birthday'=>$BirthDay,'age'=>$age]);
                 Auth::login($user);
                  if(!is_null(session('chk')))
                     DB::table('users')->where('id',Auth::user()->id)->update(['campaign'=>session('chk')]);

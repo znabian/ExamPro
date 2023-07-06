@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Exam;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class PanelController extends Controller
@@ -84,6 +85,49 @@ class PanelController extends Controller
     }
     public function showmyinfo($exam){
         return view('panel.info',["id"=>$exam]);
+    }
+    public function show_Exam_on_Age(request $req)
+    {
+        if($req->name)
+        $d['firstName']=$req->name;
+        if($req->age)
+        $d['age']=$req->age;
+        if($d??0)
+        DB::table('users')->where('id',auth()->user()->id)->update($d);
+
+        $age=Auth()->user()->age??$req->age;
+        $name=Auth()->user()->firstName??$req->name;
+        if($name && $age)
+        {
+            switch ($age)
+             {
+                case $age>=7 && $age<=12 :
+                    $exam=4;
+                    break;
+                case $age>=13 && $age<=18 :
+                    $exam=9;
+                    # code...
+                    break;
+                case $age>=19 :
+                    $exam=9;
+                    break;
+                
+                default:
+                   dd($age,4);
+                    # code...
+                    break;
+            }
+            $exam_user_id=DB::table("exam_user")->insertGetId([
+                "user_id"=>auth()->user()->id,
+                "exam_id"=>$exam,
+                'age'=>$age,
+                'name'=> $name,
+                "created_at"=>now(),
+            ]);
+            return redirect(route('showExamDescription',$exam_user_id));
+        }
+        else
+        return view('panel.info2');
     }
     public function continueExam($exam,$id){
         $EUtbl=DB::table("exam_user")->find($id);

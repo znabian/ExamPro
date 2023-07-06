@@ -24,7 +24,7 @@ class User extends Authenticatable
         'lastName',
         'email',
         'phone','support_id','seller_id','panel_id',
-        'birthday','source'
+        'birthday','age','source'
     ];
 
     public function exams(){
