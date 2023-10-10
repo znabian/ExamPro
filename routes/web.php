@@ -47,6 +47,9 @@ Route::group([
         return view('panel.dashboard_join');
     });
     Route::view('/reality-show','panel.reality-show')->name("rafiq.shafiq");
+    
+    Route::view('/archives','panel.lives')->name("hamaiesh.list");
+    Route::get('/archives-show',function(){$st=request('status')??1;return view("panel.liveShow",compact("st"));})->name("hamaiesh.show");
 
     Route::get('/logout',[App\Http\Controllers\Auth\LoginController::class,'logout'])->name("logout");
     Route::get('/identify/exams/',[App\Http\Controllers\Panel\PanelController::class,'identifyExams'])->name("identify.exams");

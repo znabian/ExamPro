@@ -98,6 +98,17 @@
                 </div>
             </div>
         </div>
+        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="hamaiesh()" @endif>
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" style="width: 10%;" src="https://dl.erfankhoshnazar.com/downloads/icon/376.png">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">همایش آنلاین</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
         @else
         @php
             $ex=\App\Models\Exam::find(6);
@@ -206,6 +217,17 @@
                 <hr>
                 <div class="categoryDataText">
                     <span class="categoryDataExamTitle">رفیق شفیق</span>
+                    <span class="categoryDataExamDescription"></span>
+                </div>
+            </div>
+        </div>
+        <div class="DesktopCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="hamaiesh()" @endif>
+            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
+            <div class="categoryData">
+                <img class="categoryDataImages" src="https://dl.erfankhoshnazar.com/downloads/icon/376.png">
+                <hr>
+                <div class="categoryDataText">
+                    <span class="categoryDataExamTitle">همایش آنلاین</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -365,6 +387,10 @@
     function RafiqShafiq()
     {
         location.href="{{route('rafiq.shafiq')}}"
+    }
+    function hamaiesh()
+    {
+        location.href="{{route('hamaiesh.list')}}"
     }
     </script>
      <script>
