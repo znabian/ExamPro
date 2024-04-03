@@ -145,7 +145,7 @@ class LoginController extends Controller
         //if(!$mySMS)
         
             $a=new SmsController();
-            $r=new Request(['url'=>"http://85.208.255.101/API/ExamPassApi2_jwt.php",'data'=>$phone]);
+            $r=new Request(['url'=>"http://185.116.161.39/API/ExamPassApi2_jwt.php",'data'=>$phone]);
 
             $response=$a->getDataUser($r);
             if(!$response)

@@ -216,7 +216,7 @@ class ExamController extends Controller
     }
     public function showConclusion($id){
         $EUtbl=DB::table("exam_user")->find($id);
-        $response = Http::post("http://85.208.255.101:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
+        $response = Http::post("http://185.116.161.39:8012/RedCastlePanel/public/api/Exam/addRequest",['Phone'=>auth()->user()->phone,"Description"=>"شرکت در استعدادیابی","Platform"=>26]);
         /*$count=$this->countMyAnswer($id);
         $ecount=Question::where('exam_id',$EUtbl->exam_id)->count();
         if($count==$ecount)

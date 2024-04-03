@@ -39,7 +39,7 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
         appid =1550;
         userid = {{auth()->user()->panel_id}};
         androidid = '{{auth()->user()->android_id}}';
-        window.location.href = "http://85.208.255.101:8012/Web/player/index3.php?appid=" + appid + "&id=" + cid + "&userid=" + userid + "&androidid=" + androidid ;
+        window.location.href = "http://185.116.161.39:8012/Web/player/index3.php?appid=" + appid + "&id=" + cid + "&userid=" + userid + "&androidid=" + androidid ;
     }
     </script>
      <script>

@@ -1319,4 +1319,68 @@ class ApiController extends Controller
 	   }
 		return true;
    }
+   public function searchUserExam(Request $request)
+   {
+         $result = [];
+         if($request->get('phones'))
+         $uids=DB::table('users')->whereIn('phone',$request->phones)->pluck('id');
+         else
+         $uids=DB::table('users')->whereIn('panel_id',$request->ids)->pluck('id');
+             $exam_users = DB::table('exam_user as eu')
+              ->whereIn('user_id',$uids)
+              ->where('enable',1)
+              ->whereRaw('(select count(id) from questions as q where q.exam_id = eu.exam_id)-(select count(id) from histories as h where h.active=1 and h.exam_user_id=eu.id) <> (select count(id) from questions as q where q.exam_id = eu.exam_id)')
+              ->orderByDesc('created_at')->get();
+             /* $result = DB::select("select DISTINCT(select u.phone from users as u WHERE u.id= eu.user_id) as phone 
+ from exam_user as eu where eu. user_id In  (".implode(',',$uids->toArray()).")
+ and eu. enable=1 and ((select count(id) from questions as q where q.exam_id = eu.exam_id)-(select count(id) from histories as h where h.active=1 and h.exam_user_id=eu.id) <> (select count(id) from questions as q where q.exam_id = eu.exam_id))
+      order By created_at desc;",[]);$exam_users=[];*/
+            /* $exam_users = DB::table('exam_user')->whereIn('user_id',$uids)
+             ->where('enable',1)
+             ->orderByDesc('created_at')->get();*/
+             
+             foreach($exam_users as $exam_user)
+             {
+                 /*$count=[DB::table('questions')->where('exam_id',$exam_user->exam_id)->count(),DB::table('histories')->where('exam_user_id',$exam_user->id)->where('active',1)->count()];
+                 if($count[0]-$count[1]!=$count[0])
+                 {*/
+                     $user=DB::table("users")->find($exam_user->user_id);
+                      $result[$user->phone]=true;
+                    
+                     /* $exam=DB::table('exams')->find($exam_user->exam_id);
+                     if(isset($result[$user->phone]))
+                     {
+                         array_push($result[$user->phone],
+                         [
+                             "phone"=>$user->phone,
+                             "id"=>$user->panel_id,
+                             "exam"=>$exam->name,
+                             "user_exam_created_at"=>$exam_user->created_at,
+                             'name'=>$exam_user->name,
+                             'exam_user_id'=>$exam_user->id,
+                             'seen'=>$exam_user->seen,
+                             'count'=>$count,
+                             'active'=>$exam_user->active,
+                         ]);
+                     }
+                     else
+                     {
+                        $result[$user->phone]=
+                         [[
+                             "phone"=>$user->phone,
+                             "id"=>$user->panel_id,
+                             "exam"=>$exam->name,
+                             "user_exam_created_at"=>$exam_user->created_at,
+                             'name'=>$exam_user->name,
+                             'exam_user_id'=>$exam_user->id,
+                             'seen'=>$exam_user->seen,
+                             'count'=>$count,
+                             'active'=>$exam_user->active,
+                         ]];
+                     }
+                 }*/
+             }
+         
+         return $result;
+     }
 }

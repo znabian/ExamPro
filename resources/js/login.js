@@ -20,7 +20,7 @@ if(window.location.pathname == "/login"){
         bodyFormData.append("text",text);
         axios({
             method: "POST",
-            url:"http://85.208.255.101:8012/WS/Sms/Message/SendSms.php",
+            url:"http://185.116.161.39:8012/WS/Sms/Message/SendSms.php",
             data:bodyFormData,
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -55,7 +55,7 @@ sendConfirmCodeButtonMobile.addEventListener("click", function(){
         bodyFormData.append("text",text)
         axios({
             method: "POST",
-            url:"http://85.208.255.101:8012/WS/Sms/Message/SendSms.php",
+            url:"http://185.116.161.39:8012/WS/Sms/Message/SendSms.php",
             data:bodyFormData,
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
