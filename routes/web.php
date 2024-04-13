@@ -68,7 +68,7 @@ Route::group([
     Route::get('/conclusion-new/{id}',[App\Http\Controllers\ExamController::class,"showConclusion_New"])->name("showConclusion.new");
     Route::post('/exam-gift',[App\Http\Controllers\ExamController::class,"setexamgift"])->name("exam.gift");
 
-    Route::get('admin/exam/{id}',[App\Http\Controllers\ExamController::class,"show"])->name('exam.show');
+    Route::get('student/exam/{id}',[App\Http\Controllers\ExamController::class,"show"])->name('exam.show');
     Route::get('/suggest/exams',[App\Http\Controllers\Panel\PanelController::class,'suggestExams'])->name('suggest.exams');
 
     Route::view('/Exams-Result',"panel.result")->name('result.exams');

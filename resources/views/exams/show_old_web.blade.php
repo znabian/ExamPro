@@ -37,20 +37,17 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">{{__('messages.اتمام آزمون')}}</a> --}}
         {{-- <a id="MobileShowExamQuizeEndButtonA" href="{{route('showConclusion.new',$ExamUserid)}}">{{__('messages.اتمام آزمون')}}</a> --}}
-        {{-- @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Mb')" >{{__('messages.ادامه آزمون')}}</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
         @else
             @if(!is_null(session('chk')))
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >{{__('messages.اتمام آزمون')}}</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Mb')" >{{__('messages.اتمام آزمون')}}</a>
             <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
             @else
             <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >{{__('messages.اتمام آزمون')}}</a>
             @endif
-        @endif --}}
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Mb')" >{{__('messages.اتمام آزمون')}}</a>
-            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
-           
+        @endif
 
     </div>
 @endsection
@@ -91,20 +88,17 @@
     <div id="MobileShowExamQuizeEndButton">
         {{-- <a id="MobileShowExamQuizeEndButtonDisableA" href="#" onclick="disable()">{{__('messages.اتمام آزمون')}}</a> --}}
        
-        {{-- @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
+        @if(DB::table("exam_user")->find($ExamUserid)->exam_id==4)
         <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('continue',[6,$ExamUserid])}}','Db')" >{{__('messages.ادامه آزمون')}}</a>
         <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
         @else
             @if(!is_null(session('chk')))
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >{{__('messages.اتمام آزمون')}}</a>
+            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion',$ExamUserid)}}','Db')" >{{__('messages.اتمام آزمون')}}</a>
             <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
             @else
             <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >{{__('messages.اتمام آزمون')}}</a>
             @endif
-        @endif --}}
-            <a id="MobileShowExamQuizeEndButtonA" onclick="endexam('{{route('showConclusion.new',$ExamUserid)}}','Db')" >{{__('messages.اتمام آزمون')}}</a>
-            <a id="ExamCancelbtn" onclick="document.location.href='{{route('exam.cancel',$ExamUserid)}}'" >{{__('messages.لغو')}}</a>
-           
+        @endif
 
     </div>
 @endsection
@@ -119,14 +113,14 @@
                /* if(data.status && data.num == {{$exam->questions()->count()}}){
                     if(confirm(' به تمامی سوالات پاسخ داده شد. آیا به آزمون پایان می دهید؟'))
                     {
-                        endexam('{{route('showConclusion.new',$ExamUserid)}}');
+                        endexam('{{route('showConclusion',$ExamUserid)}}');
                     }
                    
                 }*/
             })
             .catch(error => {
                 document.getElementById("Mb"+answerId).checked=false;
-                swal("{{__('messages.توجه')}}",'{{__('messages.ثبت نشد')}} '+q,"error");
+                swal.fire("{{__('messages.توجه')}}",'{{__('messages.ثبت نشد')}} '+q,"error");
             });
     }
     function saveDExamQuestionAnswerRecord(q,exam_user_id,questionId,answerId,userId){
@@ -134,7 +128,7 @@
         axios.post("{{route('save')}}",data2)
         .then(function ({data}) {
                 if(data.status && data.num == {{$exam->questions()->count()}}){
-                    //endexam('{{route('showConclusion.new',$ExamUserid)}}');
+                    //endexam('{{route('showConclusion',$ExamUserid)}}');
                 }
                 else
                 {
@@ -144,69 +138,70 @@
             })
             .catch(error => {
                 document.getElementById("Db"+answerId).checked=false;
-                swal("{{__('messages.توجه')}}",'{{__('messages.ثبت نشد')}} '+q,"error");
+                swal.fire("{{__('messages.توجه')}}",'{{__('messages.ثبت نشد')}} '+q,"error");
             });
     }
     function endexam(url,pl){
-        swal('{{__('messages.alert_wait.title')}}',"{{__('messages.alert_wait.body')}}",'warning');
+        swal.fire('{{__('messages.alert_wait.title')}}',"{{__('messages.alert_wait.body')}}",'warning');
         axios.get("{{route('countMyAnswer',$ExamUserid)}}")
         .then(function ({data}) {
                 if(data.ans == {{$exam->questions()->count()}}){
                     // document.getElementById("MobileShowExamQuizeEndButtonDisableA").style.display="none";
-                    @if(auth()->user()->source!='survey')
-                        //{-- @if($exam->id==4)
-                        // swal('{{__('messages.alert_wait.title')}}',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
-                        // @elseif(is_null(session('chk')) && $exam->id==6)
-                        // swal('{{__('messages.alert_exam.defeat.title')}}',"{{__('messages.alert_exam.defeat.body')}}",'info');
-                        // @endif--}
-                         swal('{{__('messages.alert_exam.defeat.title')}}',"{{__('messages.alert_exam.defeat.body')}}",'info');
+                     @if(auth()->user()->source!='survey')
+                       @if($exam->id==4)
+                       swal.fire("{{__('messages.alert_wait.title')}}","{{__('messages.alert_exam.forward')}}",'info');
+                       @elseif(is_null(session('chk')) && $exam->id==6)
+                       swal.fire("{{__('messages.alert_exam.defeat.title')}}","{{__('messages.alert_exam.defeat.body')}}",'info');
+                        @endif
                         document.location.href=url;
                     @else
                         document.location.href="{{route('end.survey',$ExamUserid)}}";
                     @endif
-                    
                 }
                 else
                 {
                     @if(auth()->user()->source!='survey')
                     if(data.ans >0)
                     {
-                        /* @if($exam->id==6)
-                         yes='آزمون پایان یابد ';
-                         @elseif($exam->id==4)
-                         yes=' برو به مرحله دوم آزمون ';
-                         @endif*/
-                        quizz=(data.emt)?"{{__('messages.alert_exam.conf.body')}}\n"+data.emt+"\n":'';
+                        @if($exam->id==6)
+                        yes="{{__('messages.alert_exam.defeat.btn')}}";
+                        @elseif($exam->id==4)
+                        yes="{{__('messages.مرحله دوم آزمون')}}";
+                        @endif
+                        quizz=(data.emt)?"\n"+"سوالات \n"+data.emt+"\n":'';
                         uncheckd(data.qid);
                         checkd(data.aid,pl);
-                        swal("{{__('messages.alert_exam.title')}}"+data.ans,"{{__('messages.alert_exam.body')}} ", {
+                        swal.fire({title:"{{__('messages.alert_exam.body')}}",body:"{{__('messages.alert_exam.title')}}"+data.ans, 
                             icon: 'info',
-                            showDenyButton: true,
+                           showDenyButton: true,
+                          showCancelButton: true,
+                          confirmButtonText: "{{__('messages.alert_exam.conf.btn')}}",
+                          cancelButtonText: "{{__('messages.alert_exam.cancel')}}",
+                          denyButtonText:yes, 
                             buttons: {
-                                cancel: "{{__('messages.alert_exam.cancel')}}",
-                                    defeat: "{{__('messages.alert_exam.defeat.btn')}}",
-                                    conf: "{{__('messages.alert_exam.conf.btn')}}",
+                                cancel: "{{__('messages.alert_exam.cancel')}}", 
+                                    defeat: yes,  
+                                    conf: "{{__('messages.alert_exam.conf.btn')}}",                 
                                 },
                                 })
                             .then((value) => {
-                                    switch (value) {  
 
-                                        case "conf":
-                                        swal("{{__('messages.توجه')}}",quizz,"info");
-                                            break;
-                                        case "defeat":
-                                        /* @if($exam->id==4)
-                                             swal('{{__('messages.alert_wait.title')}}',"شما درحال انتقال به صفحه مرحله دوم آزمون هستید",'info');
-                                         @elseif(is_null(session('chk')) && $exam->id==6)
-                                             swal('{{__('messages.alert_exam.defeat.title')}}',"{{__('messages.alert_exam.defeat.body')}}",'info');
-                                             @endif*/
-                                        swal('{{__('messages.alert_exam.defeat.title')}}',"{{__('messages.alert_exam.defeat.body')}}",'info');
+                                        if(value.isConfirmed)
+                                        swal.fire("{{__('messages.توجه')}}","{{__('messages.alert_exam.conf.body')}}"+data.emt,"info");
+                                           
+                                        if(value.isDenied)
+                                        {
+                                        @if($exam->id==4)
+                                        swal.fire("{{__('messages.alert_wait.title')}}","{{__('messages.alert_exam.forward')}}",'info');
+                                        @elseif(is_null(session('chk')) && $exam->id==6)
+                                        swal.fire("{{__('messages.alert_exam.defeat.title')}}","{{__('messages.alert_exam.defeat.body')}}",'info');
+                                            @endif
                                             document.location.href=url;
-                                            break;
                                         }
+                                        
                                     });
 
-                       /* if(confirm(' {{__('messages.alert_exam.body')}}'))
+                       /* if(confirm(' به تمامی سوالات پاسخ داده نشده است. آیا ادامه می دهید؟'))
                         {
                             document.location.href=url;
                         }*/
@@ -216,15 +211,15 @@
                         a=document.getElementsByClassName('inputans');
                         for(var i = 0; i < a.length; i++)
                             a[i].checked = false;
-                    swal("{{__('messages.توجه')}}",'{{__('messages.alert_exam.err')}}',"error");
+                    swal.fire("{{__('messages.توجه')}}",'{{__('messages.alert_exam.err')}}',"error");
                     }
                     @else
-                    swal("{{__('messages.توجه')}}",'{{__('messages.alert_exam.err')}}',"error");
+                    swal.fire("{{__('messages.توجه')}}",'{{__('messages.alert_exam.err')}}',"error");
                     @endif
                 }
             })
             .catch(error => {
-                swal("{{__('messages.توجه')}}",'{{__('messages.noInternet')}}',"error");
+                swal.fire("{{__('messages.توجه')}}",'{{__('messages.noInternet')}}',"error");
                 console.log(error);
             });
     }
@@ -243,7 +238,7 @@
             }
     }
     function disable(){
-        swal("{{__('messages.توجه')}}",'{{__('messages.alert_exam.answerAll')}}',"error");
+        swal.fire("{{__('messages.توجه')}}",'{{__('messages.alert_exam.answerAll')}}',"error");
     }
 </script>
 @endsection

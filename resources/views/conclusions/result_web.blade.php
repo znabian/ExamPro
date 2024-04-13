@@ -51,19 +51,24 @@
     direction: ltr;
     text-align: left;
     }
+@else
+.accordion-body {
+    font-family: 'Vazir';
+   /* font-weight: normal!important;*/
+}
 @endif
 </style>
 @endsection
 @section('content')
 
-@if(isset($score))
-@if($score)
+@if(count($out))
 <div class="row mt-6 mb-3 px-3">
     <div class="col-12 w-100 h-100 px-0 position-relative">
         <div class="check radius-12 bg-green-1 position-absolute">
             <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
             <span class="text-white fw-bold">{{__('messages.analysisTest')}}</span>
         </div>
+         {{--@if(session('RedFamily'))--}}
         <div class="video position-relative radius-12">
             <video id="videoRes" class="blurEffect w-100" width="100%" controls>
                 @if(App::getLocale()=='fa')
@@ -75,34 +80,24 @@
             </video>
             <span class="icon-video"></span>
         </div>
-    </div>
-    @if(session('RedFamily'))
-    <div class="col-12 mt-5">
-        <div class="check radius-12 bg-green-1">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
-        </div>
-    </div>
-    @endif
-</div>
-@else
-<div class="row mt-6 mb-3 px-3">
-    <div class="col-12 w-100 h-100 p-5 position-relative card">
-        <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">{{__('messages.analysis')}}</h3>
-    
-        <div class="check radius-12 bg-green-1" style="padding: 0px;">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
-        </div>
-   
+        {{--@else        
+        <div class="row mt-6 mb-3 px-3" id="btnRedFamily" >
+            <div class="col-12 w-100 h-100 p-5 position-relative card">
+                <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
+                <h3 class=" text-center">{!! __('messages.analysisRF')!!}</h3>
+                <div class="check radius-12 bg-green-1" style="padding: 0px;">
+                    <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
+                    <span class="text-white fw-bold btn" onclick="senRequestRedFamily(btnRedFamily)">{{__('messages.redfamily')}}</span>
+                </div>
+        
+                    
+            </div>
             
+        </div>
+        @endif--}}
     </div>
-    
 </div>
-@endif
-@elseif(isset($out))
-@if($out['data']??[])
+
 <div class="row mb-5 px-3 justify-content-between">
     @foreach (json_decode($out["data"]) as $item)        
     <div class="col-6 px-0 d-flex justify-content-center mt-6">
@@ -177,22 +172,6 @@
     </div>
     
 </div>
-@endif
-@else
-<div class="row mt-6 mb-3 px-3">
-    <div class="col-12 w-100 h-100 p-5 position-relative card">
-        <img src="{{asset('images/khoshNazar.png')}}" class="w-25 img-sh noimg" alt="">
-            <h3 class=" text-center">{{__('messages.analysis')}}</h3>
-    
-        <div class="check radius-12 bg-green-1" style="padding: 0px;">
-            <img src="{{asset('images/check.png')}}" width="25px" class="img-fluid" alt="">
-            <span class="text-white fw-bold btn" onclick="senRequest()">{{__('messages.مشاوره تکمیلی رایگان')}}</span>
-        </div>
-   
-            
-    </div>
-    
-</div>
 
 @endif
 
@@ -214,7 +193,7 @@
                             })
                             .catch(function (error) {
                             // console.log(error);
-                            //     swal('{{__('messages.خطا')}}',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                            //     swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
                             location.href="https://erfankhoshnazar.com/landing_sorkh"; 
                             });    
 
@@ -269,7 +248,24 @@
                                 swal('{{__('messages.خطا')}}',"{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
                             }); 
     }*/
-   
+     function senRequestRedFamily(obj)
+    {
+        swal('{{__('messages.alert_wait.title')}}',"{{__('messages.alert_wait.body')}}",'warning');
+        window.axios.post('{{route('send.request')}}', {phone:"{{auth()->user()->phone}}",description:"شرکت در استعدادیابی و درخواست عضویت در سرخ فامیلی",platform:26})
+                            .then(function (response) {
+                                if(response.data.status)                                
+                                swal('{{__('messages.توجه')}}','{{__('messages.درخواست شما با موفقیت ثبت شد')}}','success');
+                                else
+                                swal('{{__('messages.خطا')}}',response.data.error,'error');
+                                
+                                obj.classList.add("fade",'d-none');
+
+                            })
+                            .catch(function (error) {
+                            console.log(error);
+                            swal('{{__('messages.خطا')}}',"{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
+                            }); 
+    }
 </script>
 <script>
     var coll = document.getElementsByClassName("collapsible");

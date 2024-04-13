@@ -127,7 +127,7 @@
     
 <form id="chlang" action="{{route('chLang')}}" method="post">
     @csrf
-    <select class=" @if(App::isLocale('fa')) langselect--move is-active @endif" name="language" onchange="chlang.submit();"  id='langselect'>
+    <select name="language" onchange="chlang.submit();" id='langselect'>
         <option value="en" @if(App::isLocale('en')) selected @endif>English</option>
         <option value="fa" @if(App::isLocale('fa')) selected @endif>فارسی</option>
         <option value="ar" @if(App::isLocale('ar')) selected @endif>العربی</option>

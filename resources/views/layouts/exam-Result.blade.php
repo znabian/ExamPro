@@ -12,7 +12,7 @@
    
         @if(!session('RedFamily') && ($st??1)!=1)
          @php
-         session()->flash('error',"این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است");
+         session()->flash('error',"{{__('messages.شما دوره «سرخ فامیلی» را خریداری نکرده اید !')}}");
          @endphp
           <script>   
             document.location.href='{{route("dashboard")}}';

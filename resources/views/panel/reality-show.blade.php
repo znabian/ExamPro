@@ -3,7 +3,7 @@
 @section('content')
 @if(!session('RedFamily'))
 @php
-session()->flash('error',"این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است");
+session()->flash('error',__('messages.شما دوره «سرخ فامیلی» را خریداری نکرده اید !'));
 @endphp
  <script>   
    document.location.href='{{route("dashboard")}}';
@@ -20,7 +20,7 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText text-center d-grid" >
-                    <span class="categoryDataExamTitle">{{$eps}}</span>
+                    <span class="categoryDataExamTitle">{{__('messages.rafiq.'.$eps)}}</span>
                 </div>
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
@@ -33,21 +33,26 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
     </div>
 @endsection
 @section('mobileScript')
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></scrip --}}
 <script>
     function showvideo(cid) {
         appid =1550;
         userid = {{auth()->user()->panel_id}};
         androidid = '{{auth()->user()->android_id}}';
-        window.location.href = "http://185.116.161.39:8012/Web/player/index3.php?appid=" + appid + "&id=" + cid + "&userid=" + userid + "&androidid=" + androidid ;
+        lang='';
+        @if(!App::isLocale('fa'))
+        lang='&lang={{App::getLocale()}}';
+        @endif
+        window.location.href = "http://185.116.161.39:8012/Web/player/index3.php?appid=" + appid + "&id=" + cid + "&userid=" + userid + "&androidid=" + androidid+lang ;
     }
     </script>
      <script>
        @if(session('error'))
-       swal('{{__('messages.توجه')}}',"{{session('error')}}",'error');
+       Swal.fire('{{__('messages.توجه')}}',"{{session('error')}}",'error');
     @endif
     @if(session('success'))
-    swal('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
+    Swal.fire('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
     @endif
     </script>
 @endsection

@@ -3,7 +3,7 @@
 @section('content')
 @if(!session('RedFamily'))
 @php
-session()->flash('error',"این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است");
+session()->flash('error',__('messages.شما دوره «سرخ فامیلی» را خریداری نکرده اید !'));
 @endphp
  <script>   
    document.location.href='{{route("dashboard")}}';
@@ -26,7 +26,7 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
                  <circle fill="#ec1e50" cx="20" cy="20" r="20" style=""></circle>
                 </svg>
                 <div class="categoryDataText text-center d-grid" >
-                    <span class="categoryDataExamTitle" style="font-family:vazir" >{{$eps}}</span>
+                    <span class="categoryDataExamTitle" style="font-family:vazir" >{{__('messages.live.'.$eps)}}</span>
                 </div>
                 <img src="{{asset('images/redArrow.png')}}" alt="red" class="mt-md-4" style="height: 2rem;">
 
@@ -39,7 +39,8 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
     </div>
 @endsection
 @section('mobileScript')
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+{{-- <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></scrip --}}
 <script>
     function showvideo(type) {
         url='{{route("hamaiesh.show")}}';
@@ -48,10 +49,10 @@ session()->flash('error',"این ویدیو فقط برای اعضای سرخ ف
     </script>
      <script>
        @if(session('error'))
-       swal('{{__('messages.توجه')}}',"{{session('error')}}",'error');
+        Swal.fire('{{__('messages.توجه')}}',"{{session('error')}}",'error');
     @endif
     @if(session('success'))
-    swal('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
+     Swal.fire('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
     @endif
     </script>
 @endsection

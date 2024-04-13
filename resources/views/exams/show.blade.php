@@ -176,8 +176,8 @@
                             showDenyButton: true,
                             buttons: {
                                     
-                                    cancel: "خیر", 
-                                    defeat: "بله",                   
+                                    cancel: "{{__('messages.alert_exam.cancel')}}", 
+                                    defeat: "{{__('messages.alert_exam.defeat.btn')}}",                   
                                 },
                                 })
                             .then((value) => {

@@ -20,23 +20,23 @@ $nodownload="download";
    switch ($st) {
             case 'ai':
                 $url='https://dl.erfankhoshnazar.com/camps/ai.mp4';
-               $txt="هوش مصنوعی";$nodownload="nodownload";
+               $txt=__("messages.live.هوش مصنوعی");$nodownload="nodownload";
                 break;
             case 'mohajerat':
                 $url='https://dl.erfankhoshnazar.com/camps/mohajerat.mp4';
-               $txt="مهاجرت";$nodownload="nodownload";
+               $txt=__("messages.live.مهاجرت");$nodownload="nodownload";
                 break;
             case 'live':
                 $url='https://dl.erfankhoshnazar.com/camps/live.mp4';
-               $txt="کارمندان دلاری";$nodownload="nodownload";
+               $txt=__("messages.live.کارمندان دلاری");$nodownload="nodownload";
                 break;
             case 'youtube':
                 $url='https://dl.erfankhoshnazar.com/camps/youtube.mp4';
-               $txt="یوتوب";$nodownload="nodownload";
+               $txt=__("messages.live.یوتوب");$nodownload="nodownload";
                 break;
             case 'bigari':
                 $url='https://dl.erfankhoshnazar.com/camps/bigari.mp4';
-               $txt="بیگاری دانش آموز";$nodownload="nodownload";
+               $txt=__("messages.live.بیگاری دانش آموز");$nodownload="nodownload";
                 break;
         }
 @endphp

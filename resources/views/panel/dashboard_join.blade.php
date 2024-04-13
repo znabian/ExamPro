@@ -1,10 +1,10 @@
 @extends('layouts.app')
 @section('title', 'داشبورد')
 @section('content')
-    <div id="MobileDashboardExamCategoryHeader">
+    <div id="MobileDashboardExamCategoryHeader" hidden style="display:none;">
         <span>{{auth()->user()->phone}}</span>
     </div>
-    <div id="MobileDashboardExamCategoryContainer">
+    <div id="MobileDashboardExamCategoryContainer" style="margin-top:20px">
         <div id="MobileDashboardExamCategoryImage">
             <img src="{{asset('images/khoshNazar.png')}}" alt="{{auth()->user()->id}}">
         </div>
@@ -37,28 +37,28 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status)))  class="MobileCategoryContainer disabled" onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else   class="MobileCategoryContainer" onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"7","max"=>"18"])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="MobileCategoryContainer disabled "  onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else class="MobileCategoryContainer " onclick="showResult();" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -70,7 +70,7 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -82,33 +82,33 @@
                 <img class="categoryDataImages" style="width: 10%;" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
-        <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="RafiqShafiq()" @endif>
+         <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="RafiqShafiq()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
             <div class="categoryData">
                 <img class="categoryDataImages" style="width: 10%;" src="https://dl.erfankhoshnazar.com/downloads/icon/1550.png">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">رفیق شفیق</span>
+                    <span class="categoryDataExamTitle">{{__('messages.رفیق شفیق')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
         <div class="MobileCategoryContainer @if(!session('RedFamily')) disabled @endif"  @if(!session('RedFamily')) onclick="RedFamilyAlert();" @else  onclick="hamaiesh()" @endif>
-            <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
-            <div class="categoryData">
-                <img class="categoryDataImages" style="width: 10%;" src="https://dl.erfankhoshnazar.com/downloads/icon/376.png">
-                <hr>
-                <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">همایش آنلاین</span>
-                    <span class="categoryDataExamDescription"></span>
-                </div>
-            </div>
-        </div>
+           <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:8%;">
+           <div class="categoryData">
+               <img class="categoryDataImages" style="width: 10%;" src="https://dl.erfankhoshnazar.com/downloads/icon/376.png">
+               <hr>
+               <div class="categoryDataText">
+                   <span class="categoryDataExamTitle">{{__('messages.همایش آنلاین')}}</span>
+                   <span class="categoryDataExamDescription"></span>
+               </div>
+           </div>
+       </div>
         @else
         @php
             $ex=\App\Models\Exam::find(6);
@@ -130,7 +130,7 @@
         @endif
         
     </div>
-    <div id="MobileDashboardExamFooterButton">
+    <div id="MobileDashboardExamFooterButton" style="display:none;">
         <div id="MobileDashboardExamFooterButtonText" style="font-size: 9pt;">
             {{-- دسترسی به پادکست ها ویدئوهای آموزشی --}}
             
@@ -159,29 +159,29 @@
                 <img class="categoryDataImages" src="{{asset('images/1.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">پیش نیاز استعدادیابی</span>
+                    <span class="categoryDataExamTitle">{{__('messages.پیش نیاز استعدادیابی')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('خطا','ابتدا فیلم پیش نیاز را  تا انتها مشاهده نمایید','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
+        <div @if(!in_array(1,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled " onclick="swal('{{__('messages.خطا')}}','{{__('messages.alert_wait.seevideo')}}','error')" @else class="DesktopCategoryContainer " onclick="location.href='{{route('myinfo',4)}}';" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/2.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">استعدادیابی دانش آموز</span>
-                    <span class="categoryDataExamDescription">هفت تا هجده سال</span>
+                    <span class="categoryDataExamTitle">{{__('messages.استعدادیابی دانش آموز')}}</span>
+                    <span class="categoryDataExamDescription">{{__('messages.رده سنی',["min"=>"7","max"=>"18"])}}</span>
                 </div>
             </div>
         </div>
-        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('خطا','ابتدا در آزمون استعدادیابی شرکت نمایید','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
+        <div @if(!in_array(3,explode(',',auth()->user()->status))) class="DesktopCategoryContainer disabled "  onclick="swal('{{__('messages.خطا')}}','{{__('messages.noTest',['exam'=>__('messages.استعدادیابی دانش آموز')])}}','error')" @else class="DesktopCategoryContainer " onclick="showResult()" @endif>
             <img src="{{asset('images/redArrow.png')}}" alt="red" style="max-width:3%;">
             <div class="categoryData">
                 <img class="categoryDataImages" src="{{asset('images/3.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">مشاهده نتیجه</span>
+                    <span class="categoryDataExamTitle">{{__('messages.مشاهده نتیجه')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -193,7 +193,7 @@
                 <img class="categoryDataImages" src="{{asset('images/4.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش اعتماد به نفس</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش اعتماد به نفس')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -205,7 +205,7 @@
                 <img class="categoryDataImages" src="{{asset('images/5.png')}}">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">آموزش افزایش علاقه مندی به یادگیری</span>
+                    <span class="categoryDataExamTitle">{{__('messages.افزایش علاقه مندی به یادگیری')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -216,7 +216,7 @@
                 <img class="categoryDataImages" src="https://dl.erfankhoshnazar.com/downloads/icon/1550.png">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">رفیق شفیق</span>
+                    <span class="categoryDataExamTitle">{{__('messages.رفیق شفیق')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -227,7 +227,7 @@
                 <img class="categoryDataImages" src="https://dl.erfankhoshnazar.com/downloads/icon/376.png">
                 <hr>
                 <div class="categoryDataText">
-                    <span class="categoryDataExamTitle">همایش آنلاین</span>
+                    <span class="categoryDataExamTitle">{{__('messages.همایش آنلاین')}}</span>
                     <span class="categoryDataExamDescription"></span>
                 </div>
             </div>
@@ -253,7 +253,7 @@
         
         @endif
     </div>
-    <!--<div id="DesktopDashboardExamFooterButton">
+    <div id="DesktopDashboardExamFooterButton">
         <div id="DesktopDashboardExamFooterButtonText">
             {{-- دسترسی به پادکست ها ویدئوهای آموزشی --}}
             
@@ -261,12 +261,13 @@
         {{-- <div id="DesktopDashboardExamFooterButtonIcon">
             <img src="{{asset('images/arrow.png')}}" alt="arrow">
         </div> --}}
-    </div>-->
+    </div>
    
    
 @endsection
 @section('mobileScript')
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     var slideIndex = 1;
     showSlides(slideIndex);
@@ -295,13 +296,13 @@
       dots[slideIndex-1].className += " active";
     }
     function openIdentityExamsPage(){
-        window.location.href = "{{route('dashboard')}}/identify/exams";
+        window.location.href = "/identify/exams";
     }
     function openSuggestionExamsPage(){
-        window.location.href = "{{route('dashboard')}}/suggest/exams";
+        window.location.href = "/suggest/exams";
     }
     function showResult() {
-        window.location.href = "{{route('dashboard')}}/Exams-Result/";
+        window.location.href = "/Exams-Result/"; 
     }
     function showvideo(type) {
                 url='{{route("pish.video")}}';
@@ -342,11 +343,11 @@
     {
         swal({
             showDenyButton: true,
-                    title: "خطا",
-                    text:  "این ویدیو فقط برای اعضای سرخ فامیلی قابل مشاهده است",
+                    title: "{{__('messages.خطا')}}",
+                    text:  "{{__('messages.شما دوره «سرخ فامیلی» را خریداری نکرده اید !')}}",
                     icon: "error",
                         buttons:{
-                        conf:"عضویت در سرخ فامیلی",
+                        conf:"{{__('messages.redfamily')}}",
                         }
                     
                 }).then((value) => {
@@ -358,30 +359,33 @@
                         }
                         else
                         {
-                            swal('توجه',"درخواست شما قبلا ثبت شده است",'warning');
+                            swal("{{__('messages.توجه')}}","{{__('messages.درخواست شما با موفقیت ثبت شد')}}",'warning');
+                            //swal({{__('messages.توجه')}},"درخواست شما قبلا ثبت شده است",'warning');
                         }
                         }
                     });
     }
      function senRequestRedFamily()
     {
-        swal('لطفا صبر کنید',"درحال بررسی و ذخیره اطلاعات",'warning');
-        window.axios.post('{{route('send.request')}}', {phone:"{{auth()->user()->phone}}",description:"شرکت در استعدادیابی و درخواست عضویت در سرخ فامیلی",platform:26})
+        swal("{{__('messages.alert_wait.title')}}","{{__('messages.alert_wait.body')}}",'warning');
+        
+        window.axios.post('{{route('send.request')}}', {phone:"{{auth()->user()->phone}}",description:"شرکت در استعدادیابی و درخواست عضویت در سرخ فمیلی",platform:26})
                             .then(function (response) {
                                 if(response.data.status)                        {        
-                                swal('توجه','درخواست شما با موفقیت ثبت شد. کارشناسان ما در اسرع وقت با شما تماس خواهند گرفت','success');
+                                    swal("{{__('messages.توجه')}}","{{__('messages.درخواست شما با موفقیت ثبت شد')}}",'success');
+                                //swal('توجه','درخواست شما با موفقیت ثبت شد. کارشناسان ما در اسرع وقت با شما تماس خواهند گرفت','success');
                                 sessionStorage.setItem("RedFamilyReq", "1");
                                 showbtn=0;
                                 }
                                 else
-                                swal('خطا',response.data.error,'error');
+                                swal("{{__('messages.خطا')}}",response.data.error,'error');
                                 
                                 
 
                             })
                             .catch(function (error) {
                             console.log(error);
-                                swal('خطا',"مشکلی پیش آمده مجددا تلاش نمایید",'error');
+                            swal("{{__('messages.خطا')}}","{{__('messages.مشکلی پیش آمده مجددا تلاش نمایید')}}",'error');
                             }); 
     }
     function RafiqShafiq()
@@ -395,10 +399,10 @@
     </script>
      <script>
        @if(session('error'))
-       swal('توجه',"{{session('error')}}",'error');
+       swal('{{__('messages.توجه')}}',"{{session('error')}}",'error');
     @endif
     @if(session('success'))
-    swal('عملیات موفقیت آمیز',"{{session('success')}}",'success');
+    swal('{{__('messages.عملیات موفقیت آمیز')}} ',"{{session('success')}}",'success');
     @endif
     </script>
 @endsection
@@ -422,6 +426,9 @@
         width: 45%;
     }
     
+ }
+ body{
+      overflow: scroll !important;
  }
  .disabled {
     background: #18181812!important;
