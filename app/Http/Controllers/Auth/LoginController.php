@@ -153,7 +153,10 @@ class LoginController extends Controller
             if($response->status==200)
             {
                 $pass=Collection::make($response->data);
-                $LoginPass=$pass->map(function($q){
+                $rf=$pass->first()>RedFamily??0;
+                $LoginPass=$pass->map(function($q)use($rf){
+                    if(!isset($q->RedFamily))
+                    $q->RedFamily=$rf;
                     if(!is_numeric($q->Pass) && $q->Perm!=4)
                          $q->Pass=null;
                     return $q;
